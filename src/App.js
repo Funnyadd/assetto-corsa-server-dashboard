@@ -1,23 +1,25 @@
-import logo from './logo.svg';
-import './App.css';
+import './App.scss';
+import Stack from 'react-bootstrap/Stack';
+import ServerTile from './components/ServerTile';
 
 function App() {
+  const serverList = [
+    {
+      name: "Cool Klutch Kicking with friends",
+      port: 8081
+    }
+  ]
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Stack gap={3}>
+        {serverList.map(server => 
+          <ServerTile 
+            name={server.name}
+            port={server.port}
+          />
+        )}
+      </Stack>
     </div>
   );
 }
