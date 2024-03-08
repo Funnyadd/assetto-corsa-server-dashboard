@@ -1,22 +1,2 @@
-.App {
-  background-color: black;
-}
-
-/* Make the customizations to default bootstrap variables */
-// $theme-colors: (
-//     'primary': #4169E1,
-//     'secondary': #6c757d,
-//     'danger': #dc3545
-// );
-
-/* Customizations to override the default MDB contaioner size */
-// $container-max-widths: (
-//   sm: 540px,
-//   md: 720px,
-//   lg: 800px,
-//   xl: 900px,
-//   xxl: 1000px
-// );
-
 /* Import bootstrap to set changes */
 @import '~bootstrap/scss/bootstrap';

@@ -1,64 +1,49 @@
-import axios from "axios";
 import { useState } from 'react';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 
 const ServerTile = ({ name, port }) => {
+    const url = `https://home.adammihajlovic.ca/assetto?port=${port}`;
+    const serverUrl = `https://acstuff.ru/s/q:race/online/join?ip=74.56.22.147&httpPort=${port}`
 
     const [totalSlots, setTotalSlots] = useState(0);
     const [occupiedSlots, setOccupiedSlots] = useState(0);
 
-    const url = `https://home.adammihajlovic.ca/assetto/json?port=${port}`;
-    // const url = "https://api.github.com/users/github"
+    const handleFetching = async () => {
+        return await fetch(url)
+        .then((res) => res.json())
+        .catch((err) => console.error(err))
+    }
 
-    // axios({
-    //     url: url,
-    //     method: "GET",
-    //     // headers: { 
-    //     //     // mode: 'no-cors',
-    //         // "Access-Control-Allow-Origin" : "*",
-    //     //     "Access-Control-Allow-Methods": "PUT, POST, OPTIONS, GET",
-    //     //     "Access-Control-Allow-Headers": "Special-Request-Header",
-    //     //     "Access-Control-Allow-Credentials": "true",
-    //     //     "Access-Control-Max-Age": "240",
-    //     //     "Accept": "text/html,application/json"
-    //     // }
-    // })
-    // // Handle the response from backend here
-    // .then((res) => {
-    //     console.log(res)
-    // })
-    // // Catch errors if any
-    // .catch((err) => {
-    //     console.error(err)
-    // });
+    const handleAssignData = async () => {
+        const response = await handleFetching();
+        const cars = response.Cars
 
-    let status;
-    fetch(url)
-        .then((res) => { 
-            return res.json() 
-        })
-        .then((jsonResponse) => {
-            console.log(jsonResponse)
-        })
-        .catch((err) => {
-            // handle error
-            console.error(err)
+        let occupied = 0;
+        let total = 0;
+
+        cars.forEach(car => {
+            if (car.IsConnected) occupied++
+            if (!car.Model.startsWith("traffic")) total++
         });
 
+        setOccupiedSlots(occupied)
+        setTotalSlots(total)
+    }
+
+    handleAssignData()
+
     return (
-        <Row className='rounded text-white'>
-            <Col>
-                <h6>{name}</h6>
-            </Col>
-            <Col>
-                <p>{}</p>
-            </Col>
-            <Col>
-                <p>{}</p>
-            </Col>
-            
-        </Row>
+        <a href={serverUrl} target="_blank" rel="noreferrer" className='server'>
+            <Row className='serverRow rounded text-white bg-dark align-text-bottom'>
+                <Col sm="9">
+                    <h6 className='field'>{name}</h6>
+                </Col>
+                <Col sm="3">
+                    <p className='field text-end'>{occupiedSlots} / {totalSlots}</p>
+                </Col>
+            </Row>
+        </a>
     )
 }
 
