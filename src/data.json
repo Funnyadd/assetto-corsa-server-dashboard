@@ -38,5 +38,9 @@
     {
       "name": "Cool drift on big map with friends",
       "port": 8091
+    },
+    {
+      "name": "Cool Klutch Kicking with more friends",
+      "port": 8092
     }
-  ]
+]

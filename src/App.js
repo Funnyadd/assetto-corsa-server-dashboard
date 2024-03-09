@@ -13,11 +13,14 @@ function App() {
     <Container>
       <h1 className='text-center text-danger my-5'>Assetto Corsa Server Dashboard</h1>
       <Row className='text-white'>
-        <Col sm="9">
-          <p>Name</p>
+        <Col sm="2">
+          <p className='px-3'>ID</p>
+        </Col>
+        <Col sm="7">
+          <p className='px-1'>Name</p>
         </Col>
         <Col sm="3">
-          <p className='text-end'>Slots</p>
+          <p className='text-end px-3'>Slots</p>
         </Col>
       </Row>
       <Stack gap={3}>
