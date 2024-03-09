@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 
@@ -8,6 +8,7 @@ const ServerTile = ({ name, port }) => {
 
     const [totalSlots, setTotalSlots] = useState(0);
     const [occupiedSlots, setOccupiedSlots] = useState(0);
+    const [refreshData, setRefreshData] = useState(true);
 
     const handleFetching = async () => {
         return await fetch(url)
@@ -31,7 +32,12 @@ const ServerTile = ({ name, port }) => {
         setTotalSlots(total)
     }
 
-    handleAssignData()
+    useEffect(() => {
+        if (refreshData) {
+            handleAssignData();
+            setRefreshData(false)
+        }
+      }, []);
 
     return (
         <a href={serverUrl} target="_blank" rel="noreferrer" className='server'>
