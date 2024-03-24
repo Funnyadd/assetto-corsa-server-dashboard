@@ -26,16 +26,16 @@ module.exports = () => {
     next()
   })
 
-  // Handles requests on base url
-  app.use('/', async (req, res) => 
-    res.json({ message: "Hello from the Assetto Corssa Server Dashboard!" })
-  )
-
   // Routes
   app.use('/files', filesRoutes)
   app.use('/server', serverRoutes)
   app.use('/user', userRoutes)
   app.use('/whitelist', whitelistRoutes)
+
+  // Handles requests on base url
+  app.use('/', async (req, res) => 
+    res.json({ message: "Hello from the Assetto Corssa Server Dashboard!" })
+  )
 
   // ****** To be added later on (This is just a template/idea) *******
   // Handles page refresh on the client side
