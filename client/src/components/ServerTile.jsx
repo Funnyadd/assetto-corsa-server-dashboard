@@ -3,7 +3,8 @@ import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 
 const ServerTile = ({ name, port }) => {
-    const url = `https://home.adammihajlovic.ca/assetto/server/${port}`;
+    // const url = `https://home.adammihajlovic.ca/assetto/server/${port}`; // New url
+    const url = `https://home.adammihajlovic.ca/assetto?port=${port}`;
     const serverUrl = `https://acstuff.ru/s/q:race/online/join?ip=74.56.22.147&httpPort=${port}`
 
     const [totalSlots, setTotalSlots] = useState(0);

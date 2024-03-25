@@ -1,38 +1,35 @@
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import './App.scss';
-import data from "./data.json";
-import Stack from 'react-bootstrap/Stack';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import Container from 'react-bootstrap/Container';
-import ServerTile from './components/ServerTile';
+import Footer from './components/Footer';
+import Login from './pages/Login';
+import { AuthContext } from './context/AuthContext';
+import Protected from './components/Protected';
+import Servers from './pages/Servers';
+import NotFound from './pages/NotFound';
 
 function App() {
-  const serverList = data
+  const router = createBrowserRouter([
+    {
+      path: "/",
+      element: <Protected><Servers /></Protected>
+    },
+    {
+      path: "/login",
+      element: <Login />
+    },
+    {
+      path: "*",
+      element: <NotFound />
+  }
+]);
 
   return (
-    <Container>
-      <h1 className='text-center text-danger my-5'>Assetto Corsa Server Dashboard</h1>
-      <Row className='text-white'>
-        <Col sm="2">
-          <p className='px-3'>ID</p>
-        </Col>
-        <Col sm="7">
-          <p className='px-1'>Name</p>
-        </Col>
-        <Col sm="3">
-          <p className='text-end px-3'>Slots</p>
-        </Col>
-      </Row>
-      <Stack gap={3}>
-        {serverList.map((server, index) => 
-          <ServerTile 
-            key={index}
-            name={server.name}
-            port={server.port}
-          />
-        )}
-      </Stack>
-    </Container>
+    <AuthContext>
+      <div className="App">
+        <RouterProvider router={router} />
+        <Footer />
+      </div>
+    </AuthContext>
   );
 }
 

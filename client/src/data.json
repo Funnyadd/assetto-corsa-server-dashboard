@@ -42,5 +42,9 @@
     {
       "name": "Cool Klutch Kicking with more friends",
       "port": 8092
+    },
+    {
+      "name": "Cool drift in Okawa Touge with friends",
+      "port": 8093
     }
 ]

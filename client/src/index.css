@@ -17,6 +17,7 @@ code {
   background-color: black;
 }
 
+/* Servers Page */
 .server {
   text-decoration: none;
 }
@@ -31,4 +32,126 @@ code {
 
 .field {
   margin-bottom: 0;
+}
+
+/* Login Page */
+.loginFormCard {
+  max-width: 400px;
+  background-color: #0f0f0f !important;
+}
+
+.was-validated #loginFormPassword {
+  padding-right: 4rem !important;
+}
+
+.was-validated #loginFormEmail {
+  padding-right: 2rem !important;
+}
+
+#loginFormEmail {
+  padding: 0.75rem;
+  background-color: #020202;
+  color: white;
+  border-color: #020202;
+}
+
+#loginFormPassword {
+  padding: 0.75rem 2.5rem 0.75rem 0.75rem;
+  background-position: right 2.5rem center;
+  background-color: #020202;
+  color: white;
+  border-color: #020202;
+}
+
+::placeholder {
+  color: gray !important;
+}
+
+::-ms-input-placeholder { /* Edge 12 -18 */
+  color: gray !important;
+}
+
+#loginFormSubmitBtn {
+  padding: 0.5rem;
+}
+
+.input-group-text {
+  padding: 20px;
+}
+
+.inputWithShowHide {
+  position: relative;
+}
+
+.showHideButton {
+  color: gray;
+
+  border: none;
+  background: none;
+  right: 0.5rem;
+  top: 0.85rem;
+
+  position: absolute;
+  display: flex;
+}
+
+.showHideButton:hover {
+  color: white;
+}
+
+#loginFormLine {
+  border: 1px solid white;
+}
+
+/* Footer component */
+.footerContainer {
+  background-color: #0f0f0f;
+  color: #666666;
+}
+
+@media only screen and (max-height: 500px) {
+  .footerText {
+    font-size: 9pt;
+  }
+}
+
+/* RegisterModal component */
+.registerModal {
+  background-color: #0f0f0f !important;
+}
+
+/* RegisterForm compoenent */
+#registerFormEmail {
+  padding: 0.75rem;
+  background-color: #020202;
+  color: white;
+  border-color: #020202;
+}
+
+#registerFormSteamUsername {
+  padding: 0.75rem;
+  background-color: #020202;
+  color: white;
+  border-color: #020202;
+}
+
+#registerFormRoleCode {
+  padding: 0.75rem;
+  background-color: #020202;
+  color: white;
+  border-color: #020202;
+}
+
+#registerFormPassword {
+  padding: 0.75rem;
+  background-color: #020202;
+  color: white;
+  border-color: #020202;
+}
+
+#registerFormPasswordConfirmation {
+  padding: 0.75rem;
+  background-color: #020202;
+  color: white;
+  border-color: #020202;
 }

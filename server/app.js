@@ -1,5 +1,6 @@
 require("../config.js")
 const firebase = require('firebase/app')
+const auth = require('firebase/auth')
 const express = require('express')
 const firebaseConfig = require('./firebaseConfig.js')
 const filesRoutes = require('./routes/files.routes.js')
@@ -11,7 +12,8 @@ module.exports = () => {
   const app = express()
 
   // Initialize Firebase
-  firebase.initializeApp(firebaseConfig);
+  const firebaseApp = firebase.initializeApp(firebaseConfig);
+  auth.getAuth(firebaseApp)
 
   // Fixes the cors issues
   app.use((req, res, next) => {
