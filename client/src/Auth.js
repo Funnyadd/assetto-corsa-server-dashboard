@@ -1,5 +1,11 @@
 import { initializeApp } from 'firebase/app';
-import { deleteUser, getAuth, signInWithEmailAndPassword, signOut } from 'firebase/auth';
+import {
+    createUserWithEmailAndPassword,
+    deleteUser,
+    getAuth,
+    signInWithEmailAndPassword,
+    signOut
+} from 'firebase/auth';
 
 const firebaseConfig = {
     apiKey: process.env.REACT_APP_API_KEY,
@@ -29,6 +35,14 @@ export const logout = async () => {
     });
 }
 
+export const signup = async (email, password, steamUsername, roleCode) => {
+    await createUserWithEmailAndPassword(auth, email, password)
+    .then(res => {
+        console.log(res)
+    })
+}
+
+// Is this useful? Could maybe be deleted...
 export const deleteAccount = async () => {
     const user = auth.currentUser;
 

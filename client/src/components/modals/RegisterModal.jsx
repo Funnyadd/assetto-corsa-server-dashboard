@@ -11,10 +11,6 @@ import RegisterForm from '../RegisterForm';
 const RegisterModal = ({ open, setOpen }) => {
     const toggleOpen = () => setOpen(!open);
 
-    const handleOnRegisterCliked = () => {
-        toggleOpen()
-    }
-
     return (
         <MDBModal open={open} setOpen={setOpen} tabIndex="-1">
             <MDBModalDialog centered>
@@ -29,7 +25,7 @@ const RegisterModal = ({ open, setOpen }) => {
                     </MDBModalHeader>
 
                     <MDBModalBody className="text-center">
-                        <RegisterForm onRegister={handleOnRegisterCliked} />
+                        <RegisterForm toggleOpenModal={toggleOpen} />
                     </MDBModalBody>
                 </MDBModalContent>
             </MDBModalDialog>

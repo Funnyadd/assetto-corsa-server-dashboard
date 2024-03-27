@@ -63,17 +63,15 @@ const LoginForm = () => {
                 navigate("/");
             })
             .catch((error) => {
-                if (error.code === invalidCredentialsErrorCode) {
-                    setError(invalidCredentialsErrorMessage);
-                }
-                else if (error.code === internalErrorCode) {
-                    setError(internalErrorMessage);
-                }
-                else if (error.code === tooManyRequestsErrorCode) {
-                    setError(tooManyRequestsErrorMessage);
-                }
-                else {
-                    setError(unexpectedErrorMessage);
+                switch(error.code) {
+                    case invalidCredentialsErrorCode:
+                        setError(invalidCredentialsErrorMessage);
+                    case internalErrorCode:
+                        setError(internalErrorMessage);
+                    case tooManyRequestsErrorCode:
+                        setError(tooManyRequestsErrorMessage);
+                    default:
+                        setError(unexpectedErrorMessage);
                 }
             });
         }

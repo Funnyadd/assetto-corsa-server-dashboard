@@ -2,14 +2,10 @@ import Form from 'react-bootstrap/Form';
 import { useEffect, useState } from 'react';
 import Alert from 'react-bootstrap/Alert';
 import Button from 'react-bootstrap/Button';
-import { useNavigate } from 'react-router-dom';
-import { login } from '../Auth';
-import { useForm } from "react-hook-form";
+import { signup } from '../Auth';
 
-const RegisterForm = () => {
+const RegisterForm = ({ toggleOpenModal }) => {
     const enterKeyCode = 13;
-
-    const navigate = useNavigate();
 
     const invalidCredentialsErrorCode = "auth/invalid-credential";
     const internalErrorCode = "auth/invalid-credential";
@@ -48,22 +44,20 @@ const RegisterForm = () => {
             setError("");
             event.preventDefault();
 
-            await login(email, password)
+            await signup(email, password)
             .then(() => {
-                navigate("/");
+                toggleOpenModal();
             })
             .catch((error) => {
-                if (error.code === invalidCredentialsErrorCode) {
-                    setError(invalidCredentialsErrorMessage);
-                }
-                else if (error.code === internalErrorCode) {
-                    setError(internalErrorMessage);
-                }
-                else if (error.code === tooManyRequestsErrorCode) {
-                    setError(tooManyRequestsErrorMessage);
-                }
-                else {
-                    setError(unexpectedErrorMessage);
+                switch(error.code) {
+                    case invalidCredentialsErrorCode:
+                        setError(invalidCredentialsErrorMessage);
+                    case internalErrorCode:
+                        setError(internalErrorMessage);
+                    case tooManyRequestsErrorCode:
+                        setError(tooManyRequestsErrorMessage);
+                    default:
+                        setError(unexpectedErrorMessage);
                 }
             });
         }
