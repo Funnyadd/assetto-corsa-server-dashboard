@@ -8,8 +8,15 @@ import {
 } from 'mdb-react-ui-kit';
 import RegisterForm from '../RegisterForm';
 
-const RegisterModal = ({ open, setOpen }) => {
-    const toggleOpen = () => setOpen(!open);
+const RegisterModal = ({ open, setOpen, setConfirmationAlert }) => {
+    const confirmationMessage = "New account successfully created!"
+
+    const toggleOpen = () => setOpen(!open)
+
+    const handleRegistration = () => {
+        toggleOpen()
+        setConfirmationAlert(confirmationMessage)
+    }
 
     return (
         <MDBModal open={open} setOpen={setOpen} tabIndex="-1">
@@ -19,18 +26,17 @@ const RegisterModal = ({ open, setOpen }) => {
                         <MDBModalTitle className="text-white fs-2">Register</MDBModalTitle>
                         <button 
                             type="button" 
-                            class="btn-close btn-close-white" 
+                            className="btn-close btn-close-white" 
                             aria-label="Close"
                             onClick={toggleOpen} />
                     </MDBModalHeader>
-
                     <MDBModalBody className="text-center">
-                        <RegisterForm toggleOpenModal={toggleOpen} />
+                        <RegisterForm registrationHandler={handleRegistration} />
                     </MDBModalBody>
                 </MDBModalContent>
             </MDBModalDialog>
         </MDBModal>
-    );
+    )
 }
 
-export default RegisterModal;
+export default RegisterModal

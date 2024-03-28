@@ -4,60 +4,106 @@ import Alert from 'react-bootstrap/Alert';
 import Button from 'react-bootstrap/Button';
 import { signup } from '../Auth';
 
-const RegisterForm = ({ toggleOpenModal }) => {
+const RegisterForm = ({ registrationHandler }) => {
     const enterKeyCode = 13;
 
-    const invalidCredentialsErrorCode = "auth/invalid-credential";
-    const internalErrorCode = "auth/invalid-credential";
-    const tooManyRequestsErrorCode = "auth/too-many-requests";
+    const emailAlreadyInUseErrorCode = "auth/email-already-in-use"
+    const internalErrorCode = "auth/invalid-credential"
+    const tooManyRequestsErrorCode = "auth/too-many-requests"
 
-    const invalidCredentialsErrorMessage = "Invalid email or password";
-    const internalErrorMessage = "Error while trying to call the server. Please try again later";
-    const tooManyRequestsErrorMessage = "Acces to your account temporarily deactivated due to the amount of failed connection tries. Please try again later.";
-    const unexpectedErrorMessage = "Unexpected server error...";
+    const emailAlreadyInUseErrorMessage = "An account already exists with this email, please login"
+    const internalErrorMessage = "Error while trying to call the server. Please try again later"
+    const tooManyRequestsErrorMessage = "Acces to your account temporarily deactivated due to the amount of failed connection tries. Please try again later."
+    const unexpectedErrorMessage = "Unexpected server error..."
 
-    const [email, setEmail] = useState("");
-    const [steamUsername, setSteamUsername] = useState("");
-    const [roleCode, setRoleCode] = useState("");
-    const [password, setPassword] = useState("");
-    const [passwordConfirmation, setPasswordConfirmation] = useState("");
+    const [email, setEmail] = useState("")
+    const [steamUsername, setSteamUsername] = useState("")
+    const [roleCode, setRoleCode] = useState("")
+    const [password, setPassword] = useState("")
+    const [passwordConfirmation, setPasswordConfirmation] = useState("")
 
-    const [error, setError] = useState("");
-    const [validationError, setValidationError] = useState(false);
-    const [validated, setValidated] = useState(false);
+    const [emailInvalid, setEmailInvalid] = useState(false)
+    const [steamUsernameInvalid, setSteamUsernameInvalid] = useState(false)
+    const [passwordInvalid, setPasswordInvalid] = useState(false)
+    const [confirmationPasswordInvalid, setConfirmationPasswordInvalid] = useState(false)
+
+    const [error, setError] = useState("")
+    const [validationError, setValidationError] = useState(false)
+    const [validated, setValidated] = useState(false)
 
     const handleSubmitOnEnterKeyPressed = (event) => {
         if (event.keyCode === enterKeyCode || event.which === enterKeyCode) {
-            handleSubmit(event);
+            handleSubmit(event)
         }
     }
 
-    const handleSubmit = async (event) => {
-        const form = event.currentTarget;
+    const checkFormValidity = () => {
+        setValidated(true)
+        let isValid = true
 
-        if (form.checkValidity() === false) {
-            event.preventDefault();
-            event.stopPropagation();
-            setValidated(true);
+        setEmailInvalid(false)
+        setSteamUsernameInvalid(false)
+        setPasswordInvalid(false)
+        setConfirmationPasswordInvalid(false)
+
+        if (!/^[\w-.]+@([\w-]+.)+[\w-]{2,4}$/.test(email)) {
+            setEmailInvalid(true)
+            isValid = false;
+        }
+        if (steamUsername === "") {
+            setSteamUsernameInvalid(true)
+            isValid = false
+        }
+        if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/.test(password)) {
+            setPasswordInvalid(true)
+            isValid = false
+        }
+        if (password !== passwordConfirmation) {
+            setConfirmationPasswordInvalid(true)
+            isValid = false
+        }
+
+        return isValid
+    }
+
+    const clearRegisterForm = () => {
+        setEmail("")
+        setSteamUsername("")
+        setRoleCode("")
+        setPassword("")
+        setPasswordConfirmation("")
+    }
+
+    const handleSubmit = async (event) => {
+        if (checkFormValidity() === false) {
+            event.preventDefault()
+            event.stopPropagation()
         }
         else {
-            setError("");
-            event.preventDefault();
+            setError("")
+            event.preventDefault()
+            clearRegisterForm()
 
-            await signup(email, password)
+            await signup(email, password, steamUsername, roleCode)
             .then(() => {
-                toggleOpenModal();
+                registrationHandler()
+
             })
             .catch((error) => {
+                // Add more errors from firebase :D ???
+                // Maybe just add a verification to see if the steam username is valid ???
                 switch(error.code) {
-                    case invalidCredentialsErrorCode:
-                        setError(invalidCredentialsErrorMessage);
+                    case emailAlreadyInUseErrorCode:
+                        setError(emailAlreadyInUseErrorMessage)
+                        break
                     case internalErrorCode:
-                        setError(internalErrorMessage);
+                        setError(internalErrorMessage)
+                        break
                     case tooManyRequestsErrorCode:
-                        setError(tooManyRequestsErrorMessage);
+                        setError(tooManyRequestsErrorMessage)
+                        break
                     default:
-                        setError(unexpectedErrorMessage);
+                        setError(unexpectedErrorMessage)
                 }
             });
         }
@@ -65,19 +111,17 @@ const RegisterForm = ({ toggleOpenModal }) => {
 
     useEffect(() => {
         if (error !== "" && !validationError) {
-            setValidationError(true);
-            setValidated(true);
+            setValidationError(true)
         }
         else if (validationError) {
-            setValidationError(false);
-            setValidated(true);
+            setValidationError(false)
         }
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [error]);
+    }, [error])
 
     return (
-        <Form noValidate validated={validated} onSubmit={handleSubmit}>
+        <Form noValidate onSubmit={handleSubmit}>
             {
                 error.length > 0
                 ?
@@ -90,11 +134,12 @@ const RegisterForm = ({ toggleOpenModal }) => {
 
             <Form.Group className="mb-3" controlId="registerFormEmail">
                 <Form.Control 
+                    tabIndex={1}
                     type="email"
                     placeholder="Email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    isInvalid={!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email) && validated}
+                    isInvalid={emailInvalid && validated}
                     required />
                 <Form.Control.Feedback type="invalid">
                     Please enter a valid email address
@@ -103,11 +148,12 @@ const RegisterForm = ({ toggleOpenModal }) => {
 
             <Form.Group className="mb-3 inputWithShowHide" controlId="registerFormSteamUsername">
                 <Form.Control
+                    tabIndex={2}
                     type="text"
                     placeholder="Steam username"
                     value={steamUsername}
                     onChange={(e) => setSteamUsername(e.target.value)}
-                    isInvalid={steamUsername === "" && validated}
+                    isInvalid={steamUsernameInvalid && validated}
                     required />
                 <Form.Control.Feedback type="invalid">
                     Please enter a valid steam username
@@ -116,6 +162,7 @@ const RegisterForm = ({ toggleOpenModal }) => {
 
             <Form.Group className="mb-3 inputWithShowHide" controlId="registerFormRoleCode">
                 <Form.Control
+                    tabIndex={3}
                     type="text"
                     placeholder="Code for role (Optional)"
                     value={roleCode}
@@ -124,11 +171,12 @@ const RegisterForm = ({ toggleOpenModal }) => {
 
             <Form.Group className="mb-3 inputWithShowHide" controlId="registerFormPassword">
                 <Form.Control
+                    tabIndex={4}
                     type="password"
                     placeholder="Password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    isInvalid={(password.length < 8 || !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)/.test(password)) && validated}
+                    isInvalid={passwordInvalid && validated}
                     required />
                 <Form.Control.Feedback type="invalid">
                     Please enter a valid password containing at least :
@@ -139,12 +187,13 @@ const RegisterForm = ({ toggleOpenModal }) => {
 
             <Form.Group className="mb-3 inputWithShowHide" controlId="registerFormPasswordConfirmation">
                 <Form.Control
+                    tabIndex={5}
                     type="password"
                     placeholder="Confirm Password"
                     value={passwordConfirmation}
                     onChange={(e) => setPasswordConfirmation(e.target.value)}
                     onKeyDown={handleSubmitOnEnterKeyPressed}
-                    isInvalid={password !== passwordConfirmation && validated}
+                    isInvalid={confirmationPasswordInvalid && validated}
                     required />
                 <Form.Control.Feedback type="invalid">
                     Passwords do not match

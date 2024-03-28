@@ -1,5 +1,5 @@
 const Footer = () => {
-    const currentYear = new Date().getFullYear();
+    const currentYear = new Date().getFullYear()
 
     return (
         <div className="footerContainer align-middle py-2 px-1 text-center">
@@ -7,7 +7,7 @@ const Footer = () => {
                 © {currentYear} - Adam Mihajlovic. All rights reserved
             </span>
         </div>
-    );
+    )
 }
 
-export default Footer;
+export default Footer

@@ -1,11 +1,12 @@
-import { initializeApp } from 'firebase/app';
+import { initializeApp } from 'firebase/app'
 import {
     createUserWithEmailAndPassword,
     deleteUser,
     getAuth,
     signInWithEmailAndPassword,
+    sendPasswordResetEmail,
     signOut
-} from 'firebase/auth';
+} from 'firebase/auth'
 
 const firebaseConfig = {
     apiKey: process.env.REACT_APP_API_KEY,
@@ -17,37 +18,48 @@ const firebaseConfig = {
     measurementId: process.env.REACT_APP_MEASUREMENT_ID
 }
 
-initializeApp(firebaseConfig);
+initializeApp(firebaseConfig)
 
-const auth = getAuth();
+const auth = getAuth()
 
 export const login = async (email, password) => {
     await signInWithEmailAndPassword(auth, email, password)
     .catch((error) => {
-        console.log(error);
-    });
+        console.error(error)
+    })
 }
 
 export const logout = async () => {
-    await signOut(auth)
+    return await signOut(auth)
     .catch((error) => {
-        console.error(error);
-    });
+        throw error
+    })
 }
 
 export const signup = async (email, password, steamUsername, roleCode) => {
-    await createUserWithEmailAndPassword(auth, email, password)
-    .then(res => {
-        console.log(res)
+    return await createUserWithEmailAndPassword(auth, email, password)
+    .then(user => {
+        // Add user to own databse after signup with steamUsername and roleCode :D
+        console.log(user)
+    })
+    .catch((error) => {
+        throw error
+    })
+}
+
+export const forgotPassword = async (email) => {
+    return await sendPasswordResetEmail(auth, email)
+    .catch((error) => {
+        throw error
     })
 }
 
 // Is this useful? Could maybe be deleted...
 export const deleteAccount = async () => {
-    const user = auth.currentUser;
+    const user = auth.currentUser
 
     await deleteUser(user)
     .catch((error) => {
-        console.error(error);
-    });
+        console.error(error)
+    })
 }

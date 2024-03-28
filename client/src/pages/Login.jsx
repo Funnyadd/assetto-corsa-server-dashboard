@@ -7,88 +7,109 @@ import Form from 'react-bootstrap/Form';
 import { useNavigate } from 'react-router-dom';
 import { login } from '../Auth';
 import RegisterModal from '../components/modals/RegisterModal';
+import { useSearchParams } from 'react-router-dom';
 
 const LoginForm = () => {
-    const eyeIconSize = 22;
-    const enterKeyCode = 13;
+    const eyeIconSize = 22
+    const enterKeyCode = 13
 
-    const navigate = useNavigate();
+    const navigate = useNavigate()
+    const [queryParameters, setQueryParameters] = useSearchParams();
 
-    const invalidCredentialsErrorCode = "auth/invalid-credential";
-    const internalErrorCode = "auth/invalid-credential";
-    const tooManyRequestsErrorCode = "auth/too-many-requests";
+    const invalidCredentialsErrorCode = "auth/invalid-credential"
+    const internalErrorCode = "auth/internal-error"
+    const tooManyRequestsErrorCode = "auth/too-many-requests"
 
-    const invalidCredentialsErrorMessage = "Invalid email or password";
-    const internalErrorMessage = "Error while trying to call the server. Please try again later";
-    const tooManyRequestsErrorMessage = "Acces to your account temporarily deactivated due to the amount of failed connection tries. Please try again later.";
-    const unexpectedErrorMessage = "Unexpected server error...";
+    const invalidCredentialsErrorMessage = "Invalid email or password"
+    const internalErrorMessage = "Error while trying to call the server. Please try again later"
+    const tooManyRequestsErrorMessage = "Access to your account temporarily deactivated due to the amount of failed connection tries. Please try again later."
+    const unexpectedErrorMessage = "Unexpected server error..."
 
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [showPass, setShowPass] = useState(false);
+    const forgotPasswordConfirmationMessage = "An email was sent to you to reset your password."
+    const loggedOutConfirmationMessage = "You have successfully logged out!"
 
-    const [validated, setValidated] = useState(false);
-    const [error, setError] = useState("");
-    const [validationError, setValidationError] = useState(false);
+    const [email, setEmail] = useState("")
+    const [password, setPassword] = useState("")
+    const [showPass, setShowPass] = useState(false)
 
-    const [createModalActivated, setCreateModalActivated] = useState(false);
+    const [validated, setValidated] = useState(false)
+    const [error, setError] = useState("")
+    const [validationError, setValidationError] = useState(false)
+    const [confirmationAlert, setConfirmationAlert] = useState("");
+
+    const [createModalActivated, setCreateModalActivated] = useState(false)
 
     const showHide = (event) => {
-        event.preventDefault();
-        event.stopPropagation();
+        event.preventDefault()
+        event.stopPropagation()
 
-        setShowPass(!showPass);
+        setShowPass(!showPass)
     }
 
     const handleSubmitOnEnterKeyPressed = (event) => {
         if (event.keyCode === enterKeyCode || event.which === enterKeyCode) {
-            handleSubmit(event);
+            handleSubmit(event)
         }
     }
 
     const handleSubmit = async (event) => {
-        const form = event.currentTarget;
+        const form = event.currentTarget
 
         if (form.checkValidity() === false) {
-            event.preventDefault();
-            event.stopPropagation();
-            setValidated(true);
+            event.preventDefault()
+            event.stopPropagation()
+            setValidated(true)
         }
         else {
-            setError("");
-            event.preventDefault();
+            setError("")
+            event.preventDefault()
 
             await login(email, password)
             .then(() => {
-                navigate("/");
+                navigate("/")
             })
             .catch((error) => {
                 switch(error.code) {
                     case invalidCredentialsErrorCode:
-                        setError(invalidCredentialsErrorMessage);
+                        setError(invalidCredentialsErrorMessage)
+                        break
                     case internalErrorCode:
-                        setError(internalErrorMessage);
+                        setError(internalErrorMessage)
+                        break
                     case tooManyRequestsErrorCode:
-                        setError(tooManyRequestsErrorMessage);
+                        setError(tooManyRequestsErrorMessage)
+                        break
                     default:
-                        setError(unexpectedErrorMessage);
+                        setError(unexpectedErrorMessage)
                 }
-            });
+            })
         }
     }
 
     useEffect(() => {
-        if (error !== "" && !validationError) {
-            setValidationError(true);
-            setValidated(false);
-        }
-        else if (validationError) {
-            setValidated(true);
-            setValidationError(false);
+        if (queryParameters.has("forgotPasswordConfirmation")) {
+            setConfirmationAlert(forgotPasswordConfirmationMessage)
+            setError("")
+            setEmail(queryParameters.get("forgotPasswordConfirmation"))
+            setQueryParameters("")
         }
 
+        if (queryParameters.has("loggedOut")) {
+            setConfirmationAlert(loggedOutConfirmationMessage)
+            setError("")
+            setQueryParameters("")
+        }
+    }, [queryParameters, setQueryParameters])
+
+    useEffect(() => {
+        if (error !== "" && !validationError) {
+            setValidationError(true)
+        }
+        else if (validationError) {
+            setValidationError(false)
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [error]);
+    }, [error])
 
     return (
         <>
@@ -105,7 +126,15 @@ const LoginForm = () => {
                             :
                             <></>
                         }
-
+                        {
+                            confirmationAlert.length > 0
+                            ?
+                            <Alert variant="success">
+                                {confirmationAlert}
+                            </Alert>
+                            :
+                            <></>
+                        }
                         <Form.Group className="mb-3" controlId="loginFormEmail">
                             <Form.Control 
                                 type="email"
@@ -149,7 +178,10 @@ const LoginForm = () => {
                         </Button>
 
                         <p className='text-center my-4'>
-                            <a href="/Register" className='text-decoration-none'>Forgot password?</a>
+                            <a href={"/forgotPassword" + (email.length > 0 ? "?email=" + email : "")} 
+                                className='text-decoration-none'>
+                                    Forgot password?
+                            </a>
                         </p>
 
                         <hr id='loginFormLine'/>
@@ -168,9 +200,10 @@ const LoginForm = () => {
             </div>
             <RegisterModal 
                 open={createModalActivated}
-                setOpen={setCreateModalActivated} />
+                setOpen={setCreateModalActivated}
+                setConfirmationAlert={() => { setConfirmationAlert() }} />
         </>
-    );
+    )
 }
 
-export default LoginForm;
+export default LoginForm

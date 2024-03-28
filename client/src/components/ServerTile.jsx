@@ -4,12 +4,12 @@ import Row from 'react-bootstrap/Row';
 
 const ServerTile = ({ name, port }) => {
     // const url = `https://home.adammihajlovic.ca/assetto/server/${port}`; // New url
-    const url = `https://home.adammihajlovic.ca/assetto?port=${port}`;
+    const url = `https://home.adammihajlovic.ca/assetto?port=${port}`
     const serverUrl = `https://acstuff.ru/s/q:race/online/join?ip=74.56.22.147&httpPort=${port}`
 
-    const [totalSlots, setTotalSlots] = useState(0);
-    const [occupiedSlots, setOccupiedSlots] = useState(0);
-    const [refreshData, setRefreshData] = useState(true);
+    const [totalSlots, setTotalSlots] = useState(0)
+    const [occupiedSlots, setOccupiedSlots] = useState(0)
+    const [refreshData, setRefreshData] = useState(true)
 
     const handleFetching = async () => {
         return await fetch(url)
@@ -18,16 +18,19 @@ const ServerTile = ({ name, port }) => {
     }
 
     const handleAssignData = async () => {
-        const response = await handleFetching();
-        const cars = response.Cars
+        const response = await handleFetching()
 
-        let occupied = 0;
-        let total = 0;
+        let cars
+        if (response === undefined) cars = []
+        else cars = response.Cars
+
+        let occupied = 0
+        let total = 0
 
         cars.forEach(car => {
             if (car.IsConnected) occupied++
             if (!car.Model.startsWith("traffic")) total++
-        });
+        })
 
         setOccupiedSlots(occupied)
         setTotalSlots(total)
@@ -35,10 +38,11 @@ const ServerTile = ({ name, port }) => {
 
     useEffect(() => {
         if (refreshData) {
-            handleAssignData();
+            handleAssignData()
             setRefreshData(false)
         }
-      }, []);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+      }, [])
 
     return (
         <a href={serverUrl} target="_blank" rel="noreferrer" className='server'>
@@ -57,4 +61,4 @@ const ServerTile = ({ name, port }) => {
     )
 }
 
-export default ServerTile;
+export default ServerTile

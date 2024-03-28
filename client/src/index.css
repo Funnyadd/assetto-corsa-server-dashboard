@@ -63,11 +63,7 @@ code {
   border-color: #020202;
 }
 
-::placeholder {
-  color: gray !important;
-}
-
-::-ms-input-placeholder { /* Edge 12 -18 */
+::placeholder, ::-ms-input-placeholder {
   color: gray !important;
 }
 
@@ -115,40 +111,54 @@ code {
   }
 }
 
-/* RegisterModal component */
-.registerModal {
+/* ForgotPassword Page */
+#forgotPasswordEmail {
+  padding: 0.75rem;
+  background-color: #020202;
+  color: white;
+  border-color: #020202;
+}
+
+.forgotPasswordForm {
+  max-width: 500px;
   background-color: #0f0f0f !important;
 }
 
-/* RegisterForm compoenent */
-#registerFormEmail {
-  padding: 0.75rem;
-  background-color: #020202;
-  color: white;
-  border-color: #020202;
+.forgotPasswordFormHeader {
+  border-bottom: 2px rgb(33, 37, 41) solid !important;
 }
 
-#registerFormSteamUsername {
-  padding: 0.75rem;
-  background-color: #020202;
-  color: white;
-  border-color: #020202;
+.forgotPasswordFormFooter {
+  border-top: 2px rgb(33, 37, 41) solid !important;
 }
 
-#registerFormRoleCode {
-  padding: 0.75rem;
-  background-color: #020202;
-  color: white;
-  border-color: #020202;
+/* NavBar component */
+.navDropdown {
+  background-color: #0f0f0f !important;
 }
 
-#registerFormPassword {
-  padding: 0.75rem;
-  background-color: #020202;
-  color: white;
-  border-color: #020202;
+.navDropdownItem:hover {
+  background-color: rgb(33, 33, 33) !important;
 }
 
+#navUsernameToggle:hover {
+  text-decoration: underline;
+}
+
+#navUsernameToggle::after {
+  display: none;
+}
+
+/* RegisterModal component */
+.registerModal {
+  background-color: #020202;
+}
+
+/* RegisterForm component */
+#registerFormEmail,
+#registerFormSteamUsername,
+#registerFormRoleCode,
+#registerFormPassword,
 #registerFormPasswordConfirmation {
   padding: 0.75rem;
   background-color: #020202;

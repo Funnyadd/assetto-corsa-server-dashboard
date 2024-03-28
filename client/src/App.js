@@ -6,6 +6,7 @@ import { AuthContext } from './context/AuthContext';
 import Protected from './components/Protected';
 import Servers from './pages/Servers';
 import NotFound from './pages/NotFound';
+import ForgotPassword from './pages/ForgotPassword';
 
 function App() {
   const router = createBrowserRouter([
@@ -16,6 +17,10 @@ function App() {
     {
       path: "/login",
       element: <Login />
+    },
+    {
+      path: "/forgotPassword",
+      element: <ForgotPassword />
     },
     {
       path: "*",
