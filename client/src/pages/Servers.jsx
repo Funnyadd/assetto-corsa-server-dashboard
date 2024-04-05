@@ -1,4 +1,3 @@
-import '../App.scss';
 import data from "../data.json";
 import Stack from 'react-bootstrap/Stack';
 import Row from 'react-bootstrap/Row';

@@ -1,2 +1,38 @@
-/* Import bootstrap to set changes */
-@import '~bootstrap/scss/bootstrap';
+// IN CASE OF TESTS WITH BOOTSTRAP
+
+// @import "../node_modules/bootstrap/scss/mixins/banner";
+// @include bsBanner(Utilities);
+
+// // Configuration
+// @import "../node_modules/bootstrap/scss/functions";
+// @import "../node_modules/bootstrap/scss/variables";
+// @import "../node_modules/bootstrap/scss/variables-dark";
+// @import "../node_modules/bootstrap/scss/maps";
+// @import "../node_modules/bootstrap/scss/mixins";
+// @import "../node_modules/bootstrap/scss/utilities";
+
+// // Layout & components
+// @import "../node_modules/bootstrap/scss/root";
+
+// // Helpers
+// @import "../node_modules/bootstrap/scss/helpers";
+
+// // Utilities
+// @import "../node_modules/bootstrap/scss/utilities/api";
+
+
+// Base Bootstrap Configuration
+@import "../node_modules/bootstrap/scss/functions";
+@import "../node_modules/bootstrap/scss/variables";
+@import "../node_modules/bootstrap/scss/maps";
+@import "../node_modules/bootstrap/scss/mixins";
+
+// Bootstrap Components
+@import "../node_modules/bootstrap/scss/forms";
+
+
+
+// TailwindCSS Base Configuration
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

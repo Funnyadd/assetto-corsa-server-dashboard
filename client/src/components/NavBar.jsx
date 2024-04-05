@@ -28,14 +28,14 @@ const NavBar = () => {
     }
 
     return (
-        <Navbar>
+        <Navbar className='navBar'>
             <Container>
                 <Navbar.Brand 
                     className="text-danger" 
                     href="#">
                         Assetto Corsa Sserver Dashboard
                 </Navbar.Brand>
-                <Dropdown as={NavItem} className='d-flex'>
+                <Dropdown as={NavItem} className='flex'>
                     <span className='text-secondary'>Logged in as:</span>
                     <DropdownToggle 
                         as={NavLink} 

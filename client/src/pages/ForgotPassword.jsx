@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
-import Alert from 'react-bootstrap/Alert';
-import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
+import { Input, Button, Alert } from 'react-daisyui';
 import Form from 'react-bootstrap/Form';
 import { useNavigate } from 'react-router-dom';
 import { forgotPassword } from '../Auth';
@@ -77,17 +76,17 @@ const ForgotPassword = () => {
     }, [error])
 
     return (
-        <div className="d-flex flex-column align-items-center justify-content-center my-5 px-3" >
-            <Card text="white" className="m-5 shadow forgotPasswordForm w-100">
-                <Form noValidate validated={validated} onSubmit={handleSubmit}>
-                    <Card.Header className="forgotPasswordFormHeader py-3">
-                        <h4>Forgot your Password?</h4>
+        <div className="flex flex-col items-center my-5 px-3" >
+            <Card className="m-5 shadow max-w-[32rem] bg-base-300 w-full">
+                <Form noValidate validated={validated} onSubmit={handleSubmit} className='divide-y divide-solid divide-neutral'>
+                    <Card.Header className="forgotPasswordFormHeader p-3">
+                        <h4 className='text-2xl'>Forgot your Password?</h4>
                     </Card.Header>
                     <Card.Body>
                         {
                             error.length > 0
                             ?
-                            <Alert variant="danger">
+                            <Alert status="error" className="mb-3">
                                 {error}
                             </Alert> 
                             :
@@ -95,7 +94,11 @@ const ForgotPassword = () => {
                         }
                         <p className="mb-4">Please enter your email to received a password reset link.</p>
                         <Form.Group className="mb-3" controlId="loginFormEmail">
-                            <Form.Control 
+                            <Form.Control
+                                bsPrefix='w-full text-lg'
+                                as={Input}
+                                borderOffset={false}
+                                bordered
                                 type="email"
                                 placeholder="Email"
                                 value={email}
@@ -107,15 +110,17 @@ const ForgotPassword = () => {
                             </Form.Control.Feedback>
                         </Form.Group>
                     </Card.Body>
-                    <Card.Footer className="py-3 forgotPasswordFormFooter d-flex justify-content-end">
+                    <Card.Footer className="p-3 forgotPasswordFormFooter flex justify-end">
                         <Button 
-                            className="fw-bold me-2"
-                            variant="secondary"
+                            className="font-bold me-2"
+                            color="neutral"
+                            variant="outline"
                             onClick={handleCancelButton}>
                                 Cancel
                         </Button>
                         <Button
-                            className="fw-bold"
+                            className="font-bold"
+                            color="primary"
                             type="submit">
                                 Send reset link
                         </Button>

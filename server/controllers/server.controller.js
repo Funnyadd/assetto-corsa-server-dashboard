@@ -15,7 +15,7 @@ exports.find = async (req, res) => {
 }
 
 const getJsonData = async(port) => {
-    const url = `http://localhost:${port}/JSON%7C`;
+    const url = `${process.env.REACT_APP_BACKEND_API_ENDPOINT}/JSON%7C`;
 
     return await fetch(url)
     .then(res => res.json())

@@ -1,7 +1,7 @@
 import Form from 'react-bootstrap/Form';
+import Feedback from 'react-bootstrap/Feedback'
 import { useEffect, useState } from 'react';
-import Alert from 'react-bootstrap/Alert';
-import Button from 'react-bootstrap/Button';
+import { Button, Alert, Input } from 'react-daisyui';
 import { signup } from '../Auth';
 
 const RegisterForm = ({ registrationHandler }) => {
@@ -87,7 +87,6 @@ const RegisterForm = ({ registrationHandler }) => {
             await signup(email, password, steamUsername, roleCode)
             .then(() => {
                 registrationHandler()
-
             })
             .catch((error) => {
                 // Add more errors from firebase :D ???
@@ -121,11 +120,11 @@ const RegisterForm = ({ registrationHandler }) => {
     }, [error])
 
     return (
-        <Form noValidate onSubmit={handleSubmit}>
+        <Form noValidate onSubmit={handleSubmit} className='text-center'>
             {
                 error.length > 0
                 ?
-                <Alert variant="danger">
+                <Alert status="error" className="mb-3">
                     {error}
                 </Alert> 
                 :
@@ -133,61 +132,76 @@ const RegisterForm = ({ registrationHandler }) => {
             }
 
             <Form.Group className="mb-3" controlId="registerFormEmail">
-                <Form.Control 
-                    tabIndex={1}
+                <Form.Control
+                    bsPrefix='w-full text-lg'
+                    as={Input}
+                    borderOffset={false}
+                    bordered
                     type="email"
                     placeholder="Email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     isInvalid={emailInvalid && validated}
                     required />
-                <Form.Control.Feedback type="invalid">
+                <Feedback type="invalid" className='text-error'>
                     Please enter a valid email address
-                </Form.Control.Feedback>
+                </Feedback>
             </Form.Group>
 
-            <Form.Group className="mb-3 inputWithShowHide" controlId="registerFormSteamUsername">
+            <Form.Group className="mb-3" controlId="registerFormSteamUsername">
                 <Form.Control
-                    tabIndex={2}
+                    bsPrefix='w-full text-lg'
+                    as={Input}
+                    borderOffset={false}
+                    bordered
                     type="text"
                     placeholder="Steam username"
                     value={steamUsername}
                     onChange={(e) => setSteamUsername(e.target.value)}
                     isInvalid={steamUsernameInvalid && validated}
                     required />
-                <Form.Control.Feedback type="invalid">
+                <Feedback type="invalid" className='text-error'>
                     Please enter a valid steam username
-                </Form.Control.Feedback>
+                </Feedback>
             </Form.Group>
 
-            <Form.Group className="mb-3 inputWithShowHide" controlId="registerFormRoleCode">
+            <Form.Group className="mb-3" controlId="registerFormRoleCode">
                 <Form.Control
-                    tabIndex={3}
+                    bsPrefix='w-full text-lg'
+                    as={Input}
+                    borderOffset={false}
+                    bordered
                     type="text"
                     placeholder="Code for role (Optional)"
                     value={roleCode}
                     onChange={(e) => setRoleCode(e.target.value)} />
             </Form.Group>
 
-            <Form.Group className="mb-3 inputWithShowHide" controlId="registerFormPassword">
+            <Form.Group className="mb-3" controlId="registerFormPassword">
                 <Form.Control
-                    tabIndex={4}
+                    bsPrefix='w-full text-lg'
+                    as={Input}
+                    borderOffset={false}
+                    bordered
                     type="password"
                     placeholder="Password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     isInvalid={passwordInvalid && validated}
                     required />
-                <Form.Control.Feedback type="invalid">
+                <Feedback type="invalid" className='text-error'>
                     Please enter a valid password containing at least :
                     <br/>8 characters, 1 numeric value, 
                     <br/>1 lower case letter and 1 upper case letter
-                </Form.Control.Feedback>
+                </Feedback>
             </Form.Group>
 
-            <Form.Group className="mb-3 inputWithShowHide" controlId="registerFormPasswordConfirmation">
+            <Form.Group className="mb-3" controlId="registerFormPasswordConfirmation">
                 <Form.Control
-                    tabIndex={5}
+                    bsPrefix='w-full text-lg'
+                    as={Input}
+                    borderOffset={false}
+                    bordered
                     type="password"
                     placeholder="Confirm Password"
                     value={passwordConfirmation}
@@ -195,15 +209,16 @@ const RegisterForm = ({ registrationHandler }) => {
                     onKeyDown={handleSubmitOnEnterKeyPressed}
                     isInvalid={confirmationPasswordInvalid && validated}
                     required />
-                <Form.Control.Feedback type="invalid">
+                <Feedback type="invalid" className='text-error'>
                     Passwords do not match
-                </Form.Control.Feedback>
+                </Feedback>
             </Form.Group>
 
             <Button
                 id="RegisterFormSubmitBtn"
-                className="my-2 px-4 fs-5 fw-bold"
-                variant="success"
+                className="my-3 font-bold text-lg"
+                color="success"
+                wide
                 type="submit">
                     Sign Up
             </Button>

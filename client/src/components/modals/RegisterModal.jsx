@@ -1,12 +1,5 @@
-import {
-    MDBModal,
-    MDBModalBody,
-    MDBModalContent,
-    MDBModalDialog,
-    MDBModalHeader,
-    MDBModalTitle
-} from 'mdb-react-ui-kit';
 import RegisterForm from '../RegisterForm';
+import { Modal, Button } from 'react-daisyui';
 
 const RegisterModal = ({ open, setOpen, setConfirmationAlert }) => {
     const confirmationMessage = "New account successfully created!"
@@ -14,28 +7,26 @@ const RegisterModal = ({ open, setOpen, setConfirmationAlert }) => {
     const toggleOpen = () => setOpen(!open)
 
     const handleRegistration = () => {
-        toggleOpen()
         setConfirmationAlert(confirmationMessage)
+        toggleOpen()
     }
 
     return (
-        <MDBModal open={open} setOpen={setOpen} tabIndex="-1">
-            <MDBModalDialog centered>
-                <MDBModalContent className="registerModal">
-                    <MDBModalHeader>
-                        <MDBModalTitle className="text-white fs-2">Register</MDBModalTitle>
-                        <button 
-                            type="button" 
-                            className="btn-close btn-close-white" 
-                            aria-label="Close"
-                            onClick={toggleOpen} />
-                    </MDBModalHeader>
-                    <MDBModalBody className="text-center">
-                        <RegisterForm registrationHandler={handleRegistration} />
-                    </MDBModalBody>
-                </MDBModalContent>
-            </MDBModalDialog>
-        </MDBModal>
+        <Modal open={open}>
+            <Modal.Header className="font-bold text-2xl flex justify-between">
+                Register
+                <Button
+                    size="sm"
+                    color="ghost"
+                    shape="circle"
+                    onClick={toggleOpen}>
+                        ✕
+                </Button>
+            </Modal.Header>
+            <Modal.Body>
+                <RegisterForm registrationHandler={handleRegistration} />
+            </Modal.Body>
+        </Modal>
     )
 }
 

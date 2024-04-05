@@ -8,12 +8,6 @@ router.post("/add", authService.authenticate, userController.create);
 // Fetch all users
 router.get("/", authService.authenticate, userController.findAll);
 
-// Authenticate user
-router.post("/login", userController.login);
-
-// Logs out a user
-router.post("/logout", userController.logout);
-
 // Sends users modification 
 router.put(`/modify/:email`, authService.authenticate, userController.modifyUser);
 

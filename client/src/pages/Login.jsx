@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 import { Eye, EyeSlashFill } from "react-bootstrap-icons";
-import Alert from 'react-bootstrap/Alert';
-import Button from 'react-bootstrap/Button';
+import Feedback from 'react-bootstrap/Feedback';
 import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
 import { useNavigate } from 'react-router-dom';
 import { login } from '../Auth';
 import RegisterModal from '../components/modals/RegisterModal';
 import { useSearchParams } from 'react-router-dom';
+import { Button, Input, Alert, Link, Divider } from 'react-daisyui'
 
 const LoginForm = () => {
     const eyeIconSize = 22
@@ -35,7 +35,7 @@ const LoginForm = () => {
     const [validated, setValidated] = useState(false)
     const [error, setError] = useState("")
     const [validationError, setValidationError] = useState(false)
-    const [confirmationAlert, setConfirmationAlert] = useState("");
+    const [confirmationAlert, setConfirmationAlert] = useState("")
 
     const [createModalActivated, setCreateModalActivated] = useState(false)
 
@@ -113,15 +113,17 @@ const LoginForm = () => {
 
     return (
         <>
-            <div className="d-flex flex-column align-items-center justify-content-center my-5" >
-                <h1 className='text-center text-danger mt-5'>Assetto Corsa Server Dashboard</h1>
-                <Card border="black" className="p-3 my-5 shadow loginFormCard w-100">
-                    <Form noValidate validated={validated} onSubmit={handleSubmit}>
+            <div className="flex flex-col items-center my-[3rem]" >
+                <h1 className='mt-[3rem] text-4xl text-center'>Assetto Corsa Server Dashboard</h1>
+                <Card className="p-4 my-[3rem] shadow loginFormCard w-full bg-base-300">
+                    <Form className='text-center' noValidate validated={validated} onSubmit={handleSubmit}>
                         {
                             error.length > 0
                             ?
-                            <Alert variant="danger">
-                                {error}
+                            <Alert status="error" className="mb-4">
+                                {/* Error icon */}
+                                <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                                <span>{error}</span>
                             </Alert> 
                             :
                             <></>
@@ -129,26 +131,36 @@ const LoginForm = () => {
                         {
                             confirmationAlert.length > 0
                             ?
-                            <Alert variant="success">
-                                {confirmationAlert}
+                            <Alert status="success" className="mb-3">
+                                {/* Confirmmation icon */}
+                                <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                                <span>{confirmationAlert}</span>
                             </Alert>
                             :
                             <></>
                         }
-                        <Form.Group className="mb-3" controlId="loginFormEmail">
+                        <Form.Group className="mb-4" controlId="loginFormEmail">
                             <Form.Control 
+                                bsPrefix='w-full text-lg'
+                                as={Input}
+                                borderOffset={false}
+                                bordered
                                 type="email"
                                 placeholder="Email"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                                 required />
-                            <Form.Control.Feedback type="invalid">
+                            <Feedback type='invalid' className='text-error'>
                                 Please enter a valid email address
-                            </Form.Control.Feedback>
+                            </Feedback>
                         </Form.Group>
 
-                        <Form.Group className="mb-3 inputWithShowHide" controlId="loginFormPassword">
+                        <Form.Group className="mb-4 inputWithShowHide" controlId="loginFormPassword">
                             <Form.Control
+                                bsPrefix='w-full text-lg pe-[2.75rem]'
+                                as={Input}
+                                borderOffset={false}
+                                bordered
                                 type={showPass ? "text" : "password"}
                                 placeholder="Password"
                                 value={password}
@@ -165,43 +177,41 @@ const LoginForm = () => {
                                         : <Eye size={eyeIconSize} />
                                     }
                             </button>
-                            <Form.Control.Feedback type="invalid">
+                            <Feedback type='invalid' className='text-error'>
                                 Please enter a valid password
-                            </Form.Control.Feedback>
+                            </Feedback>
                         </Form.Group>
 
                         <Button
-                            id="loginFormSubmitBtn"
-                            className="w-100 mt-2 fs-5 fw-bold"
+                            className="mt-3 text-lg font-bold"
+                            color="primary"
+                            fullWidth
                             type="submit">
                                 Sign In
                         </Button>
 
-                        <p className='text-center my-4'>
-                            <a href={"/forgotPassword" + (email.length > 0 ? "?email=" + email : "")} 
-                                className='text-decoration-none'>
-                                    Forgot password?
-                            </a>
-                        </p>
-
-                        <hr id='loginFormLine'/>
-
-                        <div className='d-flex justify-content-center'>
-                            <Button
-                                id="createAccountButn"
-                                className="my-3 fs-5 fw-bold align-center"
-                                variant="success"
-                                onClick={() => { setCreateModalActivated(true) }} >
-                                    Create new account
-                            </Button>
+                        <div className='mt-5'>
+                            <Link href={"/forgotPassword" + (email.length > 0 ? "?email=" + email : "")}>
+                                Forgot password?
+                            </Link>
                         </div>
+
+                        <Divider/>
+
+                        <Button
+                            className="mb-4 text-lg font-bold align-center"
+                            color="secondary"
+                            type="button"
+                            onClick={() => { setCreateModalActivated(true) }} >
+                                Create new account
+                        </Button>
                     </Form>
                 </Card>
             </div>
             <RegisterModal 
                 open={createModalActivated}
                 setOpen={setCreateModalActivated}
-                setConfirmationAlert={() => { setConfirmationAlert() }} />
+                setConfirmationAlert={setConfirmationAlert} />
         </>
     )
 }

@@ -1,13 +1,13 @@
-const Footer = () => {
+import { Footer } from 'react-daisyui';
+
+const FooterComponent = () => {
     const currentYear = new Date().getFullYear()
 
     return (
-        <div className="footerContainer align-middle py-2 px-1 text-center">
-            <span className="footerText">
-                © {currentYear} - Adam Mihajlovic. All rights reserved
-            </span>
-        </div>
+        <Footer center className="py-2 px-1 text-base bg-neutral text-neutral-content">
+            © {currentYear} - Adam Mihajlovic. All rights reserved
+        </Footer>
     )
 }
 
-export default Footer
+export default FooterComponent

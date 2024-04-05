@@ -41,6 +41,10 @@ export const signup = async (email, password, steamUsername, roleCode) => {
     .then(user => {
         // Add user to own databse after signup with steamUsername and roleCode :D
         console.log(user)
+        // fetch(`${process.env.REACT_APP_BACKEND_API_URL}/user/add`, { 
+        //     method: "POST",
+        //     body: JSON.stringify(data) 
+        // })
     })
     .catch((error) => {
         throw error
