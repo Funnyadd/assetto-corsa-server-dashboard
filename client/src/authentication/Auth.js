@@ -36,10 +36,10 @@ export const logout = async () => {
     })
 }
 
-export const signup = async (email, password, steamUsername, roleCode) => {
+export const signup = async (email, password, steamUsername) => {
     return await createUserWithEmailAndPassword(auth, email, password)
     .then(user => {
-        // Add user to own databse after signup with steamUsername and roleCode :D
+        // Add user to own databse after signup with steamUsername (et theme eventually) :D
         console.log(user)
         // fetch(`${process.env.REACT_APP_BACKEND_API_URL}/user/add`, { 
         //     method: "POST",

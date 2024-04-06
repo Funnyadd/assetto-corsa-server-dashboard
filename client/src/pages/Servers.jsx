@@ -4,7 +4,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import ServerTile from '../components/ServerTile';
-import NavBar from '../components/NavBar';
+import NavBar from '../components/navigation/Nav';
 
 function Servers() {
   const serverList = data

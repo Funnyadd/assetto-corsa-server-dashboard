@@ -21,11 +21,6 @@ body {
   margin-bottom: 0;
 }
 
-/* Login Page */
-.loginFormCard {
-  max-width: 400px;
-}
-
 .was-validated .input {
   padding-right: 2rem;
   background-repeat: no-repeat;
@@ -62,29 +57,4 @@ body {
 
   position: absolute;
   display: flex;
-}
-
-.showHideButton:hover {
-  color: oklch(var(--p));
-}
-
-/* NavBar component */
-.navBar {
-  background-color: #0f0f0f;
-}
-
-.navDropdown {
-  background-color: #0f0f0f !important;
-}
-
-.navDropdownItem:hover {
-  background-color: rgb(33, 33, 33) !important;
-}
-
-#navUsernameToggle:hover {
-  text-decoration: underline;
-}
-
-#navUsernameToggle::after {
-  display: none;
 }

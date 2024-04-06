@@ -3,7 +3,7 @@ import Card from 'react-bootstrap/Card';
 import { Input, Button, Alert } from 'react-daisyui';
 import Form from 'react-bootstrap/Form';
 import { useNavigate } from 'react-router-dom';
-import { forgotPassword } from '../Auth';
+import { forgotPassword } from '../authentication/Auth';
 import { useSearchParams } from 'react-router-dom';
 
 const ForgotPassword = () => {
@@ -76,10 +76,10 @@ const ForgotPassword = () => {
     }, [error])
 
     return (
-        <div className="flex flex-col items-center my-5 px-3" >
-            <Card className="m-5 shadow max-w-[32rem] bg-base-300 w-full">
+        <div className="flex flex-col items-center my-8 px-3" >
+            <Card className="m-8 shadow max-w-[32rem] bg-base-300 w-full">
                 <Form noValidate validated={validated} onSubmit={handleSubmit} className='divide-y divide-solid divide-neutral'>
-                    <Card.Header className="forgotPasswordFormHeader p-3">
+                    <Card.Header className="forgotPasswordFormHeader p-7">
                         <h4 className='text-2xl'>Forgot your Password?</h4>
                     </Card.Header>
                     <Card.Body>
@@ -87,6 +87,8 @@ const ForgotPassword = () => {
                             error.length > 0
                             ?
                             <Alert status="error" className="mb-3">
+                                {/* Error icon */}
+                                <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                                 {error}
                             </Alert> 
                             :
@@ -110,7 +112,7 @@ const ForgotPassword = () => {
                             </Form.Control.Feedback>
                         </Form.Group>
                     </Card.Body>
-                    <Card.Footer className="p-3 forgotPasswordFormFooter flex justify-end">
+                    <Card.Footer className="p-5 pe-8 flex justify-end">
                         <Button 
                             className="font-bold me-2"
                             color="neutral"

@@ -2,7 +2,7 @@ import Form from 'react-bootstrap/Form';
 import Feedback from 'react-bootstrap/Feedback'
 import { useEffect, useState } from 'react';
 import { Button, Alert, Input } from 'react-daisyui';
-import { signup } from '../Auth';
+import { signup } from '../authentication/Auth';
 
 const RegisterForm = ({ registrationHandler }) => {
     const enterKeyCode = 13;
@@ -69,7 +69,6 @@ const RegisterForm = ({ registrationHandler }) => {
     const clearRegisterForm = () => {
         setEmail("")
         setSteamUsername("")
-        setRoleCode("")
         setPassword("")
         setPasswordConfirmation("")
     }
@@ -84,7 +83,7 @@ const RegisterForm = ({ registrationHandler }) => {
             event.preventDefault()
             clearRegisterForm()
 
-            await signup(email, password, steamUsername, roleCode)
+            await signup(email, password, steamUsername)
             .then(() => {
                 registrationHandler()
             })
@@ -163,18 +162,6 @@ const RegisterForm = ({ registrationHandler }) => {
                 <Feedback type="invalid" className='text-error'>
                     Please enter a valid steam username
                 </Feedback>
-            </Form.Group>
-
-            <Form.Group className="mb-3" controlId="registerFormRoleCode">
-                <Form.Control
-                    bsPrefix='w-full text-lg'
-                    as={Input}
-                    borderOffset={false}
-                    bordered
-                    type="text"
-                    placeholder="Code for role (Optional)"
-                    value={roleCode}
-                    onChange={(e) => setRoleCode(e.target.value)} />
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="registerFormPassword">

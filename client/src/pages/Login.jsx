@@ -4,7 +4,7 @@ import Feedback from 'react-bootstrap/Feedback';
 import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
 import { useNavigate } from 'react-router-dom';
-import { login } from '../Auth';
+import { login } from '../authentication/Auth';
 import RegisterModal from '../components/modals/RegisterModal';
 import { useSearchParams } from 'react-router-dom';
 import { Button, Input, Alert, Link, Divider } from 'react-daisyui'
@@ -115,7 +115,7 @@ const LoginForm = () => {
         <>
             <div className="flex flex-col items-center my-[3rem]" >
                 <h1 className='mt-[3rem] text-4xl text-center'>Assetto Corsa Server Dashboard</h1>
-                <Card className="p-4 my-[3rem] shadow loginFormCard w-full bg-base-300">
+                <Card className="p-4 my-[3rem] shadow w-full bg-base-300 max-w-[27rem]">
                     <Form className='text-center' noValidate validated={validated} onSubmit={handleSubmit}>
                         {
                             error.length > 0
