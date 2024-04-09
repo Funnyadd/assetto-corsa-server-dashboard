@@ -13,14 +13,15 @@ body {
   background-color: rgb(49, 49, 49) !important;
 }
 
-.serverRow {
+/* .serverRow {
   padding: 10px;
 }
 
 .field {
   margin-bottom: 0;
-}
+} */
 
+/* React-Bootstrap/Form validation fix */
 .was-validated .input {
   padding-right: 2rem;
   background-repeat: no-repeat;
@@ -45,6 +46,7 @@ body {
   background-position: right 2.75rem center;
 }
 
+/* Eye for show/hide button in login page */
 .inputWithShowHide {
   position: relative;
 }

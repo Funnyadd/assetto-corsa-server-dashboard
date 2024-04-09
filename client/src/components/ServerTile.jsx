@@ -46,7 +46,7 @@ const ServerTile = ({ name, port }) => {
 
     return (
         <a href={serverUrl} target="_blank" rel="noreferrer" className='server'>
-            <Row className='serverRow rounded text-white bg-dark align-text-bottom'>
+            <Row className='mb-1 serverRow rounded text-neutral bg-base-300 align-text-bottom'>
                 <Col sm="2">
                     <p className='field'>{port}</p>
                 </Col>

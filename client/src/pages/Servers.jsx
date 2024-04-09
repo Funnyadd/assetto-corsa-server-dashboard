@@ -12,19 +12,19 @@ function Servers() {
   return (
     <>
       <NavBar/>
-      <Container className='my-5'>
-        <Row className='text-white'>
-          <Col sm="2">
+      <Container className='my-16'>
+        <div className='grid text-neutral bg-neutral-content'>
+          <div>
             <p className='px-3'>ID</p>
-          </Col>
-          <Col sm="7">
+          </div>
+          <div>
             <p className='px-1'>Name</p>
-          </Col>
-          <Col sm="3">
+          </div>
+          <div>
             <p className='text-end px-3'>Slots</p>
-          </Col>
-        </Row>
-        <Stack gap={3}>
+          </div>
+        </div>
+        <div>
           {serverList.map((server, index) => 
             <ServerTile 
               key={index}
@@ -32,7 +32,7 @@ function Servers() {
               port={server.port}
             />
           )}
-        </Stack>
+        </div>
       </Container>
     </>
   )
