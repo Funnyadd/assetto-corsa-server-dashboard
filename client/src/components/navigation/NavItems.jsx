@@ -33,13 +33,12 @@ const NavItems = () => {
   
     return (
       <>
-        <Button color="neutral" className='text-lg'>Users</Button>
+        <Button color="ghost" className='text-lg'>Users</Button>
         <Dropdown end>
-          <Dropdown.Toggle className="btn btn-neutral rounded-btn text-lg w-full" button={false}>
+          <Dropdown.Toggle className="btn btn-ghost rounded-btn text-lg w-full" button={false}>
             Theme
           </Dropdown.Toggle>
           <Dropdown.Menu className="dropdown-content bg-base-200 rounded-box top-px h-[28.6rem] max-h-[calc(100vh-10rem)] w-56 overflow-y-auto border border-white/5 shadow-2xl outline outline-1 outline-black/5 mt-16">
-            
             <div className='class="grid grid-cols-1 gap-3 p-3"'>
               <p className='text-center text-lg font-bold my-2'>Actif: {theme}</p>
               {themes.map((t, i) => 
@@ -72,8 +71,8 @@ const NavItems = () => {
             </div>
           </Dropdown.Menu>
         </Dropdown>
-        <Button color="neutral" className='text-lg'>Profile</Button>
-        <Button color="neutral" className='text-lg text-error' onClick={handleLoggingOut}>Logout</Button>
+        <Button color="ghost" className='text-lg'>Profile</Button>
+        <Button color="ghost" className='text-lg text-error' onClick={handleLoggingOut}>Logout</Button>
         {/* <Dropdown end>
           <Button shape="square" color="ghost">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="inline-block w-5 h-5 stroke-current">

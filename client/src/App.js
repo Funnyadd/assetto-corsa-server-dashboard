@@ -6,6 +6,7 @@ import Protected from './components/Protected';
 import Servers from './pages/Servers';
 import NotFound from './pages/NotFound';
 import ForgotPassword from './pages/ForgotPassword';
+import { useEffect } from "react";
 
 function App() {
   const router = createBrowserRouter([
@@ -26,6 +27,11 @@ function App() {
       element: <NotFound />
     }
   ])
+
+  useEffect(() => {
+    const t = window.localStorage.getItem('sb-react-daisyui-preview-theme')
+    document.getElementsByTagName('html')[0].setAttribute('data-theme', t)
+  }, [])
 
   return (
     <AuthContext>

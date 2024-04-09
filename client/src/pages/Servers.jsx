@@ -1,10 +1,8 @@
 import data from "../data.json";
-import Stack from 'react-bootstrap/Stack';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import ServerTile from '../components/ServerTile';
 import NavBar from '../components/navigation/Nav';
+import { Button } from 'react-daisyui';
 
 function Servers() {
   const serverList = data
@@ -12,28 +10,26 @@ function Servers() {
   return (
     <>
       <NavBar/>
-      <Container className='my-16'>
-        <div className='grid text-neutral bg-neutral-content'>
-          <div>
-            <p className='px-3'>ID</p>
+      <div className='flex flex-col items-center mt-6 mb-16'>
+        <Container>
+          <div className='p-2 grid grid-cols-serversGridHeader gap-x-3 text-neutral bg-neutral-content rounded-lg'>
+            <span className="self-center">Id</span>
+            <span className="self-center">Name</span>
+            <span className="self-center">Port</span>
+            <span className="self-center">Slots</span>
+            <Button className="w-24 justify-self-end" size="sm" variant="outline" color="error">
+              Stop All
+            </Button>
           </div>
-          <div>
-            <p className='px-1'>Name</p>
-          </div>
-          <div>
-            <p className='text-end px-3'>Slots</p>
-          </div>
-        </div>
-        <div>
           {serverList.map((server, index) => 
-            <ServerTile 
+            <ServerTile
               key={index}
               name={server.name}
               port={server.port}
             />
           )}
-        </div>
-      </Container>
+        </Container>
+      </div>
     </>
   )
 }

@@ -4,23 +4,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Servers Page */
-.server {
-  text-decoration: none;
-}
-
-.serverRow:hover {
-  background-color: rgb(49, 49, 49) !important;
-}
-
-/* .serverRow {
-  padding: 10px;
-}
-
-.field {
-  margin-bottom: 0;
-} */
-
 /* React-Bootstrap/Form validation fix */
 .was-validated .input {
   padding-right: 2rem;

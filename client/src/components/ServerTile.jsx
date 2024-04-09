@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import Col from 'react-bootstrap/Col';
-import Row from 'react-bootstrap/Row';
+import { Button } from 'react-daisyui';
+import { BoxArrowUpRight, Play, Stop, Pencil, Trash } from "react-bootstrap-icons";
 
 const ServerTile = ({ name, port }) => {
     // const url = `https://home.adammihajlovic.ca/assetto/server/${port}`; // New url
@@ -10,6 +10,8 @@ const ServerTile = ({ name, port }) => {
     const [totalSlots, setTotalSlots] = useState(0)
     const [occupiedSlots, setOccupiedSlots] = useState(0)
     const [refreshData, setRefreshData] = useState(true)
+
+    const [isStarted, setIsStarted] = useState(false)
 
     const handleFetching = async () => {
         return await fetch(url)
@@ -36,6 +38,11 @@ const ServerTile = ({ name, port }) => {
         setTotalSlots(total)
     }
 
+    // Temporary method to test the UI
+    const toggleStartStop = () => {
+        setIsStarted(!isStarted)
+    }
+
     useEffect(() => {
         if (refreshData) {
             handleAssignData()
@@ -45,19 +52,26 @@ const ServerTile = ({ name, port }) => {
       }, [])
 
     return (
-        <a href={serverUrl} target="_blank" rel="noreferrer" className='server'>
-            <Row className='mb-1 serverRow rounded text-neutral bg-base-300 align-text-bottom'>
-                <Col sm="2">
-                    <p className='field'>{port}</p>
-                </Col>
-                <Col sm="7">
-                    <h6 className='field'>{name}</h6>
-                </Col>
-                <Col sm="3">
-                    <p className='field text-end'>{occupiedSlots} / {totalSlots}</p>
-                </Col>
-            </Row>
-        </a>
+        <div className='p-2 my-2 grid grid-cols-serversGridContent gap-x-3 bg-base-300 rounded-lg'>
+            <span className="self-center">Id</span> {/* To be added probably from database */}
+            <span className="self-center">{name}</span>
+            <span className="self-center">{port}</span>
+            <span className="self-center">{occupiedSlots}/{totalSlots}</span>
+            <Button shape="square" color="ghost" size="sm" tag="a" href={serverUrl} target="_blank" rel="noreferrer">
+                <BoxArrowUpRight size={20}/>
+            </Button>
+            <Button shape="square" color="ghost" size="sm" onClick={toggleStartStop}>
+                { isStarted
+                ? <Stop size={32} className="text-error"/>
+                : <Play size={32} className="text-success"/> }
+            </Button>
+            <Button shape="square" color="ghost" size="sm">
+                <Pencil size={20}/>
+            </Button>
+            <Button shape="square" color="ghost" size="sm">
+                <Trash size={20} className="text-error"/>
+            </Button>
+        </div>
     )
 }
 

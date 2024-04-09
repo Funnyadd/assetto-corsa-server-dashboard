@@ -5,6 +5,14 @@ module.exports = {
     'node_modules/react-daisyui/dist/**/*.js',
   ],
   plugins: [require("daisyui")],
+  theme: {
+    extend: {
+      gridTemplateColumns: {
+        'serversGridContent': '30px 1fr 40px 50px repeat(4, 32px)',
+        'serversGridHeader': '30px 1fr 40px 50px 164px'
+      },
+    }
+  },
   daisyui: {
     themes: [
       "light",
