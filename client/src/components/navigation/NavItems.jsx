@@ -33,7 +33,8 @@ const NavItems = () => {
   
     return (
       <>
-        <Button color="ghost" className='text-lg'>Users</Button>
+        <Button tag="a" href="/" color="ghost" className='text-lg'>Servers</Button>
+        <Button tag="a" href="/users" color="ghost" className='text-lg'>Users</Button>
         <Dropdown end>
           <Dropdown.Toggle className="btn btn-ghost rounded-btn text-lg w-full" button={false}>
             Theme
@@ -71,7 +72,6 @@ const NavItems = () => {
             </div>
           </Dropdown.Menu>
         </Dropdown>
-        <Button color="ghost" className='text-lg'>Profile</Button>
         <Button color="ghost" className='text-lg text-error' onClick={handleLoggingOut}>Logout</Button>
         {/* <Dropdown end>
           <Button shape="square" color="ghost">

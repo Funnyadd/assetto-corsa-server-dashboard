@@ -2,7 +2,7 @@ import data from "../data.json";
 import Container from 'react-bootstrap/Container';
 import ServerTile from '../components/ServerTile';
 import NavBar from '../components/navigation/Nav';
-import { Button } from 'react-daisyui';
+import { Button, RadialProgress } from 'react-daisyui';
 
 function Servers() {
   const serverList = data
@@ -12,12 +12,13 @@ function Servers() {
       <NavBar/>
       <div className='flex flex-col items-center mt-6 mb-16'>
         <Container>
-          <div className='p-2 grid grid-cols-serversGridHeader gap-x-3 text-neutral bg-neutral-content rounded-lg'>
-            <span className="self-center">Id</span>
-            <span className="self-center">Name</span>
+          <div className='ps-3 pe-2 grid grid-cols-serversGridHeader gap-x-3'>
             <span className="self-center">Port</span>
+            <span className="self-center">Name</span>
             <span className="self-center">Slots</span>
-            <Button className="w-24 justify-self-end" size="sm" variant="outline" color="error">
+            <Button size="sm"></Button>
+            <Button size="sm"><RadialProgress value={100}>60</RadialProgress></Button>
+            <Button className="justify-self-end" size="sm" color="error">
               Stop All
             </Button>
           </div>

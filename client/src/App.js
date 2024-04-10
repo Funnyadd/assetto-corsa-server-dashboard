@@ -6,6 +6,7 @@ import Protected from './components/Protected';
 import Servers from './pages/Servers';
 import NotFound from './pages/NotFound';
 import ForgotPassword from './pages/ForgotPassword';
+import Users from './pages/Users';
 import { useEffect } from "react";
 
 function App() {
@@ -13,6 +14,10 @@ function App() {
     {
       path: "/",
       element: <Protected><Servers /></Protected>
+    },
+    {
+      path: "/users",
+      element: <Protected><Users /></Protected>
     },
     {
       path: "/login",

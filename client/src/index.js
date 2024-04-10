@@ -6,7 +6,6 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
-// document.getElementById('root').classList.add("bg-base-100")
 root.render(
   <React.StrictMode>
     <App />
