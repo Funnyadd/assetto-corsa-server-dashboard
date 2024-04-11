@@ -34,10 +34,29 @@ module.exports = () => {
   app.use('/user', userRoutes)
   app.use('/whitelist', whitelistRoutes)
 
-  // Handles requests on base url
-  app.use('/', async (req, res) => 
-    res.json({ message: "Hello from the Assetto Corssa Server Dashboard!" })
-  )
+  // TEMPORARY ADD to support old version while tests are made
+  app.use('/', async (req, res) => {
+    const port = req.query.port
+    console.log(`Request received for port ${port}`)
+
+    const url = `http://localhost:${port}/JSON%7C`;
+  
+    const jsonResponse = await fetch(url)
+    .then(res => res.json())
+    .catch(err => {
+      console.error(err)
+      return { status: 404, error: "No server running at this address" }
+    })
+
+    res.json(jsonResponse)
+    console.log("Response sent!")
+  })
+
+  // // Needs to be un commented when migration is done
+  // // Handles requests on base url
+  // app.use('/', async (req, res) => 
+  //   res.json({ message: "Hello from the Assetto Corssa Server Dashboard!" })
+  // )
 
   // ****** To be added later on (This is just a template/idea) *******
   // Handles page refresh on the client side

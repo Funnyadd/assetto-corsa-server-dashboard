@@ -9,7 +9,7 @@ const Users = () => {
             <h1 className='text-4xl text-center my-8 font-bold'>Users</h1>
             <div className=' mb-16 flex flex-wrap justify-center'>
                 <div className="overflow-x-auto">
-                    <Table zebra>
+                    <Table zebra size="lg">
                         <Table.Head>
                             <span />
                             <span>Steam Username</span>

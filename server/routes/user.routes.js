@@ -8,6 +8,9 @@ router.post("/add", authService.authenticate, userController.create);
 // Fetch all users
 router.get("/", authService.authenticate, userController.findAll);
 
+// Fetch one user
+router.get("/:id", authService.authenticate, userController.find);
+
 // Sends users modification 
 router.put(`/modify/:email`, authService.authenticate, userController.modifyUser);
 

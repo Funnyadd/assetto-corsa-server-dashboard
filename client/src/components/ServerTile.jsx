@@ -52,10 +52,10 @@ const ServerTile = ({ name, port }) => {
       }, [])
 
     return (
-        <div className={'p-2 my-2 grid grid-cols-serversGridContent gap-x-3 bg-base-300 rounded-box border-s-4 ' + (isStarted ? 'border-success' : 'border-error')}>
-            <span className="self-center">{port}</span>
-            <span className="self-center">{name}</span>
-            <span className="self-center">{occupiedSlots}/{totalSlots}</span>
+        <div className={'p-2 my-2 grid grid-cols-serversGridContent gap-x-3 items-center bg-base-300 rounded-box border-s-4 ' + (isStarted ? 'border-success' : 'border-error')}>
+            <span>{port}</span>
+            <span>{name}</span>
+            <span>{occupiedSlots}/{totalSlots}</span>
             <Button shape="square" color="ghost" size="sm" tag="a" href={serverUrl} target="_blank" rel="noreferrer">
                 <BoxArrowInRight size={20}/>
             </Button>
