@@ -1,5 +1,3 @@
-const firebaseAuth = require('firebase/auth')
-
 exports.authenticate = async (req, res, next) => {
     next()
     // console.log(req.headers)

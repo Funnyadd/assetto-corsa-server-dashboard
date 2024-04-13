@@ -2,6 +2,7 @@ module.exports = (db, DataTypes) => {
     const User = db.define("users", {
         id:{
             field: 'id',
+            primaryKey: true,
             type: DataTypes.INTEGER
         },
         firebaseUUID: {

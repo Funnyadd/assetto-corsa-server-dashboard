@@ -36,6 +36,7 @@ export const logout = async () => {
     })
 }
 
+// Should this be done on the server side directly by passing an API key to the assetto backend api?
 export const signup = async (email, password, steamUsername) => {
     return await createUserWithEmailAndPassword(auth, email, password)
     .then(user => {
@@ -58,7 +59,7 @@ export const forgotPassword = async (email) => {
     })
 }
 
-// Is this useful? Could maybe be deleted...
+// Like the signup method, could be in the assetto backend api maybe?
 export const deleteAccount = async () => {
     const user = auth.currentUser
 

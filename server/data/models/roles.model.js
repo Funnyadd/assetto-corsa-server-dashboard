@@ -2,6 +2,7 @@ module.exports = (db, DataTypes) => {
     const Role = db.define("roles", {
         id:{
             field: 'id',
+            primaryKey: true,
             type: DataTypes.INTEGER
         },
         name: {
@@ -9,8 +10,8 @@ module.exports = (db, DataTypes) => {
             type: DataTypes.TEXT
         },
     },
-    { underscore: true });
+    { underscore: true })
 
     // User.removeAttribute('id'); // Does this need to be there?
     return Role;
-};
+}

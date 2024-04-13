@@ -4,7 +4,7 @@ const ServerModel = database.servers;
 exports.getServerById = async (id, serverModel = ServerModel) => {
     return new Promise((resolve, reject) => {
         serverModel.findOne({
-            where: { id: id}
+            where: { id: id }
         })
         .then(async data => {
             if (data) resolve(data)

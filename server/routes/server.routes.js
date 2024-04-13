@@ -11,6 +11,9 @@ router.get("/:id", authService.authenticate, serverController.find);
 // Create a new server instance
 router.post("/add", authService.authenticate, serverController.add);
 
+// Update a server instance
+router.post("/edit", authService.authenticate, serverController.edit);
+
 // Start a server instance
 router.post("/start/:id", authService.authenticate, serverController.start)
 

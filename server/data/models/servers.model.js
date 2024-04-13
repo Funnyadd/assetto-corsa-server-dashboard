@@ -2,6 +2,7 @@ module.exports = (db, DataTypes) => {
     const Server = db.define("servers", {
         id:{
             field: 'id',
+            primaryKey: true,
             type: DataTypes.INTEGER
         },
         name: {

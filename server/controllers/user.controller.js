@@ -1,3 +1,5 @@
+const userService = require('../services/user.service');
+
 exports.create = async (req, res) => {
     return res.json({ message: "POST user /add endpoint" })
 }
