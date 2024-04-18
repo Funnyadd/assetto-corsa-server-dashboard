@@ -1,6 +1,14 @@
 const firebase = require('../firebaseConfig');
 const usersDao = require('../data/daos/users.dao');
 
+exports.getUserById = async (id) => {
+    return await usersDao.getUserById(id)
+}
+
+exports.getAllUsers = async () => {
+    return await usersDao.getAllUsers()
+}
+
 exports.createUser = async (user) => {
     const data = {
         email: user.email,
@@ -15,15 +23,25 @@ exports.createUser = async (user) => {
         },
         body: JSON.stringify(data),
     })
-    .then(response => {
+    .then(async response => {
+        let body = await response.json()
+
         if (!response.ok) {
-          throw new Error('Network response was not ok');
+            throw body.error
         }
-        const firebaseUser = response.json()
-        user,firebaseUUID = firebaseUser.localId
+        
+        user.firebaseUID = body.localId
         return usersDao.createUser(user)
     })
     .catch(error => {
-        console.error('Error:', error)
+        throw error
     })
+}
+
+exports.updateUser = async (user) => {
+    return usersDao.updateUser(user)
+}
+
+exports.deleteUser = async (id) => {
+    return usersDao.deleteUser(id)
 }

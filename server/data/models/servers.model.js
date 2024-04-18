@@ -30,8 +30,7 @@ module.exports = (db, DataTypes) => {
             type: DataTypes.BOOLEAN
         }
     },
-    { underscore: true });
+    { underscore: true })
 
-    // User.removeAttribute('id'); // Does this need to be there?
-    return Server;
-};
+    return Server
+}

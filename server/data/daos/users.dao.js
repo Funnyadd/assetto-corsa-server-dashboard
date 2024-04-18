@@ -53,12 +53,10 @@ exports.createUser = async (user, userModel = UserModel) => {
         userModel.create(user)
         .then(async data => {
             if (data) {
+                // Do i need to put some kind of role, isWhitelisted or id here?
                 resolve({
-                    id: data.dataValues.id,
-                    firebaseUUID: data.dataValues.firebaseUUID,
+                    firebaseUID: data.dataValues.firebaseUID,
                     steamUsername: data.dataValues.steamUsername,
-                    role: data.dataValues.role,
-                    isWhitelisted: data.dataValues.isWhitelisted
                 })
             }
             resolve(false)

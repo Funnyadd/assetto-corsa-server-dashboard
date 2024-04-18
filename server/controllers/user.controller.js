@@ -1,7 +1,40 @@
 const userService = require('../services/user.service');
 
+// Potnetially handle more errors like defined here
+// https://firebase.google.com/docs/reference/rest/auth#section-create-email-password
 exports.create = async (req, res) => {
-    return res.json({ message: "POST user /add endpoint" })
+    if (!req.body 
+        || !req.body.email
+        || !req.body.password
+        || !req.body.steamUsername
+    ) {
+        return res.status(400).send({
+            message: "Content cannot be empty."
+        })
+    }
+
+    const user = {
+        email: req.body.email,
+        password: req.body.password,
+        steamUsername: req.body.steamUsername
+    }
+
+    await userService.createUser(user)
+    .then(response => {
+        console.log(response)
+        return res.send({
+            message: "User created successfully.",
+            ...response
+        })
+    })
+    .catch(error => {
+        res.status(500).send({
+            error: error,
+            message: "An error occured when trying to create the user."
+        })
+    })
+   
+    // return res.json({ message: "POST user /add endpoint" })
 }
 
 exports.findAll = async (req, res) => {

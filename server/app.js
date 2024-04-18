@@ -1,5 +1,6 @@
 require("../config.js")
 const express = require('express')
+const bodyParser = require("body-parser");
 const filesRoutes = require('./routes/files.routes.js')
 const serverRoutes = require('./routes/server.routes')
 const userRoutes = require('./routes/user.routes')
@@ -7,6 +8,10 @@ const whitelistRoutes = require('./routes/whitelist.routes')
 
 module.exports = () => {
   const app = express()
+
+  // Parses the request body to json automatically
+  app.use(bodyParser.json())
+  app.use(bodyParser.urlencoded({ extended: true }))
 
   // Fixes the cors issues
   app.use((req, res, next) => {

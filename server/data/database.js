@@ -1,10 +1,11 @@
 const Sequelize = require("sequelize")
 
 // Load the configuration for the db from the env
-const db = new Sequelize(process.env.DATABASE_NAME, process.env.USERNAME, process.env.PASSWORD, {
+const db = new Sequelize(process.env.DATABASE_NAME, process.env.DATABASE_USERNAME, process.env.DATABASE_PASSWORD, {
     host: process.env.DATABASE_HOST || 'localhost',
     port: process.env.DATABASE_PORT,
-    dialect: 'postgres'
+    dialect: 'postgres',
+    define: { timestamps: false }
 })
 db.Sequelize = Sequelize
 

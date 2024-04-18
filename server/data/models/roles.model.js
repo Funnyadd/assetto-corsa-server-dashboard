@@ -12,6 +12,5 @@ module.exports = (db, DataTypes) => {
     },
     { underscore: true })
 
-    // User.removeAttribute('id'); // Does this need to be there?
-    return Role;
+    return Role
 }

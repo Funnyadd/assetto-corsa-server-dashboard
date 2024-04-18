@@ -1,13 +1,8 @@
 module.exports = (db, DataTypes) => {
     const User = db.define("users", {
-        id:{
-            field: 'id',
-            primaryKey: true,
-            type: DataTypes.INTEGER
-        },
-        firebaseUUID: {
-            field: 'firebase_uuid',
-            type: DataTypes.UUID
+        firebaseUID: {
+            field: 'firebase_uid',
+            type: DataTypes.TEXT
         },
         steamUsername: {
             field: 'steam_username',
@@ -22,8 +17,7 @@ module.exports = (db, DataTypes) => {
             type: DataTypes.BOOLEAN
         }
     },
-    { underscore: true });
+    { underscore: true })
 
-    // User.removeAttribute('id'); // Does this need to be there?
-    return User;
-};
+    return User
+}
