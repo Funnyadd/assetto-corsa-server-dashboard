@@ -1,6 +1,9 @@
 const firebase = require("../firebaseConfig")
 
 exports.authenticate = async (req, res, next) => {
+    // TODO: remove this eventually, this is for testing purposes
+    return next()
+
     if (req.headers.refreshToken) {
 
         const data = {
@@ -74,7 +77,4 @@ exports.authenticate = async (req, res, next) => {
     else {
         res.status(401).send("Unauthorized")
     }
-
-    // TODO: remove this eventually, this is for testing purposes
-    next()
 }

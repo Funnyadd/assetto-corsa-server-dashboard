@@ -9,18 +9,18 @@ const ServerTile = ({ server }) => {
 
     // Temporary method to test the UI
     const toggleStartStop = () => {
-        setIsStarted(!server.isStarted)
+        setIsStarted(!isStarted)
     }
 
     return (
-        <div className={'p-2 my-2 grid grid-cols-serversGridContent gap-x-3 items-center bg-base-300 rounded-box border-s-4 ' + (server.isStarted ? 'border-success' : 'border-error')}>
-            <span>{server.isStarted ? server.currentPort : "N/A"}</span>
+        <div className={'p-2 my-2 grid grid-cols-serversGridContent gap-x-3 items-center bg-base-300 rounded-box border-s-4 ' + (isStarted ? 'border-success' : 'border-error')}>
+            <span>{isStarted ? server.currentPort : "N/A"}</span>
             <span>{server.name}</span>
             <span>{server.occupiedSlots}/{server.totalSlots}</span>
             <Button shape="square" color="ghost" size="sm" tag="a" href={serverUrl} target="_blank" rel="noreferrer">
                 <BoxArrowInRight size={20}/>
             </Button>
-            <Button shape="square" color="ghost" size="sm" onClick={toggleStartStop} className={server.isStarted ? "hover:text-error" : "hover:text-success"}>
+            <Button shape="square" color="ghost" size="sm" onClick={toggleStartStop} className={isStarted ? "hover:text-error" : "hover:text-success"}>
                 { isStarted ? <Stop size={32}/> : <Play size={32}/> }
             </Button>
             <Button shape="square" color="ghost" size="sm" className="hover:text-warning">
