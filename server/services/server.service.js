@@ -2,22 +2,30 @@ const serversDao = require('../data/daos/servers.dao');
 
 exports.getServerById = async (id) => {
     return await serversDao.getServerById(id)
+    // getting occupied slots might need to be implemented or maybe it's not usefull info here
 }
 
 exports.getAllServers = async () => {
-    const servers = await serversDao.getAllServers()
-    await servers.forEach(server => {
-        if (server.isStarted) {
-            getServerJsonData(server.currentPort)
-            .then(serverData => {
-                server.occupiedSlots = getServerOccupiedSlots(serverData)
-            })
-        }
-        else {
-            server.occupiedSlots = 0
-        }
+    let servers = await serversDao.getAllServers()
+
+    let serversWithOccupiedSlots = await servers.map((server) => {
+        return new Promise((resolve) => {
+            if (server.isStarted) {
+                getServerJsonData(server.currentPort)
+                .then(serverData => {
+                    server.occupiedSlots = getServerOccupiedSlots(serverData)
+                    resolve(server)
+                })
+            }
+            else {
+                server.occupiedSlots = 0
+                resolve(server)
+            }
+        })
     })
-    return servers
+    
+    return Promise.all(serversWithOccupiedSlots)
+    .then(async serverList => serverList)
 }
 
 exports.updateServerInfo = async (server) => {
@@ -56,19 +64,19 @@ exports.deleteServer = async (id) => {
 
 
 const getServerJsonData = async (port) => {
-    const url = `${process.env.ASSETTO_SERVER_ENDPOINT}:${port}/JSON%7C`;
+    const url = `${process.env.ASSETTO_SERVER_INFO_ENDPOINT}:${port}/JSON%7C`;
 
     return await fetch(url)
     .then(res => res.json())
     .catch(err => {
         console.error(err)
-        return { status: 404, error: `No server running on port ${port}` }
+        throw { status: 404, error: `No server running on port ${port}` }
     })
 }
 
-const getServerOccupiedSlots = async (data) => {
+const getServerOccupiedSlots = (data) => {
     let cars = []
-    if (data !== undefined) cars = data.Cars
+    if (data && data.Cars) cars = data.Cars
 
     let occupiedSlots = 0
     cars.forEach(car => {

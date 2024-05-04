@@ -1,7 +1,16 @@
 const serverService = require('../services/server.service');
 
 exports.findAll = async (req, res) => {
-    return res.json({ message: "GET server / endpoint" })
+    await serverService.getAllServers()
+    .then(response => {
+        return res.send(response)
+    })
+    .catch(error => {
+        return res.status(500).send({
+            error: error,
+            message: "An error occured when trying to get all servers."
+        })
+    })
 }
 
 exports.find = async (req, res) => {

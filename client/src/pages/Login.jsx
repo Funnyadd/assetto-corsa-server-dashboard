@@ -36,6 +36,7 @@ const LoginForm = () => {
     const [error, setError] = useState("")
     const [validationError, setValidationError] = useState(false)
     const [confirmationAlert, setConfirmationAlert] = useState("")
+    const [informationAlert, setInformationAlert] = useState("");
 
     const [createModalActivated, setCreateModalActivated] = useState(false)
 
@@ -88,8 +89,9 @@ const LoginForm = () => {
 
     useEffect(() => {
         if (queryParameters.has("forgotPasswordConfirmation")) {
-            setConfirmationAlert(forgotPasswordConfirmationMessage)
+            setInformationAlert(forgotPasswordConfirmationMessage)
             setError("")
+            setConfirmationAlert("")
             setEmail(queryParameters.get("forgotPasswordConfirmation"))
             setQueryParameters("")
         }
@@ -97,6 +99,7 @@ const LoginForm = () => {
         if (queryParameters.has("loggedOut")) {
             setConfirmationAlert(loggedOutConfirmationMessage)
             setError("")
+            setInformationAlert("")
             setQueryParameters("")
         }
     }, [queryParameters, setQueryParameters])
@@ -122,7 +125,7 @@ const LoginForm = () => {
                             ?
                             <Alert status="error" className="mb-4">
                                 {/* Error icon */}
-                                <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                                 <span>{error}</span>
                             </Alert> 
                             :
@@ -133,8 +136,19 @@ const LoginForm = () => {
                             ?
                             <Alert status="success" className="mb-3">
                                 {/* Confirmmation icon */}
-                                <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                                 <span>{confirmationAlert}</span>
+                            </Alert>
+                            :
+                            <></>
+                        }
+                        {
+                            informationAlert.length > 0
+                            ?
+                            <Alert status="info" className="mb-3">
+                                {/* TODO: HANGE ICON */}
+                                <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                                <span>{informationAlert}</span>
                             </Alert>
                             :
                             <></>

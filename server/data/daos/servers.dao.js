@@ -1,6 +1,7 @@
 const database = require("../database");
 const ServerModel = database.servers;
 
+// Untested
 exports.getServerById = async (id, serverModel = ServerModel) => {
     return new Promise((resolve, reject) => {
         serverModel.findOne({
@@ -50,6 +51,7 @@ exports.getAllServers = async (serverModel = ServerModel) => {
     })
 }
 
+// Untested
 exports.createServer = async (server, serverModel = ServerModel) => {
     return new Promise((resolve, reject) => {
         serverModel.create(server)
@@ -74,6 +76,7 @@ exports.createServer = async (server, serverModel = ServerModel) => {
     })
 }
 
+// Untested
 exports.updateServer = async (server, serverModel = ServerModel) => {
     return new Promise((resolve, reject) => {
         serverModel.update(server,
@@ -94,6 +97,7 @@ exports.updateServer = async (server, serverModel = ServerModel) => {
     })
 }
 
+// Untested
 exports.deleteServer = async (id, serverModel = ServerModel) => {
     return new Promise((resolve, reject) => {
         serverModel.destroy({ where: { id: id } })

@@ -1,6 +1,6 @@
 import { initializeApp } from 'firebase/app'
+import Axios from 'axios'
 import {
-    createUserWithEmailAndPassword,
     deleteUser,
     getAuth,
     signInWithEmailAndPassword,
@@ -22,40 +22,31 @@ initializeApp(firebaseConfig)
 
 const auth = getAuth()
 
+Axios.defaults.withCredentials = true
+
 export const login = async (email, password) => {
     await signInWithEmailAndPassword(auth, email, password)
-    .catch((error) => {
-        console.error(error)
+    .catch(error => {
+        throw error
     })
 }
 
 export const logout = async () => {
     return await signOut(auth)
-    .catch((error) => {
+    .catch(error => {
         throw error
     })
 }
 
-// Should this be done on the server side directly by passing an API key to the assetto backend api?
 export const signup = async (email, password, steamUsername) => {
-    return await createUserWithEmailAndPassword(auth, email, password)
-    .then(userCredentials => {
-        fetch(`${process.env.REACT_APP_BACKEND_API_URL}/user/add`, { 
-            method: "POST",
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-              },
-            body: JSON.stringify({
-                firebaseUUID: userCredentials.user.uid,
-                steamUsername: steamUsername
-            }) 
-        })
-        .catch(error => {
-            throw error
-        })
-    })
-    .catch((error) => {
+    const data = {
+        email: email,
+        password: password,
+        steamUsername: steamUsername
+    }
+
+    Axios.post(`${process.env.REACT_APP_BACKEND_API_URL}/user`, data)
+    .catch(error => {
         throw error
     })
 }
@@ -67,12 +58,16 @@ export const forgotPassword = async (email) => {
     })
 }
 
-// Like the signup method, could be in the assetto backend api maybe?
+// Is this useful? Could maybe be deleted...
 export const deleteAccount = async () => {
     const user = auth.currentUser
 
     await deleteUser(user)
-    .catch((error) => {
-        console.error(error)
+    // .then can be deleted or modified in the future for better feedback
+    .then(deletedUser => {
+        console.log("deleted user successfully : " + deletedUser)
+    })
+    .catch(error => {
+        throw error
     })
 }

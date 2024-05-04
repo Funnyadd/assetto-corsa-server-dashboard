@@ -17,11 +17,12 @@ db.users = require('./models/users.model')(db, Sequelize.DataTypes)
 // Configure relationships
 // Not sure of this implementation, if ever there's an issue, here is the doc:
 // https://sequelize.org/docs/v6/core-concepts/assocs/
-db.users.hasOne(db.roles, {
-    foreignKey: { name: 'role_id' }
-})
-db.roles.belongsTo(db.users, {
-    as: 'role'
-})
+// TODO: Learn how to user associations and remove role dao
+// db.users.hasOne(db.roles, {
+//     foreignKey: { name: 'role_id' }
+// })
+// db.roles.belongsTo(db.users, {
+//     as: 'role'
+// })
 
 module.exports = db

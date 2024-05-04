@@ -13,12 +13,11 @@ const RegisterForm = ({ registrationHandler }) => {
 
     const emailAlreadyInUseErrorMessage = "An account already exists with this email, please login"
     const internalErrorMessage = "Error while trying to call the server. Please try again later"
-    const tooManyRequestsErrorMessage = "Acces to your account temporarily deactivated due to the amount of failed connection tries. Please try again later."
+    const tooManyRequestsErrorMessage = "Access to your account temporarily deactivated due to the amount of failed connection tries. Please try again later."
     const unexpectedErrorMessage = "Unexpected server error..."
 
     const [email, setEmail] = useState("")
     const [steamUsername, setSteamUsername] = useState("")
-    const [roleCode, setRoleCode] = useState("")
     const [password, setPassword] = useState("")
     const [passwordConfirmation, setPasswordConfirmation] = useState("")
 

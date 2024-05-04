@@ -3,7 +3,7 @@ const userController = require("../controllers/user.controller");
 const authService = require('../services/auth.service');
 
 // Create new User
-router.post("/add", authService.authenticate, userController.create);
+router.post("/", userController.create);
 
 // Fetch all users
 router.get("/", authService.authenticate, userController.findAll);
@@ -12,9 +12,9 @@ router.get("/", authService.authenticate, userController.findAll);
 router.get("/:id", authService.authenticate, userController.find);
 
 // Sends users modification 
-router.put(`/modify/:email`, authService.authenticate, userController.modifyUser);
+router.put(`/`, authService.authenticate, userController.modifyUser);
 
 // Delete a user
-router.delete("/delete/:email", authService.authenticate, userController.deleteUser);
+router.delete("/:id", authService.authenticate, userController.deleteUser);
 
 module.exports = router;

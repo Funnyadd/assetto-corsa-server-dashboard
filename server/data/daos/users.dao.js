@@ -7,7 +7,7 @@ exports.getUserById = async (id, userModel = UserModel) => {
             where: { id: id }
         })
         .then(async data => {
-            if (data) resolve(data)
+            if (data) resolve(data.dataValues)
             resolve(false)
         })
         .catch(err => {
@@ -28,9 +28,10 @@ exports.getAllUsers = async (userModel = UserModel) => {
                 for (let u = 0; u < data.length; u++) {
                     returnData.push({
                         id: data[u].dataValues.id,
-                        firebaseUUID: data[u].dataValues.firebaseUUID,
+                        firebaseUID: data[u].dataValues.firebaseUID,
+                        email: data[u].dataValues.email,
                         steamUsername: data[u].dataValues.steamUsername,
-                        role: data[u].dataValues.role,
+                        roleId: data[u].dataValues.roleId,
                         isWhitelisted: data[u].dataValues.isWhitelisted
                     })
                 }
@@ -53,10 +54,10 @@ exports.createUser = async (user, userModel = UserModel) => {
         userModel.create(user)
         .then(async data => {
             if (data) {
-                // Do i need to put some kind of role, isWhitelisted or id here?
                 resolve({
                     firebaseUID: data.dataValues.firebaseUID,
                     steamUsername: data.dataValues.steamUsername,
+                    email: data.dataValues.email,
                 })
             }
             resolve(false)

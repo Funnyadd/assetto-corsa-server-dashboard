@@ -4,6 +4,10 @@ module.exports = (db, DataTypes) => {
             field: 'firebase_uid',
             type: DataTypes.TEXT
         },
+        email: {
+            field: 'email',
+            type: DataTypes.TEXT
+        },
         steamUsername: {
             field: 'steam_username',
             type: DataTypes.TEXT
