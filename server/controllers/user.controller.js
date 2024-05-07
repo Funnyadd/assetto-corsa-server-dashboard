@@ -66,7 +66,7 @@ exports.find = async (req, res) => {
     .catch(error => {
         return res.status(500).send({
             error: error,
-            message: "An error occured when trying to get all users."
+            message: "An error occured when trying to get the user."
         })
     })
 }
@@ -76,7 +76,9 @@ exports.modifyUser = async (req, res) => {
     if (!req.body 
         || !req.body.id
         || !req.body.email
+        || !req.body.password
         || !req.body.steamUsername
+        || !req.body.roleId
         || !req.body.isWhitelisted
     ) {
         return res.status(400).send({
@@ -87,7 +89,9 @@ exports.modifyUser = async (req, res) => {
     const user = {
         id: req.body.id,
         email: req.body.email,
+        password: req.body.password,
         steamUsername: req.body.steamUsername,
+        roleId: req.body.roleId,
         isWhitelisted: req.body.isWhitelisted
     }
 
@@ -98,7 +102,7 @@ exports.modifyUser = async (req, res) => {
     .catch(error => {
         return res.status(500).send({
             error: error,
-            message: "An error occured when trying to modify the users."
+            message: "An error occured when trying to modify the user."
         })
     })
 }

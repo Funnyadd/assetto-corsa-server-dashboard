@@ -2,7 +2,7 @@ const firebase = require("../firebaseConfig")
 
 exports.authenticate = async (req, res, next) => {
     // TODO: remove this eventually, this is for testing purposes
-    return next()
+    // return next()
 
     if (req.headers.refreshToken) {
 
@@ -11,7 +11,7 @@ exports.authenticate = async (req, res, next) => {
             refresh_token: req.headers.refreshToken
         }
 
-        await fetch(firebase.exchangeRefreshToken, {
+        await fetch(firebase.exchangeRefreshTokenUrl, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -21,7 +21,7 @@ exports.authenticate = async (req, res, next) => {
         .then(async response => {
             let body = await response.json()
     
-            // Needs more things like a way to un signin the user if token expired from the interface
+            // Needs more things like a way to signout the user if token expired from the interface
             // *******
 
             if (!response.ok) {
@@ -36,7 +36,7 @@ exports.authenticate = async (req, res, next) => {
             next()
         })
         .catch(error => {
-            res.status(500).send(error)
+            res.status(error.status).send(error)
         })
     }
     else if (req.headers.authorization) {
@@ -45,11 +45,11 @@ exports.authenticate = async (req, res, next) => {
     
         const data = {
             email: decodedAuth.split(":")[0],
-            email: decodedAuth.split(":")[1],
+            password: decodedAuth.split(":")[1],
             returnSecureToken: true
         }
     
-        await fetch(firebase.signInWithEmailPassword, {
+        await fetch(firebase.signInWithEmailPasswordUrl, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -71,7 +71,7 @@ exports.authenticate = async (req, res, next) => {
             next()
         })
         .catch(error => {
-            res.status(500).send(error)
+            res.status(error.status).send(error)
         })
     }
     else {
