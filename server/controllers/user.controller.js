@@ -26,8 +26,8 @@ exports.create = async (req, res) => {
     })
     .catch(error => {
         if (error.code) {
-            return res.status(error.status).send({
-                status: error.status,
+            return res.status(400).send({
+                status: 400,
                 code: error.code,
                 message: error.message
             })
@@ -75,8 +75,8 @@ exports.find = async (req, res) => {
 exports.modifyUser = async (req, res) => {
     if (!req.body 
         || !req.body.id
+        || !req.body.firebaseUID
         || !req.body.email
-        || !req.body.password
         || !req.body.steamUsername
         || !req.body.roleId
         || !req.body.isWhitelisted
@@ -88,8 +88,8 @@ exports.modifyUser = async (req, res) => {
 
     const user = {
         id: req.body.id,
+        firebaseUID: req.body.firebaseUID,
         email: req.body.email,
-        password: req.body.password,
         steamUsername: req.body.steamUsername,
         roleId: req.body.roleId,
         isWhitelisted: req.body.isWhitelisted
@@ -109,13 +109,13 @@ exports.modifyUser = async (req, res) => {
 
 // Finish errors like 404 (verify return messages from firebase and show them to user)
 exports.deleteUser = async (req, res) => {
-    if (!req.params.id) {
+    if (!req.params.uid) {
         return res.status(400).send({
-            message: "Id cannot be empty."
+            message: "firebaseUID cannot be empty."
         })
     }
 
-    await userService.deleteUser(req.params.id)
+    await userService.deleteUser(req.params.uid)
     .then(response => {
         if (response)
             return res.send({ message: "User delete successfully" })

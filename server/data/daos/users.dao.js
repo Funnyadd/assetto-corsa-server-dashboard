@@ -55,9 +55,12 @@ exports.createUser = async (user, userModel = UserModel) => {
         .then(async data => {
             if (data) {
                 resolve({
+                    id: data.dataValues.id,
                     firebaseUID: data.dataValues.firebaseUID,
                     steamUsername: data.dataValues.steamUsername,
                     email: data.dataValues.email,
+                    roleId: data.dataValues.roleId,
+                    isWhitelisted: data.dataValues.isWhitelisted,
                 })
             }
             resolve(false)
@@ -79,7 +82,17 @@ exports.updateUser = async (user, userModel = UserModel) => {
             individualHooks: true
         })
         .then(async data => {
-            resolve(data ? true : false)
+            if (data) {
+                resolve({
+                    id: data[1][0].dataValues.id,
+                    firebaseUID: data[1][0].dataValues.firebaseUID,
+                    steamUsername: data[1][0].dataValues.steamUsername,
+                    roleId: data[1][0].dataValues.roleId,
+                    email: data[1][0].dataValues.email,
+                    isWhitelisted: data[1][0].dataValues.isWhitelisted,
+                })
+            }
+            resolve(false)
         })
         .catch(err => {
             reject({
@@ -91,9 +104,9 @@ exports.updateUser = async (user, userModel = UserModel) => {
     })
 }
 
-exports.deleteUser = async (id, userModel = UserModel) => {
+exports.deleteUser = async (uid, userModel = UserModel) => {
     return new Promise((resolve, reject) => {
-        userModel.destroy({ where: { id: id } })
+        userModel.destroy({ where: { firebaseUID: uid } })
         .then(async data => {
             resolve(data ? true : false)
         })

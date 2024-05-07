@@ -8,25 +8,10 @@ const baseUrl = "https://identitytoolkit.googleapis.com/v1/accounts:"
 
 const firebaseAdmin = admin.initializeApp({
     credential: admin.credential.cert(serviceAccount)
-  });
+})
 
 module.exports = {
     adminAuth: getAuth(firebaseAdmin),
-
-    // ***** TEST FIREABASE ADMIN SDK AND MIGRATE FROM REST API IF IT WORKS ****
-
-    /** 
-     * https://firebase.google.com/docs/reference/rest/auth#section-create-email-password
-     */
-    signupUrl: `${baseUrl}signUp?key=${process.env.API_KEY}`,
-    /**
-     * https://firebase.google.com/docs/reference/rest/auth#section-change-email
-     */
-    changeEmailUrl: `${baseUrl}update?key=${process.env.API_KEY}`,
-    /**
-     * https://firebase.google.com/docs/reference/rest/auth#section-delete-account
-     */
-    deleteUrl: `${baseUrl}delete?key=${process.env.API_KEY}`,
     /**
      * https://firebase.google.com/docs/reference/rest/auth#section-sign-in-email-password
      */

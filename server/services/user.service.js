@@ -5,11 +5,11 @@ const rolesDao = require('../data/daos/roles.dao');
 exports.getUserById = async (id) => {
     const user = await usersDao.getUserById(id)
     return await rolesDao.getRoleById(user.roleId)
-        .then(role => {
-            user.role = role.name
-            delete user.roleId
-            return user
-        })
+    .then(role => {
+        user.role = role.name
+        delete user.roleId
+        return user
+    })
 }
 
 exports.getAllUsers = async () => {
@@ -25,83 +25,40 @@ exports.getAllUsers = async () => {
 }
 
 exports.createUser = async (user) => {
-    const data = {
+    return await firebase.adminAuth.createUser({
         email: user.email,
         password: user.password,
-        returnSecureToken: true
-    }
-
-    return await fetch(firebase.signupUrl, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
     })
-    .then(async response => {
-        let body = await response.json()
-
-        if (!response.ok) {
-            throw {
-                status: body.error.code,
-                code: body.error.message,
-                message: firebase.errors[body.error.message]
-            }
-        }
-        
-        user.firebaseUID = body.localId
+    .then(userRecord => {
+        user.firebaseUID = userRecord.uid
         return usersDao.createUser(user)
     })
     .catch(error => {
-        throw error
+        throw error.errorInfo
     })
 }
 
 exports.updateUser = async (user) => {
-    const originalUserInfo = await this.getUserById(user.id)
-
-    await usersDao.updateUser(user)
-    .catch(error => {
-        throw error
+    return await firebase.adminAuth.updateUser(user.firebaseUID, {
+        email: user.email
     })
-
-    if (originalUserInfo.email != user.email) {
-        const idToken = await getUserIdToken(originalUserInfo.email, user.password)
-
-        const data = {
-            email: user.email,
-            idToken: idToken,
-            returnSecureToken: true
-        }
-
-        await fetch(firebase.changeEmailUrl, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data),
-        })
-        .then(async response => {
-            let body = await response.json()
-
-            if (!response.ok) {
-                // If error, revert action in database to stay synced firebase
-                await usersDao.updateUser(originalUserInfo)
-                throw {
-                    status: body.error.code,
-                    code: body.error.message,
-                    message: firebase.errors[body.error.message]
-                }
-            }
-        })
-        .catch(error => {
-            throw error
-        })
-    }
+    .then(() => {
+        return usersDao.updateUser(user)
+    })
+    .catch(error => {
+        throw error.errorInfo
+    })
 }
 
-// !!! THIS IS NOT WORKING !!!
-exports.deleteUser = async (id) => {
+exports.deleteUser = async (uid) => {
+    return await firebase.adminAuth.deleteUser(uid)
+    .then(() => {
+        return usersDao.deleteUser(uid)
+    })
+    .catch(error => {
+        throw error.errorInfo
+    })
+    
     const user = await this.getUserById(id)
     const idToken = await getUserIdToken(user.email, user.password)
 
