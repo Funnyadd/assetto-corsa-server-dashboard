@@ -69,6 +69,7 @@ const getServerJsonData = async (port) => {
     return await fetch(url)
     .then(res => res.json())
     .catch(err => {
+        // TODO:  Maybe redo this error handling if `err` contains important information for the user
         console.error(err)
         throw { status: 404, error: `No server running on port ${port}` }
     })
