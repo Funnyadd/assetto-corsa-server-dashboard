@@ -1,4 +1,5 @@
 const serversDao = require('../data/daos/servers.dao');
+const { startServerScript, stopServerScript } = require('../scripts');
 
 exports.getServerById = async (id) => {
     return await serversDao.getServerById(id)
@@ -35,33 +36,49 @@ exports.updateServerInfo = async (server) => {
 exports.startServer = async (id) => {
     let server = await serversDao.getServerById(id)
 
-    // execute start script for server
+    if (server) {
+        // execute start script for server
+        startServerScript(server)
 
-    // if server is started
-    server.isStarted = true
-
-    return await serversDao.updateServer(server)
+        return await serversDao.updateServer(server)
+    }
+    else {
+        throw { status: 404, message: "Server doesn't exist" }
+    }
 }
 
 exports.stopServer = async (id) => {
     let server = await serversDao.getServerById(id)
 
-    // execute stop script for server
+    if (server) {
+        // execute stop script for server
+        stopServerScript(server)
 
-    // if server is stopped
-    server.isStarted = false
-
-    return await serversDao.updateServer(server)
+        return await serversDao.updateServer(server)
+    }
+    else {
+        throw { status: 404, message: "Server doesn't exist" }  
+    }
 }
 
 exports.stopAllServers = async () => {
-    // execute killall servers script
+    let serverList = await serversDao.getAllServers()
+
+    try {
+        await serverList.map((server) => {
+            if (server.isStarted) {
+                this.stopServer(server.id)
+            }
+        })
+    }
+    catch (error) {
+        throw error
+    }
 }
 
 exports.deleteServer = async (id) => {
     return await serversDao.deleteServer(id)
 }
-
 
 const getServerJsonData = async (port) => {
     const url = `${process.env.ASSETTO_SERVER_INFO_ENDPOINT}:${port}/JSON%7C`;

@@ -1,6 +1,8 @@
 const firebase = require("../firebaseConfig")
 
 exports.authenticate = async (req, res, next) => {
+    return next()
+    
     if (req.headers.refreshToken) {
 
         const data = {

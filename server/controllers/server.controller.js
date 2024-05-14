@@ -33,13 +33,55 @@ exports.edit = async (req, res) => {
 }
 
 exports.start = async (req, res) => {
-    return res.json({ message: "POST server /start endpoint" })
+    if (!req.params.id) {
+        return res.status(400).send({
+            message: "Id cannot be empty."
+        })
+    }
+
+    await serverService.startServer(req.params.id)
+    .then(response => {
+        return res.send(response)
+    })
+    .catch(error => {
+        let status = error.status ? error.status : 500
+        return res.status(status).send({
+            error: error,
+            message: "An error occured when trying to start the server."
+        })
+    })
 }
 
 exports.stop = async (req, res) => {
-    return res.json({ message: "POST server /stop endpoint" })
+    if (!req.params.id) {
+        return res.status(400).send({
+            message: "Id cannot be empty."
+        })
+    }
+
+    await serverService.stopServer(req.params.id)
+    .then(response => {
+        return res.send(response)
+    })
+    .catch(error => {
+        let status = error.status ? error.status : 500
+        return res.status(status).send({
+            error: error,
+            message: "An error occured when trying to stop the server."
+        })
+    })
 }
 
 exports.stopAll = async (req, res) => {
-    return res.json({ message: "POST server /stopAll endpoint" })
+    await serverService.stopAllServers()
+    .then(response => {
+        return res.send(response)
+    })
+    .catch(error => {
+        let status = error.status ? error.status : 500
+        return res.status(status).send({
+            error: error,
+            message: "An error occured when trying to stop the server."
+        })
+    })
 }

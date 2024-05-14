@@ -8,7 +8,7 @@ exports.getServerById = async (id, serverModel = ServerModel) => {
             where: { id: id }
         })
         .then(async data => {
-            if (data) resolve(data)
+            if (data) resolve(data.dataValues)
             resolve(false)
         })
         .catch(err => {
@@ -34,7 +34,7 @@ exports.getAllServers = async (serverModel = ServerModel) => {
                         isStarted: data[s].dataValues.isStarted,
                         totalSlots: data[s].dataValues.totalSlots,
                         hasTraffic: data[s].dataValues.hasTraffic,
-                        hasCspServer: data[s].dataValues.hasCspServer
+                        hasCspServer: data[s].dataValues.hasCspServer,
                     })
                 }
                 resolve(returnData)
@@ -76,7 +76,6 @@ exports.createServer = async (server, serverModel = ServerModel) => {
     })
 }
 
-// Untested
 exports.updateServer = async (server, serverModel = ServerModel) => {
     return new Promise((resolve, reject) => {
         serverModel.update(server,
@@ -85,7 +84,18 @@ exports.updateServer = async (server, serverModel = ServerModel) => {
             individualHooks: true
         })
         .then(async data => {
-            resolve(data ? true : false)
+            if (data) {
+                resolve({
+                    id: data[1][0].dataValues.id,
+                    name: data[1][0].dataValues.name,
+                    currentPort: data[1][0].dataValues.currentPort,
+                    isStarted: data[1][0].dataValues.isStarted,
+                    totalSlots: data[1][0].dataValues.totalSlots,
+                    hasTraffic: data[1][0].dataValues.hasTraffic,
+                    hasCspServer: data[1][0].dataValues.hasCspServer,
+                })
+            }
+            resolve(false)
         })
         .catch(err => {
             reject({
