@@ -1,5 +1,10 @@
 const serversDao = require('../data/daos/servers.dao');
-const { startServerScript, stopServerScript } = require('../scripts');
+const { 
+    getActiveScreenList,
+    startServerScript,
+    stopServerScript,
+    getShortServerName
+} = require('../scripts');
 
 exports.getServerById = async (id) => {
     return await serversDao.getServerById(id)
@@ -9,6 +14,21 @@ exports.getServerById = async (id) => {
 exports.getAllServers = async () => {
     let servers = await serversDao.getAllServers()
 
+    let activeServers = await getActiveScreenList()
+
+    // Sync up the servers
+    servers.forEach(async server => {
+        if (activeServers.includes(getShortServerName(server.name)) && !server.isStarted) {
+            server.isStarted = true
+            await serversDao.updateServer(server)
+        }
+        else if (!activeServers.includes(getShortServerName(server.name)) && server.isStarted) {
+            server.isStarted = false
+            await serversDao.updateServer(server)
+        }
+    })
+
+    // Add occupied slots
     let serversWithOccupiedSlots = await servers.map((server) => {
         return new Promise((resolve) => {
             if (server.isStarted) {
@@ -26,7 +46,7 @@ exports.getAllServers = async () => {
     })
     
     return Promise.all(serversWithOccupiedSlots)
-    .then(async serverList => serverList)
+    .then(async serverList => serverList.sort((a, b) => a.id - b.id))
 }
 
 exports.updateServerInfo = async (server) => {
@@ -37,7 +57,6 @@ exports.startServer = async (id) => {
     let server = await serversDao.getServerById(id)
 
     if (server) {
-        // execute start script for server
         startServerScript(server)
 
         return await serversDao.updateServer(server)
@@ -51,7 +70,6 @@ exports.stopServer = async (id) => {
     let server = await serversDao.getServerById(id)
 
     if (server) {
-        // execute stop script for server
         stopServerScript(server)
 
         return await serversDao.updateServer(server)

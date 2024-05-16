@@ -3,12 +3,12 @@ const whitelistController = require("../controllers/whitelist.controller");
 const authService = require('../services/auth.service');
 
 // Add one or more username to the whitelist
-router.post("/", authService.authenticate, whitelistController.add);
+router.post("/", authService.authenticate, whitelistController.add)
 
 // Fetch all usernames from the whitelist
-router.get("/", authService.authenticate, whitelistController.findAll);
+router.get("/", authService.authenticate, whitelistController.findAll)
 
 // Delete a username from the whitelist
-router.delete("/delete/:username", authService.authenticate, whitelistController.delete);
+router.delete("/delete/:username", authService.authenticate, whitelistController.delete)
 
-module.exports = router;
+module.exports = router
