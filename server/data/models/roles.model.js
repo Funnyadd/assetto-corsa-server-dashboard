@@ -1,6 +1,6 @@
 module.exports = (db, DataTypes) => {
     const Role = db.define("roles", {
-        id:{
+        id: {
             field: 'id',
             primaryKey: true,
             type: DataTypes.INTEGER
