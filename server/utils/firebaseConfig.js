@@ -1,7 +1,7 @@
-require("../config.js");
+require("../../config.js");
 const admin = require("firebase-admin");
 const { getAuth } = require('firebase-admin/auth');
-const serviceAccount = require("./assetto-corsa-server-dashboard-firebase-adminsdk.json");
+const serviceAccount = require("../assetto-corsa-server-dashboard-firebase-adminsdk.json");
 
 const baseUrl = "https://identitytoolkit.googleapis.com/v1/accounts:"
 

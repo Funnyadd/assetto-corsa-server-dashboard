@@ -1,13 +1,13 @@
-const firebase = require("../firebaseConfig")
+const firebase = require("../utils/firebaseConfig")
+const { getUserByUID } = require("./user.service")
 
 exports.authenticate = async (req, res, next) => {
-    return next()
+    // return next()
     
-    if (req.headers.refreshToken) {
-
+    if (req.headers.refreshtoken) {
         const data = {
             grant_type: "refresh_token",
-            refresh_token: req.headers.refreshToken
+            refresh_token: req.headers.refreshtoken
         }
 
         await fetch(firebase.exchangeRefreshTokenUrl, {
@@ -19,7 +19,7 @@ exports.authenticate = async (req, res, next) => {
         })
         .then(async response => {
             let body = await response.json()
-    
+
             // Needs more things like a way to signout the user if token expired from the interface
             // *******
 
@@ -30,9 +30,13 @@ exports.authenticate = async (req, res, next) => {
                     message: firebase.errors[body.error.message]
                 }
             }
-            next()
+            await getUserRoleAndContinue(res, next, body.user_id)
         })
         .catch(error => {
+            console.log(error + " : " + typeof error.status)
+            if (typeof error.status == "string") {
+                error.status = 400
+            }
             res.status(error.status).send(error)
         })
     }
@@ -63,7 +67,7 @@ exports.authenticate = async (req, res, next) => {
                     message: firebase.errors[body.error.message]
                 }
             }
-            next()
+            await getUserRoleAndContinue(res, next, body.localId)
         })
         .catch(error => {
             res.status(error.status).send(error)
@@ -72,4 +76,10 @@ exports.authenticate = async (req, res, next) => {
     else {
         res.status(401).send("Unauthorized")
     }
+}
+
+const getUserRoleAndContinue = async (res, next, uid) => {
+    const user = await getUserByUID(uid)
+    res.locals.roleId = user.roleId
+    next()
 }

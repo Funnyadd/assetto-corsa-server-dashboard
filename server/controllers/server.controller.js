@@ -1,6 +1,8 @@
 const serverService = require('../services/server.service');
+const { hasPermission } = require('../utils/utils');
 
 exports.findAll = async (req, res) => {
+    hasPermission(res, 3)
     await serverService.getAllServers()
     .then(response => {
         return res.send(response)
@@ -14,6 +16,8 @@ exports.findAll = async (req, res) => {
 }
 
 exports.find = async (req, res) => {
+    hasPermission(res, 3)
+
     const id = req.params.id
 
     const jsonResponse = await serverService.getServerById(id)
@@ -25,14 +29,20 @@ exports.find = async (req, res) => {
 }
 
 exports.add = async (req, res) => {
-    return res.json({ message: "POST server /add endpoint" })
+    hasPermission(res, 2)
+
+    return res.json({ endpoint: "POST server /add", message: "Not implemented yet" })
 }
 
 exports.edit = async (req, res) => {
-    return res.json({ message: "PUT server /edit endpoint" })
+    hasPermission(res, 2)
+
+    return res.json({ message: "PUT server /edit", message: "Not implemented yet" })
 }
 
 exports.start = async (req, res) => {
+    hasPermission(res, 2)
+
     if (!req.params.id) {
         return res.status(400).send({
             message: "Id cannot be empty."
@@ -53,6 +63,8 @@ exports.start = async (req, res) => {
 }
 
 exports.stop = async (req, res) => {
+    hasPermission(res, 2)
+
     if (!req.params.id) {
         return res.status(400).send({
             message: "Id cannot be empty."
@@ -73,6 +85,8 @@ exports.stop = async (req, res) => {
 }
 
 exports.stopAll = async (req, res) => {
+    hasPermission(res, 2)
+
     await serverService.stopAllServers()
     .then(response => {
         return res.send(response)

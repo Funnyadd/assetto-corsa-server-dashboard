@@ -1,10 +1,15 @@
 const database = require("../database");
 const UserModel = database.users;
 
-exports.getUserById = async (id, userModel = UserModel) => {
+exports.getUserByUniqueIdentidier = async (id, isUID, userModel = UserModel) => {
+    let whereObject = { id: id }
+    if (isUID) {
+        whereObject = { firebaseUID: id }
+    }
+    
     return new Promise((resolve, reject) => {
         userModel.findOne({
-            where: { id: id }
+            where: whereObject
         })
         .then(async data => {
             if (data) resolve(data.dataValues)

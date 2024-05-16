@@ -1,4 +1,5 @@
 const userService = require('../services/user.service');
+const { hasPermission } = require('../utils/utils');
 
 exports.create = async (req, res) => {
     if (!req.body 
@@ -40,6 +41,8 @@ exports.create = async (req, res) => {
 }
 
 exports.findAll = async (req, res) => {
+    hasPermission(res, 3)
+
     await userService.getAllUsers()
     .then(response => {
         return res.send(response)
@@ -53,6 +56,8 @@ exports.findAll = async (req, res) => {
 }
 
 exports.find = async (req, res) => {
+    hasPermission(res, 3)
+
     if (!req.params.id) {
         return res.status(400).send({
             message: "Id cannot be empty."
@@ -73,6 +78,8 @@ exports.find = async (req, res) => {
 
 // TODO: To be tested and finished (if email or password modification, call firebase)
 exports.modifyUser = async (req, res) => {
+    hasPermission(res, 1)
+
     if (!req.body 
         || !req.body.id
         || !req.body.firebaseUID
@@ -109,6 +116,8 @@ exports.modifyUser = async (req, res) => {
 
 // Finish errors like 404 (verify return messages from firebase and show them to user)
 exports.deleteUser = async (req, res) => {
+    hasPermission(res, 1)
+    
     if (!req.params.uid) {
         return res.status(400).send({
             message: "firebaseUID cannot be empty."

@@ -4,7 +4,7 @@ const {
     startServerScript,
     stopServerScript,
     getShortServerName
-} = require('../scripts');
+} = require('../utils/scripts');
 
 exports.getServerById = async (id) => {
     return await serversDao.getServerById(id)

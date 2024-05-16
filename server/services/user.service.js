@@ -1,13 +1,21 @@
-const firebase = require('../firebaseConfig');
+const firebase = require('../utils/firebaseConfig');
 const usersDao = require('../data/daos/users.dao');
 const rolesDao = require('../data/daos/roles.dao');
 
 exports.getUserById = async (id) => {
-    const user = await usersDao.getUserById(id)
+    const user = await usersDao.getUserByUniqueIdentidier(id, false)
+    return await getUserRole(user)
+}
+
+exports.getUserByUID = async (uid) => {
+    const user = await usersDao.getUserByUniqueIdentidier(uid, true)
+    return await getUserRole(user)
+}
+
+const getUserRole = async (user) => {
     return await rolesDao.getRoleById(user.roleId)
     .then(role => {
         user.role = role.name
-        delete user.roleId
         return user
     })
 }
@@ -18,7 +26,6 @@ exports.getAllUsers = async () => {
     .then(async roles => {
         data.forEach(user => {
             user.role = roles.find(r => r.id === user.roleId).name
-            delete user.roleId
         })
         return data
     })
