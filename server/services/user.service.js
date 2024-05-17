@@ -41,7 +41,7 @@ exports.createUser = async (user) => {
         return usersDao.createUser(user)
     })
     .catch(error => {
-        throw error.errorInfo
+        throw error.errorInfo || error
     })
 }
 
@@ -53,7 +53,7 @@ exports.updateUser = async (user) => {
         return usersDao.updateUser(user)
     })
     .catch(error => {
-        throw error.errorInfo
+        throw error.errorInfo || error
     })
 }
 
@@ -63,6 +63,6 @@ exports.deleteUser = async (uid) => {
         return usersDao.deleteUser(uid)
     })
     .catch(error => {
-        throw error.errorInfo
+        throw error.errorInfo || error
     }) 
 }

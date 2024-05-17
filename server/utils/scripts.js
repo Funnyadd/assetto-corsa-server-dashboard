@@ -15,7 +15,7 @@ exports.startServerScript = (server) => {
 
     try {
         const command = `screen -dmS acs-${screenName} ${executableFileName}`
-        executeScreenCommand(command, getServerFolderName(server))
+        executeServerShellCommand(command, getServerFolderName(server))
 
         console.log(`[${screenName}] : server started on port: ${server.currentPort}`)
         server.isStarted = true
@@ -35,7 +35,7 @@ exports.stopServerScript = (server) => {
 
     try {
         const command = `screen -X -S acs-${screenName} quit`
-        executeScreenCommand(command, getServerFolderName(server))
+        executeServerShellCommand(command, getServerFolderName(server))
 
         console.log(`[${screenName}] : Server stopped`)
         server.isStarted = false
@@ -87,6 +87,21 @@ exports.getActiveScreenList = async () => {
     }
 }
 
+exports.updateServerPortScript = (server) => {
+    // 1520 is the difference between 8080 and 9600 which are the base numbers used for assetto corsa servers
+    try {
+        const tcpUdpPort = server.currentPort + 1520
+        const command = `sed -i${process.env.RUNNING_OS === "mac" ? ".bak" : ""}`
+                    + ` -e "s/HTTP_PORT=.*[0-9]/HTTP_PORT=${server.currentPort}/gI"`
+                    + ` -e "s/TCP_PORT=.*[0-9]/TCP_PORT=${tcpUdpPort}/gI"`
+                    + ` -e "s/UDP_PORT=.*[0-9]/UDP_PORT=${tcpUdpPort}/gI"`
+                    + ` server_cfg.ini`
+        executeServerShellCommand(command, `${getServerFolderName(server)}/cfg`)
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 exports.getShortServerName = (str) => {
     str = str.replace("with more friends", "2")
     wordsToRemove.forEach(word => {
@@ -95,7 +110,7 @@ exports.getShortServerName = (str) => {
     return str.trim().replaceAll(" ", "-")
 }
 
-const executeScreenCommand = (command, folderName) => {
+const executeServerShellCommand = (command, folderName) => {
     console.log(`~ Executing command: ${command}`)
 
     try {

@@ -5,7 +5,6 @@ const serviceAccount = require("../assetto-corsa-server-dashboard-firebase-admin
 
 const baseUrl = "https://identitytoolkit.googleapis.com/v1/accounts:"
 
-
 const firebaseAdmin = admin.initializeApp({
     credential: admin.credential.cert(serviceAccount)
 })

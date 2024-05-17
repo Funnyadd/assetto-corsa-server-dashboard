@@ -107,7 +107,7 @@ exports.modifyUser = async (req, res) => {
         return res.send(response)
     }) 
     .catch(error => {
-        return res.status(500).send({
+        return res.status(error.status || 500).send({
             error: error,
             message: "An error occured when trying to modify the user."
         })
@@ -117,7 +117,7 @@ exports.modifyUser = async (req, res) => {
 // Finish errors like 404 (verify return messages from firebase and show them to user)
 exports.deleteUser = async (req, res) => {
     hasPermission(res, 1)
-    
+
     if (!req.params.uid) {
         return res.status(400).send({
             message: "firebaseUID cannot be empty."

@@ -1,9 +1,11 @@
 const serversDao = require('../data/daos/servers.dao');
+const allocatedPortsService = require('./allocatedPorts.service');
 const { 
     getActiveScreenList,
     startServerScript,
     stopServerScript,
-    getShortServerName
+    getShortServerName,
+    updateServerPortScript
 } = require('../utils/scripts');
 
 exports.getServerById = async (id) => {
@@ -57,12 +59,14 @@ exports.startServer = async (id) => {
     let server = await serversDao.getServerById(id)
 
     if (server) {
+        allocatePortToServer(server)
+
         startServerScript(server)
 
         return await serversDao.updateServer(server)
     }
     else {
-        throw { status: 404, message: "Server doesn't exist" }
+        throw { status: 404, message: "Server not found" }
     }
 }
 
@@ -70,12 +74,14 @@ exports.stopServer = async (id) => {
     let server = await serversDao.getServerById(id)
 
     if (server) {
+        unallocateForServer(server)
+
         stopServerScript(server)
 
         return await serversDao.updateServer(server)
     }
     else {
-        throw { status: 404, message: "Server doesn't exist" }  
+        throw { status: 404, message: "Server not found" }  
     }
 }
 
@@ -120,4 +126,29 @@ const getServerOccupiedSlots = (data) => {
     })
 
     return occupiedSlots
+}
+
+const allocatePortToServer = async (server) => {
+    let unusedPortsList = await allocatedPortsService.getUnusedAllocatedPortsList()
+
+    if (unusedPortsList.filter(allocatedPort => allocatedPort.port === server.currentPort)[0]) {
+        let allocatedPort = { port: server.currentPort, isUsed: true }
+        await allocatedPortsService.updateAllocatedPort(allocatedPort)
+        return
+    } 
+    else if (unusedPortsList[0]) {
+        unusedPortsList[0].isUsed = true
+        await allocatedPortsService.updateAllocatedPort(unusedPortsList[0])
+        server.currentPort = unusedPortsList[0].port
+        updateServerPortScript(server)
+        return
+    }
+
+    throw { status: 400, message: "All ports are used" }
+}
+
+const unallocateForServer = async (server) => {
+    const allocatedPort = { port: server.currentPort, isUsed: false }
+    await allocatedPortsService.updateAllocatedPort(allocatedPort)
+    return
 }

@@ -1,7 +1,6 @@
 const database = require("../database");
 const ServerModel = database.servers;
 
-// Untested
 exports.getServerById = async (id, serverModel = ServerModel) => {
     return new Promise((resolve, reject) => {
         serverModel.findOne({
@@ -34,7 +33,7 @@ exports.getAllServers = async (serverModel = ServerModel) => {
                         isStarted: data[s].dataValues.isStarted,
                         totalSlots: data[s].dataValues.totalSlots,
                         hasTraffic: data[s].dataValues.hasTraffic,
-                        hasCspServer: data[s].dataValues.hasCspServer,
+                        hasCspServer: data[s].dataValues.hasCspServer
                     })
                 }
                 resolve(returnData)
@@ -92,7 +91,7 @@ exports.updateServer = async (server, serverModel = ServerModel) => {
                     isStarted: data[1][0].dataValues.isStarted,
                     totalSlots: data[1][0].dataValues.totalSlots,
                     hasTraffic: data[1][0].dataValues.hasTraffic,
-                    hasCspServer: data[1][0].dataValues.hasCspServer,
+                    hasCspServer: data[1][0].dataValues.hasCspServer
                 })
             }
             resolve(false)

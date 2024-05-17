@@ -6,7 +6,7 @@ exports.getUserByUniqueIdentidier = async (id, isUID, userModel = UserModel) => 
     if (isUID) {
         whereObject = { firebaseUID: id }
     }
-    
+
     return new Promise((resolve, reject) => {
         userModel.findOne({
             where: whereObject
@@ -87,7 +87,7 @@ exports.updateUser = async (user, userModel = UserModel) => {
             individualHooks: true
         })
         .then(async data => {
-            if (data) {
+            if (data[1][0]) {
                 resolve({
                     id: data[1][0].dataValues.id,
                     firebaseUID: data[1][0].dataValues.firebaseUID,
@@ -97,7 +97,10 @@ exports.updateUser = async (user, userModel = UserModel) => {
                     isWhitelisted: data[1][0].dataValues.isWhitelisted,
                 })
             }
-            resolve(false)
+            reject({
+                status: 404,
+                message: "User not found"
+            })
         })
         .catch(err => {
             reject({
