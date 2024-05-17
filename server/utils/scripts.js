@@ -1,8 +1,7 @@
 const { spawn } = require('node:child_process')
 
 const absoluteBasePath = "/Users/adam/assetto-server-test-files"
-const executableFileName = "./test.sh" // For testing purposes
-// const executableFileName = "acServer"
+const executableFileName = process.env.RUNNING_OS === "mac" ? "./test.sh" : "acServer"
 
 const wordsToRemove = ["Cool", "with friends"]
 
@@ -123,7 +122,7 @@ const executeServerShellCommand = (command, folderName) => {
         
         setTimeout(() => {  
             execution.kill()
-        }, 5000)
+        }, 3000)
     }
     catch (error) {
         throw error

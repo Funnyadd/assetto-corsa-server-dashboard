@@ -150,5 +150,4 @@ const allocatePortToServer = async (server) => {
 const unallocateForServer = async (server) => {
     const allocatedPort = { port: server.currentPort, isUsed: false }
     await allocatedPortsService.updateAllocatedPort(allocatedPort)
-    return
 }
