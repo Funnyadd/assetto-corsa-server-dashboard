@@ -7,14 +7,14 @@ import { useNavigate } from 'react-router-dom';
 import { login } from '../authentication/Auth';
 import RegisterModal from '../components/modals/RegisterModal';
 import { useSearchParams } from 'react-router-dom';
-import { Button, Input, Alert, Link, Divider } from 'react-daisyui'
+import { Button, Input, Alert, Link, Divider } from 'react-daisyui';
 
 const LoginForm = () => {
     const eyeIconSize = 22
     const enterKeyCode = 13
 
     const navigate = useNavigate()
-    const [queryParameters, setQueryParameters] = useSearchParams();
+    const [queryParameters, setQueryParameters] = useSearchParams()
 
     const invalidCredentialsErrorCode = "auth/invalid-credential"
     const internalErrorCode = "auth/internal-error"

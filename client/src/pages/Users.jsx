@@ -2,12 +2,12 @@ import NavBar from '../components/navigation/Nav';
 import { Table, Button } from 'react-daisyui';
 import { Pencil, Trash } from 'react-bootstrap-icons';
 import { useEffect, useState } from 'react';
-import Axios from 'axios'
+import Axios from 'axios';
 
 const Users = () => {
     Axios.defaults.withCredentials = false
     
-    const [users, setUsers] = useState([]);
+    const [users, setUsers] = useState([])
 
     const handleUserRetrieval = async () => {
         await Axios.get(`${process.env.REACT_APP_BACKEND_API_URL}/user`)
@@ -45,6 +45,7 @@ const Users = () => {
                 <div className="overflow-x-auto">
                     <Table zebra size="lg">
                         <Table.Head>
+                            {/* Revisit the fields here to reflect the API */}
                             <span>Id</span>
                             <span>Steam Username</span>
                             <span>Email</span>
