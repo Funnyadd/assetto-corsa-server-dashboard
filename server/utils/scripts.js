@@ -2,6 +2,7 @@ const { spawn } = require('node:child_process')
 
 const absoluteBasePath = "/Users/adam/assetto-server-test-files"
 const executableFileName = process.env.RUNNING_OS === "mac" ? "./test.sh" : "acServer"
+const screenInstancePrefix = "acs-"
 
 const wordsToRemove = ["Cool", "with friends"]
 
@@ -13,7 +14,7 @@ exports.startServerScript = (server) => {
     }
 
     try {
-        const command = `screen -dmS acs-${screenName} ${executableFileName}`
+        const command = `screen -dmS ${screenInstancePrefix}${screenName} ${executableFileName}`
         executeServerShellCommand(command, getServerFolderName(server))
 
         console.log(`[${screenName}] : server started on port: ${server.currentPort}`)
@@ -33,7 +34,7 @@ exports.stopServerScript = (server) => {
     }
 
     try {
-        const command = `screen -X -S acs-${screenName} quit`
+        const command = `screen -X -S ${screenInstancePrefix}${screenName} quit`
         executeServerShellCommand(command, getServerFolderName(server))
 
         console.log(`[${screenName}] : Server stopped`)
@@ -59,7 +60,7 @@ exports.getActiveScreenList = async () => {
                 execution.kill()
 
                 if (output.toString().includes("No Sockets found")) {
-                    resolve("no server running")
+                    resolve([])
                 }
                 else {
                     let serverListStr = output.toString()
@@ -74,7 +75,7 @@ exports.getActiveScreenList = async () => {
                     serverListStr.splice(-1)
 
                     serverListStr.forEach((line, index, list) => {
-                        list[index] = line.trim().split(".acs-")[1]
+                        list[index] = line.trim().split(`.${screenInstancePrefix}`)[1]
                     })
 
                     resolve(serverListStr)
@@ -97,7 +98,7 @@ exports.updateServerPortScript = (server) => {
                     + ` server_cfg.ini`
         executeServerShellCommand(command, `${getServerFolderName(server)}/cfg`)
     } catch (error) {
-        console.log(error)
+        throw error
     }
 }
 
