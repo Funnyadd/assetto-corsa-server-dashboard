@@ -34,7 +34,7 @@ exports.getAllServers = async () => {
     let serversWithOccupiedSlots = await servers.map((server) => {
         return new Promise((resolve) => {
             if (server.isStarted) {
-                getServerJsonData(server.currentPort)
+                getServerJsonData(server.lastPort)
                 .then(serverData => {
                     server.occupiedSlots = getServerOccupiedSlots(serverData)
                     resolve(server)
@@ -131,15 +131,15 @@ const getServerOccupiedSlots = (data) => {
 const allocatePortToServer = async (server) => {
     let unusedPortsList = await allocatedPortsService.getUnusedAllocatedPortsList()
 
-    if (unusedPortsList.filter(allocatedPort => allocatedPort.port === server.currentPort)[0]) {
-        let allocatedPort = { port: server.currentPort, isUsed: true }
+    if (unusedPortsList.filter(allocatedPort => allocatedPort.port === server.lastPort)[0]) {
+        let allocatedPort = { port: server.lastPort, isUsed: true }
         await allocatedPortsService.updateAllocatedPort(allocatedPort)
         return
     } 
     else if (unusedPortsList[0]) {
         unusedPortsList[0].isUsed = true
         await allocatedPortsService.updateAllocatedPort(unusedPortsList[0])
-        server.currentPort = unusedPortsList[0].port
+        server.lastPort = unusedPortsList[0].port
         updateServerPortScript(server)
         return
     }
@@ -148,6 +148,6 @@ const allocatePortToServer = async (server) => {
 }
 
 const unallocateForServer = async (server) => {
-    const allocatedPort = { port: server.currentPort, isUsed: false }
+    const allocatedPort = { port: server.lastPort, isUsed: false }
     await allocatedPortsService.updateAllocatedPort(allocatedPort)
 }

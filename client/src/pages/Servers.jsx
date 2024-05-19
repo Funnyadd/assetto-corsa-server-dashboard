@@ -5,11 +5,13 @@ import { Button, RadialProgress } from 'react-daisyui';
 import { useState, useEffect } from "react";
 import { ArrowClockwise } from 'react-bootstrap-icons';
 import Axios from 'axios';
+import { getAuth } from 'firebase/auth';
 
 function Servers() {
 	const defaultCountDownTimerValue = 60
 
-	Axios.defaults.withCredentials = false
+	const header = { headers: { refreshtoken: getAuth().currentUser.refreshToken }}
+	Axios.defaults.withCredentials = true
 	
 	const [serversList, setServersList] = useState([])
 	const [countDown, setCountDown] = useState(0)
@@ -17,16 +19,36 @@ function Servers() {
 	const updateServersInfo = async () => {
 		setCountDown(defaultCountDownTimerValue)
 
-		await Axios.get(`${process.env.REACT_APP_BACKEND_API_URL}/server`)
+		await Axios.get(`${process.env.REACT_APP_BACKEND_API_URL}/server`, header)
 		.then(response => {
-		setServersList(response.data
-			.sort((a, b) => a.currentPort - b.currentPort)
-			.sort((a, b) => ((a.isStarted === b.isStarted) ? 0 : a.isStarted ? -1 : 1)))
+			sortAndSetServerList(response.data)
+			localStorage.setItem('allServers', JSON.stringify(serversList))
 		})
 		.catch(error => {
 			console.error("An error occured while getting the servers informations", error)
 		})
 	}
+
+	const stopAllServers = async () => {
+        await Axios.post(`${process.env.REACT_APP_BACKEND_API_URL}/server/stopAll`, {}, header)
+        .then(updateServersInfo)
+        .catch(error => {
+            console.error(`An error occured while stopping the servers.`, error)
+        })
+    }
+
+	const sortAndSetServerList = (list = serversList) => {
+		setServersList(list
+			.sort((a, b) => a.lastPort - b.lastPort)
+			.sort((a, b) => ((a.isStarted === b.isStarted) ? 0 : a.isStarted ? -1 : 1)))
+	}
+
+	useEffect(() => {
+		let storedData = JSON.parse(localStorage.getItem('allServers'))
+		if (storedData) {
+			setServersList(storedData)
+		}
+	}, [])
 
   	useEffect(() => {
 		if (countDown < 0) {
@@ -57,12 +79,12 @@ function Servers() {
 					<RadialProgress className='bg-base-300 -z-10' value={(60 - countDown) / 60 * 100} thickness="2px" size="32px">
 						{countDown}
 					</RadialProgress>
-					<Button className="justify-self-end" size="sm" color="error">
+					<Button onClick={stopAllServers} className="justify-self-end" size="sm" color="error">
 						Stop All
 					</Button>
 				</div>
 				{serversList.map((server, index) => 
-					<ServerTile key={index} server={server}/>
+					<ServerTile key={index} server={server} sync={sortAndSetServerList}/>
 				)}
 			</Container>
 		</div>

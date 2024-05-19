@@ -3,7 +3,6 @@ const { getUserByUID } = require("./user.service")
 
 exports.authenticate = async (req, res, next) => {
     // return next()
-    
     if (req.headers.refreshtoken) {
         const data = {
             grant_type: "refresh_token",
@@ -33,7 +32,6 @@ exports.authenticate = async (req, res, next) => {
             await getUserRoleAndContinue(res, next, body.user_id)
         })
         .catch(error => {
-            console.log(error + " : " + typeof error.status)
             if (typeof error.status == "string") {
                 error.status = 400
             }

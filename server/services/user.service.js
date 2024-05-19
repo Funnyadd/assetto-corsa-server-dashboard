@@ -1,6 +1,7 @@
 const firebase = require('../utils/firebaseConfig');
 const usersDao = require('../data/daos/users.dao');
 const rolesDao = require('../data/daos/roles.dao');
+const steamService = require('./steam.service');
 
 exports.getUserById = async (id) => {
     const user = await usersDao.getUserByUniqueIdentidier(id, false)
@@ -32,6 +33,8 @@ exports.getAllUsers = async () => {
 }
 
 exports.createUser = async (user) => {
+    user.steamUsername = await steamService.getSteamUsername(user.steamId)
+
     return await firebase.adminAuth.createUser({
         email: user.email,
         password: user.password,
@@ -46,6 +49,8 @@ exports.createUser = async (user) => {
 }
 
 exports.updateUser = async (user) => {
+    user.steamUsername = await steamService.getSteamUsername(user.steamId)
+    
     return await firebase.adminAuth.updateUser(user.firebaseUID, {
         email: user.email
     })

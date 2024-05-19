@@ -9,8 +9,8 @@ module.exports = (db, DataTypes) => {
             field: 'name',
             type: DataTypes.TEXT
         },
-        currentPort: {
-            field: 'current_port',
+        lastPort: {
+            field: 'last_port',
             type: DataTypes.INTEGER
         },
         isStarted: {
@@ -23,10 +23,6 @@ module.exports = (db, DataTypes) => {
         },
         hasTraffic: {
             field: 'has_traffic',
-            type: DataTypes.BOOLEAN
-        },
-        hasCspServer: {
-            field: 'has_csp_server',
             type: DataTypes.BOOLEAN
         }
     },

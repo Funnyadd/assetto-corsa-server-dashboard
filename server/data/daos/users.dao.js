@@ -36,6 +36,7 @@ exports.getAllUsers = async (userModel = UserModel) => {
                         firebaseUID: data[u].dataValues.firebaseUID,
                         email: data[u].dataValues.email,
                         steamUsername: data[u].dataValues.steamUsername,
+                        steamId: data[u].dataValues.steamId,
                         roleId: data[u].dataValues.roleId,
                         isWhitelisted: data[u].dataValues.isWhitelisted
                     })
@@ -63,6 +64,7 @@ exports.createUser = async (user, userModel = UserModel) => {
                     id: data.dataValues.id,
                     firebaseUID: data.dataValues.firebaseUID,
                     steamUsername: data.dataValues.steamUsername,
+                    steamId: data.dataValues.steamId,
                     email: data.dataValues.email,
                     roleId: data.dataValues.roleId,
                     isWhitelisted: data.dataValues.isWhitelisted,
@@ -92,6 +94,7 @@ exports.updateUser = async (user, userModel = UserModel) => {
                     id: data[1][0].dataValues.id,
                     firebaseUID: data[1][0].dataValues.firebaseUID,
                     steamUsername: data[1][0].dataValues.steamUsername,
+                    steamId: data[1][0].dataValues.steamId,
                     roleId: data[1][0].dataValues.roleId,
                     email: data[1][0].dataValues.email,
                     isWhitelisted: data[1][0].dataValues.isWhitelisted,

@@ -15,13 +15,10 @@ module.exports = () => {
 
   // Fixes the cors issues
   app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', "*")
+    res.header('Access-Control-Allow-Origin', process.env.FRONTEND_URL)
     res.header('Access-Control-Allow-Credentials', true)
-    res.header('Access-Control-Allow-Methods', 'DELETE, PUT, POST, GET, OPTIONS, HEAD')
-    res.header(
-      'Access-Control-Allow-Headers',
-      'Access-Control-Allow-Headers, x-requested-with, Content-Type, Accept, Access-Control-Request-Method, Access-Control-Request-Headers, Authorization'
-    );
+    res.header('Access-Control-Allow-Methods', 'DELETE, PUT, POST, GET, PATCH')
+    res.header('Access-Control-Allow-Headers', 'x-requested-with, Content-Type, Accept, Access-Control-Request-Method, Access-Control-Request-Headers, Authorization, refreshtoken');
     res.header('Access-Control-Expose-Headers', 'Authorization')
     next()
   })

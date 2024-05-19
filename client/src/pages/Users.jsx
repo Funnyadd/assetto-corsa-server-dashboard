@@ -3,14 +3,16 @@ import { Table, Button } from 'react-daisyui';
 import { Pencil, Trash } from 'react-bootstrap-icons';
 import { useEffect, useState } from 'react';
 import Axios from 'axios';
+import { getAuth } from 'firebase/auth';
 
 const Users = () => {
+    const header = { headers: { refreshtoken: getAuth().currentUser.refreshToken }}
     Axios.defaults.withCredentials = false
     
     const [users, setUsers] = useState([])
 
     const handleUserRetrieval = async () => {
-        await Axios.get(`${process.env.REACT_APP_BACKEND_API_URL}/user`)
+        await Axios.get(`${process.env.REACT_APP_BACKEND_API_URL}/user`, header)
         .then(response => {
             setUsers(response.data) 
         })
@@ -22,7 +24,7 @@ const Users = () => {
     }
 
     const handleDeleteUser = async (userId) => {
-        await Axios.delete(`${process.env.REACT_APP_BACKEND_API_URL}/user/${userId}`)
+        await Axios.delete(`${process.env.REACT_APP_BACKEND_API_URL}/user/${userId}`, header)
         .then(() => {
             handleUserRetrieval()
         })

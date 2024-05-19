@@ -1,7 +1,6 @@
 import { initializeApp } from 'firebase/app'
 import Axios from 'axios'
 import {
-    deleteUser,
     getAuth,
     signInWithEmailAndPassword,
     sendPasswordResetEmail,
@@ -45,6 +44,7 @@ export const signup = async (email, password, steamUsername) => {
         steamUsername: steamUsername
     }
 
+    // Create user doesn't need authentication 
     Axios.post(`${process.env.REACT_APP_BACKEND_API_URL}/user`, data)
     .catch(error => {
         throw error
@@ -54,20 +54,6 @@ export const signup = async (email, password, steamUsername) => {
 export const forgotPassword = async (email) => {
     return await sendPasswordResetEmail(auth, email)
     .catch((error) => {
-        throw error
-    })
-}
-
-// Is this useful? Could maybe be deleted...
-export const deleteAccount = async () => {
-    const user = auth.currentUser
-
-    await deleteUser(user)
-    // .then can be deleted or modified in the future for better feedback
-    .then(deletedUser => {
-        console.log("deleted user successfully : " + deletedUser)
-    })
-    .catch(error => {
         throw error
     })
 }

@@ -17,7 +17,7 @@ exports.startServerScript = (server) => {
         const command = `screen -dmS ${screenInstancePrefix}${screenName} ${executableFileName}`
         executeServerShellCommand(command, getServerFolderName(server))
 
-        console.log(`[${screenName}] : server started on port: ${server.currentPort}`)
+        console.log(`[${screenName}] : server started on port: ${server.lastPort}`)
         server.isStarted = true
     }
     catch (error) {
@@ -90,9 +90,9 @@ exports.getActiveScreenList = async () => {
 exports.updateServerPortScript = (server) => {
     // 1520 is the difference between 8080 and 9600 which are the base numbers used for assetto corsa servers
     try {
-        const tcpUdpPort = server.currentPort + 1520
+        const tcpUdpPort = server.lastPort + 1520
         const command = `sed -i${process.env.RUNNING_OS === "mac" ? ".bak" : ""}`
-                    + ` -e "s/HTTP_PORT=.*[0-9]/HTTP_PORT=${server.currentPort}/gI"`
+                    + ` -e "s/HTTP_PORT=.*[0-9]/HTTP_PORT=${server.lastPort}/gI"`
                     + ` -e "s/TCP_PORT=.*[0-9]/TCP_PORT=${tcpUdpPort}/gI"`
                     + ` -e "s/UDP_PORT=.*[0-9]/UDP_PORT=${tcpUdpPort}/gI"`
                     + ` server_cfg.ini`

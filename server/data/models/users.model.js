@@ -12,6 +12,10 @@ module.exports = (db, DataTypes) => {
             field: 'steam_username',
             type: DataTypes.TEXT
         },
+        steamId: {
+            field: 'steam_id',
+            type: DataTypes.INTEGER
+        },
         roleId: {
             field: 'role_id',
             type: DataTypes.INTEGER

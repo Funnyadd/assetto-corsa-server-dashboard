@@ -5,7 +5,7 @@ exports.create = async (req, res) => {
     if (!req.body 
         || !req.body.email
         || !req.body.password
-        || !req.body.steamUsername
+        || !req.body.steamId
     ) {
         return res.status(400).send({
             message: "Content cannot be empty."
@@ -15,7 +15,7 @@ exports.create = async (req, res) => {
     const user = {
         email: req.body.email,
         password: req.body.password,
-        steamUsername: req.body.steamUsername
+        steamId: req.body.steamId
     }
 
     await userService.createUser(user)
@@ -84,7 +84,7 @@ exports.modifyUser = async (req, res) => {
         || !req.body.id
         || !req.body.firebaseUID
         || !req.body.email
-        || !req.body.steamUsername
+        || !req.body.steamId
         || !req.body.roleId
         || !req.body.isWhitelisted
     ) {
@@ -97,7 +97,7 @@ exports.modifyUser = async (req, res) => {
         id: req.body.id,
         firebaseUID: req.body.firebaseUID,
         email: req.body.email,
-        steamUsername: req.body.steamUsername,
+        steamId: req.body.steamId,
         roleId: req.body.roleId,
         isWhitelisted: req.body.isWhitelisted
     }

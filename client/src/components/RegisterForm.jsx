@@ -1,11 +1,11 @@
 import Form from 'react-bootstrap/Form';
 import Feedback from 'react-bootstrap/Feedback'
 import { useEffect, useState } from 'react';
-import { Button, Alert, Input } from 'react-daisyui';
+import { Button, Alert, Input, Collapse } from 'react-daisyui';
 import { signup } from '../authentication/Auth';
 
 const RegisterForm = ({ registrationHandler }) => {
-    const enterKeyCode = 13;
+    const enterKeyCode = 13
 
     const emailAlreadyInUseErrorCode = "auth/email-already-in-use"
     const internalErrorCode = "auth/invalid-credential"
@@ -17,12 +17,12 @@ const RegisterForm = ({ registrationHandler }) => {
     const unexpectedErrorMessage = "Unexpected server error..."
 
     const [email, setEmail] = useState("")
-    const [steamUsername, setSteamUsername] = useState("")
+    const [steamId, setSteamId] = useState("")
     const [password, setPassword] = useState("")
     const [passwordConfirmation, setPasswordConfirmation] = useState("")
 
     const [emailInvalid, setEmailInvalid] = useState(false)
-    const [steamUsernameInvalid, setSteamUsernameInvalid] = useState(false)
+    const [steamIdInvalid, setSteamIdInvalid] = useState(false)
     const [passwordInvalid, setPasswordInvalid] = useState(false)
     const [confirmationPasswordInvalid, setConfirmationPasswordInvalid] = useState(false)
 
@@ -41,7 +41,7 @@ const RegisterForm = ({ registrationHandler }) => {
         let isValid = true
 
         setEmailInvalid(false)
-        setSteamUsernameInvalid(false)
+        setSteamIdInvalid(false)
         setPasswordInvalid(false)
         setConfirmationPasswordInvalid(false)
 
@@ -49,8 +49,8 @@ const RegisterForm = ({ registrationHandler }) => {
             setEmailInvalid(true)
             isValid = false;
         }
-        if (steamUsername === "") {
-            setSteamUsernameInvalid(true)
+        if (steamId === "") {
+            setSteamIdInvalid(true)
             isValid = false
         }
         if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/.test(password)) {
@@ -67,7 +67,7 @@ const RegisterForm = ({ registrationHandler }) => {
 
     const clearRegisterForm = () => {
         setEmail("")
-        setSteamUsername("")
+        setSteamId("")
         setPassword("")
         setPasswordConfirmation("")
     }
@@ -82,7 +82,7 @@ const RegisterForm = ({ registrationHandler }) => {
             event.preventDefault()
             clearRegisterForm()
 
-            await signup(email, password, steamUsername)
+            await signup(email, password, steamId)
             .then(() => {
                 registrationHandler()
             })
@@ -118,7 +118,7 @@ const RegisterForm = ({ registrationHandler }) => {
     }, [error])
 
     return (
-        <Form noValidate onSubmit={handleSubmit} className='text-center'>
+        <Form noValidate onSubmit={handleSubmit}>
             {
                 error.length > 0
                 ?
@@ -129,14 +129,15 @@ const RegisterForm = ({ registrationHandler }) => {
                 <></>
             }
 
-            <Form.Group className="mb-3" controlId="registerFormEmail">
+            <Form.Group className="mb-3">
+                <Form.Label bsPrefix="mb-2" htmlFor="registerEmailInput">Email</Form.Label>
                 <Form.Control
+                    id="registerEmailInput"
                     bsPrefix='w-full text-lg'
                     as={Input}
                     borderOffset={false}
                     bordered
                     type="email"
-                    placeholder="Email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     isInvalid={emailInvalid && validated}
@@ -146,31 +147,45 @@ const RegisterForm = ({ registrationHandler }) => {
                 </Feedback>
             </Form.Group>
 
-            <Form.Group className="mb-3" controlId="registerFormSteamUsername">
+            <Form.Group className="mb-3">
+                <Form.Label htmlFor="registerSteamIdInput">Steam ID</Form.Label>
                 <Form.Control
+                    id="registerSteamIdInput"
                     bsPrefix='w-full text-lg'
                     as={Input}
                     borderOffset={false}
                     bordered
                     type="text"
-                    placeholder="Steam username"
-                    value={steamUsername}
-                    onChange={(e) => setSteamUsername(e.target.value)}
-                    isInvalid={steamUsernameInvalid && validated}
+                    value={steamId}
+                    onChange={(e) => setSteamId(e.target.value)}
+                    isInvalid={steamIdInvalid && validated}
                     required />
                 <Feedback type="invalid" className='text-error'>
-                    Please enter a valid steam username
+                    Please enter a valid steam ID
                 </Feedback>
+                <Collapse className=' mt-2 text-xs bg-base-200'>
+                    <Collapse.Title className="p-2 min-h-1 text-sm font-medium w-auto">
+                        Having trouble finding your Steam ID?
+                    </Collapse.Title>
+                    <Collapse.Content>
+                        To <strong>view</strong> your Steam ID:<br/>
+                            <br/>
+                            &emsp;• In Steam, select your Steam username in the top right corner.<br/>
+                            &emsp;• Select "Account details".<br/>
+                            &emsp;• Your Steam ID can be found below your Steam username.
+                    </Collapse.Content>
+                </Collapse>
             </Form.Group>
 
-            <Form.Group className="mb-3" controlId="registerFormPassword">
+            <Form.Group className="mb-3">
+                <Form.Label htmlFor="registerPasswordInput">Password</Form.Label>
                 <Form.Control
+                    id="registerPasswordInput"
                     bsPrefix='w-full text-lg'
                     as={Input}
                     borderOffset={false}
                     bordered
                     type="password"
-                    placeholder="Password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     isInvalid={passwordInvalid && validated}
@@ -182,14 +197,15 @@ const RegisterForm = ({ registrationHandler }) => {
                 </Feedback>
             </Form.Group>
 
-            <Form.Group className="mb-3" controlId="registerFormPasswordConfirmation">
+            <Form.Group className="mb-3">
+            <Form.Label htmlFor="registerPasswordConfirmationInput">Password Confirmation</Form.Label>
                 <Form.Control
+                    id="registerPasswordConfirmationInput"
                     bsPrefix='w-full text-lg'
                     as={Input}
                     borderOffset={false}
                     bordered
                     type="password"
-                    placeholder="Confirm Password"
                     value={passwordConfirmation}
                     onChange={(e) => setPasswordConfirmation(e.target.value)}
                     onKeyDown={handleSubmitOnEnterKeyPressed}
@@ -200,14 +216,17 @@ const RegisterForm = ({ registrationHandler }) => {
                 </Feedback>
             </Form.Group>
 
-            <Button
-                id="RegisterFormSubmitBtn"
-                className="my-3 font-bold text-lg"
-                color="success"
-                wide
-                type="submit">
-                    Sign Up
-            </Button>
+            <div className='text-center'>
+                <Button
+                    id="RegisterFormSubmitBtn"
+                    className="my-3 font-bold text-lg"
+                    color="success"
+                    wide
+                    type="submit">
+                        Sign Up
+                </Button>
+            </div>
+            
         </Form>
     )
 }

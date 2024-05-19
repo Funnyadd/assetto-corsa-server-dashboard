@@ -10,7 +10,6 @@ module.exports = {
       gridTemplateColumns: {
         'serversGridContent': '40px 1fr 50px repeat(4, 32px)',
         'serversGridHeader': '40px 1fr 50px 32px 32px 76px',
-        // 'serversGridHeader': '40px 1fr 50px 164px'
       },
     }
   },

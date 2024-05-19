@@ -14,11 +14,11 @@ module.exports = {
     /**
      * https://firebase.google.com/docs/reference/rest/auth#section-sign-in-email-password
      */
-    signInWithEmailPasswordUrl: `${baseUrl}signInWithPassword?key=${process.env.API_KEY}`,
+    signInWithEmailPasswordUrl: `${baseUrl}signInWithPassword?key=${process.env.FIREBASE_API_KEY}`,
     /**
      * https://firebase.google.com/docs/reference/rest/auth#section-refresh-token
      */
-    exchangeRefreshTokenUrl: `https://securetoken.googleapis.com/v1/token?key=${process.env.API_KEY}`,
+    exchangeRefreshTokenUrl: `https://securetoken.googleapis.com/v1/token?key=${process.env.FIREBASE_API_KEY}`,
 
     /**
      * Possible error messages received from firebase admin authentication

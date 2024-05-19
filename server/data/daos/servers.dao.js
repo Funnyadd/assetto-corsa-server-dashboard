@@ -29,11 +29,10 @@ exports.getAllServers = async (serverModel = ServerModel) => {
                     returnData.push({
                         id: data[s].dataValues.id,
                         name: data[s].dataValues.name,
-                        currentPort: data[s].dataValues.currentPort,
+                        lastPort: data[s].dataValues.lastPort,
                         isStarted: data[s].dataValues.isStarted,
                         totalSlots: data[s].dataValues.totalSlots,
-                        hasTraffic: data[s].dataValues.hasTraffic,
-                        hasCspServer: data[s].dataValues.hasCspServer
+                        hasTraffic: data[s].dataValues.hasTraffic
                     })
                 }
                 resolve(returnData)
@@ -87,11 +86,10 @@ exports.updateServer = async (server, serverModel = ServerModel) => {
                 resolve({
                     id: data[1][0].dataValues.id,
                     name: data[1][0].dataValues.name,
-                    currentPort: data[1][0].dataValues.currentPort,
+                    lastPort: data[1][0].dataValues.lastPort,
                     isStarted: data[1][0].dataValues.isStarted,
                     totalSlots: data[1][0].dataValues.totalSlots,
-                    hasTraffic: data[1][0].dataValues.hasTraffic,
-                    hasCspServer: data[1][0].dataValues.hasCspServer
+                    hasTraffic: data[1][0].dataValues.hasTraffic
                 })
             }
             resolve(false)
