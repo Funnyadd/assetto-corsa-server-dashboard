@@ -2,6 +2,7 @@ import { Button } from 'react-daisyui';
 import { BoxArrowInRight, Play, Stop, Pencil, Trash } from "react-bootstrap-icons";
 import Axios from 'axios';
 import { getAuth } from 'firebase/auth';
+import { sendErrorNotification } from '../utils/NotificationUtils';
 
 const ServerTile = ({ server, sync }) => {
     const header = { headers: { refreshtoken: getAuth().currentUser.refreshToken }}
@@ -26,7 +27,9 @@ const ServerTile = ({ server, sync }) => {
             sync()
 		})
 		.catch(error => {
-			console.error(`An error occured while starting the server ${server.name}`, error)
+            const errorMessage = `An error occured while starting the server ${server.name}`
+            console.error(errorMessage, error)
+			sendErrorNotification(errorMessage)
 		})
     }
 
@@ -37,7 +40,9 @@ const ServerTile = ({ server, sync }) => {
             sync()
         })
         .catch(error => {
-            console.error(`An error occured while stopping the server ${server.name}`, error)
+            const errorMessage = `An error occured while stopping the server ${server.name}`
+            console.error(errorMessage, error)
+			sendErrorNotification(errorMessage)
         })
     }
 
@@ -50,7 +55,7 @@ const ServerTile = ({ server, sync }) => {
                 <BoxArrowInRight size={20}/>
             </Button>
             <Button shape="square" color="ghost" size="sm" onClick={toggleStartStop} className={server.isStarted ? "hover:text-error" : "hover:text-success"}>
-                { server.isStarted ? <Stop size={32}/> : <Play size={32}/> }
+                {server.isStarted ? <Stop size={32}/> : <Play size={32}/>}
             </Button>
             <Button shape="square" color="ghost" size="sm" className="hover:text-warning" disabled>
                 <Pencil size={20}/>

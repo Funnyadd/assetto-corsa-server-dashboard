@@ -43,3 +43,16 @@ body {
   position: absolute;
   display: flex;
 }
+
+/* Make Toastify progress bar black */
+.Toastify__progress-bar,
+.Toastify__progress-bar--rtl,
+.Toastify__progress-bar-theme--light,
+.Toastify__progress-bar-theme--dark {
+  background: black !important;
+}
+
+/* Move the Toastify close button to the middle of the toast */
+.Toastify__close-button {
+  align-self: auto !important;
+}

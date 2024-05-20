@@ -1,13 +1,12 @@
-import { sendSuccessNotification } from '../../utils/NotificationUtils';
-import RegisterForm from '../RegisterForm';
 import { Modal, Button } from 'react-daisyui';
+import { sendSuccessNotification } from '../../utils/NotificationUtils';
 
-const RegisterModal = ({ open, setOpen }) => {
-    const confirmationMessage = "New account successfully created!"
+const ConfirmationModal = ({ open, setOpen, message, action, confirmationMessage }) => {
 
     const toggleOpen = () => setOpen(!open)
 
-    const handleRegistration = () => {
+    const handleConfirmation = () => {
+        action()
         sendSuccessNotification(confirmationMessage)
         toggleOpen()
     }
@@ -25,10 +24,14 @@ const RegisterModal = ({ open, setOpen }) => {
                 </Button>
             </Modal.Header>
             <Modal.Body>
-                <RegisterForm registrationHandler={handleRegistration} />
+                <p>{message}</p>
             </Modal.Body>
+            <Modal.Actions>
+                <Button onClick={handleConfirmation}>Yes</Button>
+                <Button onClick={toggleOpen}>Cancel</Button>
+            </Modal.Actions>
         </Modal>
     )
 }
 
-export default RegisterModal
+export default ConfirmationModal

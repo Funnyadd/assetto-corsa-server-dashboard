@@ -7,6 +7,9 @@
 // Bootstrap Components
 @import "../node_modules/bootstrap/scss/forms";
 
+// Toastify css
+@import 'react-toastify/dist/ReactToastify.css';
+
 // TailwindCSS Base Configuration
 @tailwind base;
 @tailwind components;

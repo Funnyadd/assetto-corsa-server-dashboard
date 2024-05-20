@@ -1,51 +1,77 @@
 import NavBar from '../components/navigation/Nav';
-import { Table, Button } from 'react-daisyui';
+import { Table, Button, Toggle } from 'react-daisyui';
 import { Pencil, Trash } from 'react-bootstrap-icons';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Axios from 'axios';
 import { getAuth } from 'firebase/auth';
+import ConfirmationModal from '../components/modals/ConfirmationModal';
+import { sendErrorNotification } from '../utils/NotificationUtils';
 
 const Users = () => {
     const header = { headers: { refreshtoken: getAuth().currentUser.refreshToken }}
-    Axios.defaults.withCredentials = false
+    Axios.defaults.withCredentials = true
     
     const [users, setUsers] = useState([])
+
+    const [confirmationModalActivated, setConfirmationModalActivated] = useState(false)
+    const [userToBeDeleted, setUserToBeDeleted] = useState({});
 
     const handleUserRetrieval = async () => {
         await Axios.get(`${process.env.REACT_APP_BACKEND_API_URL}/user`, header)
         .then(response => {
             setUsers(response.data) 
+            localStorage.setItem('allUsers', JSON.stringify(response.data))
         })
         .catch(error => {
             // Maybe add notification or other type of feedback
             // for the user to know what error happenned.
-            console.error("Couldn't retrieve users", error)
+            const errorMessage = "Couldn't retrieve users"
+            console.error(errorMessage, error)
+            sendErrorNotification(errorMessage)
         })
     }
 
-    const handleDeleteUser = async (userId) => {
-        await Axios.delete(`${process.env.REACT_APP_BACKEND_API_URL}/user/${userId}`, header)
-        .then(() => {
-            handleUserRetrieval()
-        })
-        .catch(error => {
-            // Maybe add notification or other type of feedback
-            // for the user to know what error happenned.
-            console.error(`Couldn't delete user with id ${userId}`, error)
-        })
+    const handleDeleteButtonClicked = (user) => {
+        setUserToBeDeleted(user)
+        setConfirmationModalActivated(true)
     }
 
+    const handleDeleteUser = async () => {
+        if (userToBeDeleted.id) {
+            await Axios.delete(`${process.env.REACT_APP_BACKEND_API_URL}/user/${userToBeDeleted.id}`, header)
+            .then(() => {
+                handleUserRetrieval()
+            })
+            .catch(error => {
+                // Maybe add notification or other type of feedback
+                // for the user to know what error happenned.
+                const errorMessage = `Couldn't delete user with id ${userToBeDeleted.id}`
+                console.error(errorMessage, error)
+                sendErrorNotification(errorMessage)
+            })
+        }
+    }
+
+    const pageStateRef = useRef(null)
     useEffect(() => {
-        handleUserRetrieval()
+        if (pageStateRef.isFirstPageLoad === undefined) {
+            let storedData = JSON.parse(localStorage.getItem('allUsers'))
+			if (storedData) {
+				setUsers(storedData)
+			}
+            handleUserRetrieval()
+
+            pageStateRef.isFirstPageLoad = false
+        }
     }, [])
 
     return (
         <>
             <NavBar/>
             <h1 className='text-4xl text-center my-8 font-bold'>Users</h1>
-            <div className=' mb-16 flex flex-wrap justify-center'>
+            <div className='mb-16 flex flex-wrap justify-center'>
                 <div className="overflow-x-auto">
-                    <Table zebra size="lg">
+                    <Table zebra size="lg" className='static'>
                         <Table.Head>
                             {/* Revisit the fields here to reflect the API */}
                             <span>Id</span>
@@ -59,18 +85,20 @@ const Users = () => {
                             {users.map((user, index) => {
                                 return (
                                     <Table.Row key={index}>
+                                        {/* Maybe have less info here and have a "details" button or wtv */}
                                         <span>{user.id}</span>
                                         <span>{user.steamUsername}</span>
                                         <span>{user.email}</span>
                                         <span>{user.role}</span>
                                         {/* Change the whitelist thing for a toggle */}
-                                        <span>{user.isWhitelisted ? "Yes" : "No"}</span>
+                                        <span><Toggle checked={user.isWhitelisted} color="success" /></span>
                                         <div className="text-end min-w-20">
                                             <Button
                                                 shape="square"
                                                 color="ghost"
                                                 size="sm"
-                                                className="me-2 hover:text-warning">
+                                                className="me-2 hover:text-warning"
+                                                disabled>
                                                     <Pencil size={20}/>
                                             </Button>
                                             <Button
@@ -78,7 +106,7 @@ const Users = () => {
                                                 color="ghost"
                                                 size="sm"
                                                 className="hover:text-error"
-                                                onClick={() => handleDeleteUser(user.id)}>
+                                                onClick={() => handleDeleteButtonClicked(user)}>
                                                     <Trash size={20} className=""/>
                                             </Button>
                                         </div>
@@ -89,6 +117,12 @@ const Users = () => {
                     </Table>
                 </div>
             </div>
+            <ConfirmationModal
+                open={confirmationModalActivated}
+                setOpen={setConfirmationModalActivated}
+                message={`Are you sure you want to delete user ${userToBeDeleted.steamUsername}?`}
+                action={handleDeleteUser}
+                confirmationMessage={`User ${userToBeDeleted.steamUsername} deleted successfully!`} />
         </>
     )
 }

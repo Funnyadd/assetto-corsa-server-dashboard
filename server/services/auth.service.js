@@ -2,7 +2,6 @@ const firebase = require("../utils/firebaseConfig")
 const { getUserByUID } = require("./user.service")
 
 exports.authenticate = async (req, res, next) => {
-    // return next()
     if (req.headers.refreshtoken) {
         const data = {
             grant_type: "refresh_token",

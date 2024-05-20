@@ -1,13 +1,17 @@
 import { useEffect, useState } from 'react';
 import Card from 'react-bootstrap/Card';
-import { Input, Button, Alert } from 'react-daisyui';
+import { Input, Button } from 'react-daisyui';
 import Form from 'react-bootstrap/Form';
 import { useNavigate } from 'react-router-dom';
 import { forgotPassword } from '../authentication/Auth';
 import { useSearchParams } from 'react-router-dom';
+import { sendErrorNotification, sendNotification } from '../utils/NotificationUtils';
 
 const ForgotPassword = () => {
     const enterKeyCode = 13
+
+    const forgotPasswordConfirmationMessage = "An email was sent to you to reset your password."
+
     const defaultErrorMessage = "An error occurred while trying to send the email. Please try again later."
     const tooManyRequestsErrorCode = "auth/too-many-requests"
     const tooManyRequestsErrorMessage = "You have done too many requests for this user. Please try again later."
@@ -17,9 +21,6 @@ const ForgotPassword = () => {
 
     const [email, setEmail] = useState("")
     const [validated, setValidated] = useState(false)
-    const [validationError, setValidationError] = useState(false)
-
-    const [error, setError] = useState("")
 
     const handleSubmitOnEnterKeyPressed = (event) => {
         if (event.keyCode === enterKeyCode || event.which === enterKeyCode) {
@@ -27,9 +28,7 @@ const ForgotPassword = () => {
         }
     }
 
-    const handleCancelButton = () => {
-        navigate("/login")
-    }
+    const handleCancelButton = () => navigate("/login")
 
     const handleSubmit = async (event) => {
         const form = event.currentTarget
@@ -40,19 +39,19 @@ const ForgotPassword = () => {
             setValidated(true)
         }
         else {
-            setError("")
             event.preventDefault()
 
             await forgotPassword(email)
             .then(() => {
+                sendNotification(forgotPasswordConfirmationMessage)
                 navigate("/login?forgotPasswordConfirmation=" + email)
             })
             .catch((error) => {
                 if (error.code === tooManyRequestsErrorCode) {
-                    setError(tooManyRequestsErrorMessage)
+                    sendErrorNotification(tooManyRequestsErrorMessage)
                 }
                 else {
-                    setError(defaultErrorMessage)
+                    sendErrorNotification(defaultErrorMessage)
                 }
             })
         }
@@ -65,35 +64,14 @@ const ForgotPassword = () => {
         }
     }, [queryParameters, setQueryParameters])
 
-    useEffect(() => {
-        if (error !== "" && !validationError) {
-            setValidationError(true)
-        }
-        else if (validationError) {
-            setValidationError(false)
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [error])
-
     return (
-        <div className="flex flex-col items-center my-8 px-3" >
+        <div className="flex flex-col items-center my-8 px-3">
             <Card className="m-8 shadow max-w-[32rem] bg-base-300 w-full">
                 <Form noValidate validated={validated} onSubmit={handleSubmit} className='divide-y divide-solid divide-neutral'>
-                    <Card.Header className="forgotPasswordFormHeader p-7">
+                    <Card.Header className="forgotPasswordFormHeader p-4 ps-8">
                         <h4 className='text-2xl'>Forgot your Password?</h4>
                     </Card.Header>
                     <Card.Body>
-                        {
-                            error.length > 0
-                            ?
-                            <Alert status="error" className="mb-3">
-                                {/* Error icon */}
-                                <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                                {error}
-                            </Alert> 
-                            :
-                            <></>
-                        }
                         <p className="mb-4">Please enter your email to received a password reset link.</p>
                         <Form.Group className="mb-3" controlId="loginFormEmail">
                             <Form.Control
@@ -112,7 +90,7 @@ const ForgotPassword = () => {
                             </Form.Control.Feedback>
                         </Form.Group>
                     </Card.Body>
-                    <Card.Footer className="p-5 pe-8 flex justify-end">
+                    <Card.Footer className="p-4 pe-8 flex justify-end">
                         <Button 
                             className="font-bold me-2"
                             color="neutral"

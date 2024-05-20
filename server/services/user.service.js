@@ -50,7 +50,7 @@ exports.createUser = async (user) => {
 
 exports.updateUser = async (user) => {
     user.steamUsername = await steamService.getSteamUsername(user.steamId)
-    
+
     return await firebase.adminAuth.updateUser(user.firebaseUID, {
         email: user.email
     })

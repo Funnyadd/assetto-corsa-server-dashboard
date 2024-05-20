@@ -1,8 +1,9 @@
 import Form from 'react-bootstrap/Form';
 import Feedback from 'react-bootstrap/Feedback'
-import { useEffect, useState } from 'react';
-import { Button, Alert, Input, Collapse } from 'react-daisyui';
+import { useState } from 'react';
+import { Button, Input, Collapse } from 'react-daisyui';
 import { signup } from '../authentication/Auth';
+import { sendErrorNotification } from '../utils/NotificationUtils';
 
 const RegisterForm = ({ registrationHandler }) => {
     const enterKeyCode = 13
@@ -26,8 +27,6 @@ const RegisterForm = ({ registrationHandler }) => {
     const [passwordInvalid, setPasswordInvalid] = useState(false)
     const [confirmationPasswordInvalid, setConfirmationPasswordInvalid] = useState(false)
 
-    const [error, setError] = useState("")
-    const [validationError, setValidationError] = useState(false)
     const [validated, setValidated] = useState(false)
 
     const handleSubmitOnEnterKeyPressed = (event) => {
@@ -78,7 +77,6 @@ const RegisterForm = ({ registrationHandler }) => {
             event.stopPropagation()
         }
         else {
-            setError("")
             event.preventDefault()
             clearRegisterForm()
 
@@ -91,44 +89,23 @@ const RegisterForm = ({ registrationHandler }) => {
                 // Maybe just add a verification to see if the steam username is valid ???
                 switch(error.code) {
                     case emailAlreadyInUseErrorCode:
-                        setError(emailAlreadyInUseErrorMessage)
+                        sendErrorNotification(emailAlreadyInUseErrorMessage)
                         break
                     case internalErrorCode:
-                        setError(internalErrorMessage)
+                        sendErrorNotification(internalErrorMessage)
                         break
                     case tooManyRequestsErrorCode:
-                        setError(tooManyRequestsErrorMessage)
+                        sendErrorNotification(tooManyRequestsErrorMessage)
                         break
                     default:
-                        setError(unexpectedErrorMessage)
+                        sendErrorNotification(unexpectedErrorMessage)
                 }
-            });
+            })
         }
     }
 
-    useEffect(() => {
-        if (error !== "" && !validationError) {
-            setValidationError(true)
-        }
-        else if (validationError) {
-            setValidationError(false)
-        }
-
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [error])
-
     return (
         <Form noValidate onSubmit={handleSubmit}>
-            {
-                error.length > 0
-                ?
-                <Alert status="error" className="mb-3">
-                    {error}
-                </Alert> 
-                :
-                <></>
-            }
-
             <Form.Group className="mb-3">
                 <Form.Label bsPrefix="mb-2" htmlFor="registerEmailInput">Email</Form.Label>
                 <Form.Control

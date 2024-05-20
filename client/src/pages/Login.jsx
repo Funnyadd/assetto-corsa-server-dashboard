@@ -7,7 +7,8 @@ import { useNavigate } from 'react-router-dom';
 import { login } from '../authentication/Auth';
 import RegisterModal from '../components/modals/RegisterModal';
 import { useSearchParams } from 'react-router-dom';
-import { Button, Input, Alert, Link, Divider } from 'react-daisyui';
+import { Button, Input, Link, Divider } from 'react-daisyui';
+import { sendErrorNotification } from '../utils/NotificationUtils';
 
 const LoginForm = () => {
     const eyeIconSize = 22
@@ -25,18 +26,11 @@ const LoginForm = () => {
     const tooManyRequestsErrorMessage = "Access to your account temporarily deactivated due to the amount of failed connection tries. Please try again later."
     const unexpectedErrorMessage = "Unexpected server error..."
 
-    const forgotPasswordConfirmationMessage = "An email was sent to you to reset your password."
-    const loggedOutConfirmationMessage = "You have successfully logged out!"
-
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [showPass, setShowPass] = useState(false)
 
     const [validated, setValidated] = useState(false)
-    const [error, setError] = useState("")
-    const [validationError, setValidationError] = useState(false)
-    const [confirmationAlert, setConfirmationAlert] = useState("")
-    const [informationAlert, setInformationAlert] = useState("");
 
     const [createModalActivated, setCreateModalActivated] = useState(false)
 
@@ -62,7 +56,6 @@ const LoginForm = () => {
             setValidated(true)
         }
         else {
-            setError("")
             event.preventDefault()
 
             await login(email, password)
@@ -72,16 +65,16 @@ const LoginForm = () => {
             .catch((error) => {
                 switch(error.code) {
                     case invalidCredentialsErrorCode:
-                        setError(invalidCredentialsErrorMessage)
+                        sendErrorNotification(invalidCredentialsErrorMessage)
                         break
                     case internalErrorCode:
-                        setError(internalErrorMessage)
+                        sendErrorNotification(internalErrorMessage)
                         break
                     case tooManyRequestsErrorCode:
-                        setError(tooManyRequestsErrorMessage)
+                        sendErrorNotification(tooManyRequestsErrorMessage)
                         break
                     default:
-                        setError(unexpectedErrorMessage)
+                        sendErrorNotification(unexpectedErrorMessage)
                 }
             })
         }
@@ -89,30 +82,10 @@ const LoginForm = () => {
 
     useEffect(() => {
         if (queryParameters.has("forgotPasswordConfirmation")) {
-            setInformationAlert(forgotPasswordConfirmationMessage)
-            setError("")
-            setConfirmationAlert("")
             setEmail(queryParameters.get("forgotPasswordConfirmation"))
             setQueryParameters("")
         }
-
-        if (queryParameters.has("loggedOut")) {
-            setConfirmationAlert(loggedOutConfirmationMessage)
-            setError("")
-            setInformationAlert("")
-            setQueryParameters("")
-        }
     }, [queryParameters, setQueryParameters])
-
-    useEffect(() => {
-        if (error !== "" && !validationError) {
-            setValidationError(true)
-        }
-        else if (validationError) {
-            setValidationError(false)
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [error])
 
     return (
         <>
@@ -120,39 +93,6 @@ const LoginForm = () => {
                 <h1 className='mt-[3rem] text-4xl text-center'>Assetto Corsa Server Dashboard</h1>
                 <Card className="p-4 my-[3rem] shadow w-full bg-base-300 max-w-[27rem]">
                     <Form className='text-center' noValidate validated={validated} onSubmit={handleSubmit}>
-                        {
-                            error.length > 0
-                            ?
-                            <Alert status="error" className="mb-4">
-                                {/* Error icon */}
-                                <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                                <span>{error}</span>
-                            </Alert> 
-                            :
-                            <></>
-                        }
-                        {
-                            confirmationAlert.length > 0
-                            ?
-                            <Alert status="success" className="mb-3">
-                                {/* Confirmmation icon */}
-                                <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                                <span>{confirmationAlert}</span>
-                            </Alert>
-                            :
-                            <></>
-                        }
-                        {
-                            informationAlert.length > 0
-                            ?
-                            <Alert status="info" className="mb-3">
-                                {/* Information icon */}
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-current shrink-0 w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                <span>{informationAlert}</span>
-                            </Alert>
-                            :
-                            <></>
-                        }
                         <Form.Group className="mb-4" controlId="loginFormEmail">
                             <Form.Control 
                                 bsPrefix='w-full text-lg'
@@ -224,8 +164,7 @@ const LoginForm = () => {
             </div>
             <RegisterModal 
                 open={createModalActivated}
-                setOpen={setCreateModalActivated}
-                setConfirmationAlert={setConfirmationAlert} />
+                setOpen={setCreateModalActivated} />
         </>
     )
 }
