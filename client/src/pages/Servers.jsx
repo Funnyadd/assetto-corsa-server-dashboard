@@ -4,15 +4,11 @@ import NavBar from '../components/navigation/Nav';
 import { Button, RadialProgress } from 'react-daisyui';
 import { useState, useEffect, useRef } from "react";
 import { ArrowClockwise } from 'react-bootstrap-icons';
-import Axios from 'axios';
-import { getAuth } from 'firebase/auth';
+import Axios from '../utils/AxiosConfig';
 import { sendErrorNotification } from '../utils/NotificationUtils';
 
 function Servers() {
 	const defaultCountDownTimerValue = 60
-	
-	const header = { headers: { refreshtoken: getAuth().currentUser.refreshToken }}
-	Axios.defaults.withCredentials = true
 	
 	const [serversList, setServersList] = useState([])
 	const [countDown, setCountDown] = useState(0)
@@ -20,7 +16,7 @@ function Servers() {
 	const updateServersInfo = async () => {
 		setCountDown(defaultCountDownTimerValue)
 
-		await Axios.get(`${process.env.REACT_APP_BACKEND_API_URL}/server`, header)
+		await Axios().get(`/server`)
 		.then(response => {
 			sortAndSetServerList(response.data)
 			localStorage.setItem('allServers', JSON.stringify(serversList))
@@ -33,7 +29,7 @@ function Servers() {
 	}
 	
 	const stopAllServers = async () => {
-		await Axios.post(`${process.env.REACT_APP_BACKEND_API_URL}/server/stopAll`, {}, header)
+		await Axios().post(`/server/stopAll`)
 		.then(updateServersInfo)
 		.catch(error => {
 			const errorMessage = `An error occured while stopping the servers.`
@@ -56,7 +52,7 @@ function Servers() {
 				setServersList(storedData)
 			}
 			pageStateRef.isFirstPageLoad = false
-        }
+		}
 	}, [])
 	
 	useEffect(() => {
@@ -70,6 +66,7 @@ function Servers() {
 	
 			return () => clearInterval(interval)
 		}   
+		// eslint-disable-next-line 
   	}, [countDown])
 	
 	return (

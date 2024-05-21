@@ -20,7 +20,6 @@ exports.getAllAllocatedPorts = async (allocatedPortModel = AllocatedPortModel) =
         .catch(err => {
             reject({
                 status: 500,
-                data: {},
                 message: err.message || "some error occured"
             })
         })

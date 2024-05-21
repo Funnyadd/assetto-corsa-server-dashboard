@@ -89,7 +89,7 @@ const NavItems = () => {
 			</Dropdown.Menu>
 			</Dropdown> */}
 		</>
-    )
+	)
 }
 
 export default NavItems;

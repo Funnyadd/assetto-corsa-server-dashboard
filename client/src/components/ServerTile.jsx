@@ -1,16 +1,11 @@
 import { Button } from 'react-daisyui';
 import { BoxArrowInRight, Play, Stop, Pencil, Trash } from "react-bootstrap-icons";
-import Axios from 'axios';
-import { getAuth } from 'firebase/auth';
+import Axios from '../utils/AxiosConfig';
 import { sendErrorNotification } from '../utils/NotificationUtils';
 
 const ServerTile = ({ server, sync }) => {
-    const header = { headers: { refreshtoken: getAuth().currentUser.refreshToken }}
-	Axios.defaults.withCredentials = true
-    
     const serverUrl = `https://acstuff.ru/s/q:race/online/join?ip=${process.env.REACT_APP_ASSETTO_SERVER_IP}&httpPort=${server.port}`
     
-    // Temporary method to test the UI
     const toggleStartStop = () => {
         if (server.isStarted) {
             stopServer()
@@ -21,7 +16,7 @@ const ServerTile = ({ server, sync }) => {
     }
     
     const startServer = async () => {
-        await Axios.post(`${process.env.REACT_APP_BACKEND_API_URL}/server/start/${server.id}`, {}, header)
+        await Axios().post(`/server/start/${server.id}`)
         .then(response => {
             server.isStarted = response.data.isStarted
             sync()
@@ -34,7 +29,7 @@ const ServerTile = ({ server, sync }) => {
     }
     
     const stopServer = async () => {
-        await Axios.post(`${process.env.REACT_APP_BACKEND_API_URL}/server/stop/${server.id}`, {}, header)
+        await Axios().post(`/server/stop/${server.id}`)
         .then(response => {
             server.isStarted = response.data.isStarted
             sync()

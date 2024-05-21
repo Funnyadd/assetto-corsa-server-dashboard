@@ -4,12 +4,11 @@ import { createContext, useEffect, useState } from "react";
 export const Context = createContext();
 
 export const AuthContext = ({ children }) => {
-    const auth = getAuth()
     const [user, setUser] = useState()
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+        const unsubscribe = onAuthStateChanged(getAuth(), (currentUser) => {
             setLoading(false)
             if (currentUser) setUser(currentUser)
             else { setUser(null) }
@@ -18,7 +17,6 @@ export const AuthContext = ({ children }) => {
         return () => {
             if (unsubscribe) unsubscribe()
         }
-        // eslint-disable-next-line
     }, [])
 
     const values = {

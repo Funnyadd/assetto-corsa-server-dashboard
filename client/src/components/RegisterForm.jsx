@@ -85,8 +85,6 @@ const RegisterForm = ({ registrationHandler }) => {
                 registrationHandler()
             })
             .catch((error) => {
-                // Add more errors from firebase :D ???
-                // Maybe just add a verification to see if the steam username is valid ???
                 switch(error.code) {
                     case emailAlreadyInUseErrorCode:
                         sendErrorNotification(emailAlreadyInUseErrorMessage)

@@ -1,10 +1,8 @@
 require("../config.js")
 const express = require('express')
 const bodyParser = require("body-parser");
-const filesRoutes = require('./routes/files.routes.js')
 const serverRoutes = require('./routes/server.routes')
 const userRoutes = require('./routes/user.routes')
-const whitelistRoutes = require('./routes/whitelist.routes')
 
 module.exports = () => {
   const app = express()
@@ -24,10 +22,8 @@ module.exports = () => {
   })
 
   // Routes
-  app.use('/files', filesRoutes)
   app.use('/server', serverRoutes)
   app.use('/user', userRoutes)
-  app.use('/whitelist', whitelistRoutes)
 
   // TEMPORARY ADD to support old version while tests are made
   app.use('/', async (req, res) => {

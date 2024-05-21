@@ -1,11 +1,11 @@
-import { initializeApp } from 'firebase/app'
-import Axios from 'axios'
+import { initializeApp } from 'firebase/app';
+import Axios from '../utils/AxiosConfig';
 import {
     getAuth,
     signInWithEmailAndPassword,
     sendPasswordResetEmail,
     signOut
-} from 'firebase/auth'
+} from 'firebase/auth';
 
 const firebaseConfig = {
     apiKey: process.env.REACT_APP_API_KEY,
@@ -20,8 +20,6 @@ const firebaseConfig = {
 initializeApp(firebaseConfig)
 
 const auth = getAuth()
-
-Axios.defaults.withCredentials = true
 
 export const login = async (email, password) => {
     await signInWithEmailAndPassword(auth, email, password)
@@ -44,8 +42,7 @@ export const signup = async (email, password, steamUsername) => {
         steamUsername: steamUsername
     }
 
-    // Create user doesn't need authentication 
-    Axios.post(`${process.env.REACT_APP_BACKEND_API_URL}/user`, data)
+    Axios().post(`/user`, data)
     .catch(error => {
         throw error
     })

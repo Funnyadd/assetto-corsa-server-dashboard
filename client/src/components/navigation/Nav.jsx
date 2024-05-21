@@ -6,7 +6,7 @@ const Nav = () => {
     const [visible, setVisible] = useState(false)
 
     const toggleVisible = () => {
-      setVisible(!visible)
+		setVisible(!visible)
     }
 
     return (
@@ -35,7 +35,7 @@ const Nav = () => {
 				</div>
 			</Navbar>
 		</Drawer>
-    )
+	)
 }
 
 export default Nav
