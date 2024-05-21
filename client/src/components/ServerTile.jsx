@@ -7,9 +7,9 @@ import { sendErrorNotification } from '../utils/NotificationUtils';
 const ServerTile = ({ server, sync }) => {
     const header = { headers: { refreshtoken: getAuth().currentUser.refreshToken }}
 	Axios.defaults.withCredentials = true
-
+    
     const serverUrl = `https://acstuff.ru/s/q:race/online/join?ip=${process.env.REACT_APP_ASSETTO_SERVER_IP}&httpPort=${server.port}`
-
+    
     // Temporary method to test the UI
     const toggleStartStop = () => {
         if (server.isStarted) {
@@ -19,7 +19,7 @@ const ServerTile = ({ server, sync }) => {
             startServer()
         }
     }
-
+    
     const startServer = async () => {
         await Axios.post(`${process.env.REACT_APP_BACKEND_API_URL}/server/start/${server.id}`, {}, header)
         .then(response => {
@@ -32,7 +32,7 @@ const ServerTile = ({ server, sync }) => {
             sendErrorNotification(errorMessage)
         })
     }
-
+    
     const stopServer = async () => {
         await Axios.post(`${process.env.REACT_APP_BACKEND_API_URL}/server/stop/${server.id}`, {}, header)
         .then(response => {
@@ -45,7 +45,7 @@ const ServerTile = ({ server, sync }) => {
             sendErrorNotification(errorMessage)
         })
     }
-
+    
     return (
         <div className={'p-2 my-2 grid grid-cols-serversGridContent gap-x-3 items-center bg-base-300 rounded-box border-s-4 ' + (server.isStarted ? 'border-success' : 'border-error')}>
             <span>{server.isStarted ? server.lastPort : "N/A"}</span>
