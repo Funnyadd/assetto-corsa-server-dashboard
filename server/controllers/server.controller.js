@@ -54,8 +54,7 @@ exports.start = async (req, res) => {
         return res.send(response)
     })
     .catch(error => {
-        let status = error.status ? error.status : 500
-        return res.status(status).send({
+        return res.status(error.status || 500).send({
             error: error,
             message: "An error occured when trying to start the server."
         })
@@ -76,8 +75,7 @@ exports.stop = async (req, res) => {
         return res.send(response)
     })
     .catch(error => {
-        let status = error.status ? error.status : 500
-        return res.status(status).send({
+        return res.status(error.status || 500).send({
             error: error,
             message: "An error occured when trying to stop the server."
         })
@@ -92,8 +90,7 @@ exports.stopAll = async (req, res) => {
         return res.send(response)
     })
     .catch(error => {
-        let status = error.status ? error.status : 500
-        return res.status(status).send({
+        return res.status(error.status || 500).send({
             error: error,
             message: "An error occured when trying to stop the server."
         })

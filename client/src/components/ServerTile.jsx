@@ -1,6 +1,6 @@
 import { Button } from 'react-daisyui';
 import { BoxArrowInRight, Play, Stop, Pencil, Trash } from "react-bootstrap-icons";
-import Axios from '../utils/AxiosConfig';
+import { getAxios } from '../utils/AxiosConfig';
 import { sendErrorNotification } from '../utils/NotificationUtils';
 
 const ServerTile = ({ server, sync }) => {
@@ -16,7 +16,7 @@ const ServerTile = ({ server, sync }) => {
     }
     
     const startServer = async () => {
-        await Axios().post(`/server/start/${server.id}`)
+        await getAxios().post(`/server/start/${server.id}`)
         .then(response => {
             server.isStarted = response.data.isStarted
             sync()
@@ -29,7 +29,7 @@ const ServerTile = ({ server, sync }) => {
     }
     
     const stopServer = async () => {
-        await Axios().post(`/server/stop/${server.id}`)
+        await getAxios().post(`/server/stop/${server.id}`)
         .then(response => {
             server.isStarted = response.data.isStarted
             sync()

@@ -4,7 +4,7 @@ import NavBar from '../components/navigation/Nav';
 import { Button, RadialProgress } from 'react-daisyui';
 import { useState, useEffect, useRef } from "react";
 import { ArrowClockwise } from 'react-bootstrap-icons';
-import Axios from '../utils/AxiosConfig';
+import { getAxios } from '../utils/AxiosConfig';
 import { sendErrorNotification } from '../utils/NotificationUtils';
 
 function Servers() {
@@ -16,7 +16,7 @@ function Servers() {
 	const updateServersInfo = async () => {
 		setCountDown(defaultCountDownTimerValue)
 
-		await Axios().get(`/server`)
+		await getAxios().get(`/server`)
 		.then(response => {
 			sortAndSetServerList(response.data)
 			localStorage.setItem('allServers', JSON.stringify(serversList))
@@ -29,7 +29,7 @@ function Servers() {
 	}
 	
 	const stopAllServers = async () => {
-		await Axios().post(`/server/stopAll`)
+		await getAxios().post(`/server/stopAll`)
 		.then(updateServersInfo)
 		.catch(error => {
 			const errorMessage = `An error occured while stopping the servers.`

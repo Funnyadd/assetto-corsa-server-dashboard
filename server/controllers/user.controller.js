@@ -33,7 +33,7 @@ exports.create = async (req, res) => {
                 message: error.message
             })
         }
-        return res.status(500).send({
+        return res.status(error.status || 500).send({
             error: error,
             message: "An error occured when trying to create the user."
         })
@@ -48,7 +48,7 @@ exports.findAll = async (req, res) => {
         return res.send(response)
     })
     .catch(error => {
-        return res.status(500).send({
+        return res.status(error.status || 500).send({
             error: error,
             message: "An error occured when trying to get all users."
         })
@@ -69,7 +69,7 @@ exports.find = async (req, res) => {
         return res.send(response)
     })
     .catch(error => {
-        return res.status(500).send({
+        return res.status(error.status || 500).send({
             error: error,
             message: "An error occured when trying to get the user."
         })
@@ -127,12 +127,12 @@ exports.deleteUser = async (req, res) => {
     await userService.deleteUser(req.params.uid)
     .then(response => {
         if (response)
-            return res.send({ message: "User delete successfully" })
+            return res.send({ message: "User deleted successfully" })
         else
-            return res.status(404).send({ message: "User not found" })
+            return res.status(404).send({ message: `User not found with uid ${req.params.uid}` })
     })
     .catch(error => {
-        return res.status(500).send({
+        return res.status(error.status || 500).send({
             error: error,
             message: "An error occured when trying to delete the user."
         })

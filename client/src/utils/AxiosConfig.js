@@ -1,10 +1,8 @@
 import Axios from 'axios'
 import { getAuth } from 'firebase/auth'
 
-const createAxiosInstance = () => {
-    const axiosInstance = Axios.create()
-    axiosInstance.defaults.baseURL = process.env.REACT_APP_BACKEND_API_URL
-    axiosInstance.defaults.withCredentials = true
+export const getAxios = () => {
+    const axiosInstance = getAxiosNoAuth()
     
     if (getAuth()?.currentUser?.refreshToken) {
         axiosInstance.defaults.headers.common['refreshtoken'] = getAuth().currentUser.refreshToken
@@ -13,5 +11,10 @@ const createAxiosInstance = () => {
     return axiosInstance
 }
 
+export const getAxiosNoAuth = () => {
+    const axiosInstance = Axios.create()
+    axiosInstance.defaults.baseURL = process.env.REACT_APP_BACKEND_API_URL
+    axiosInstance.defaults.withCredentials = true
 
-export default createAxiosInstance
+    return axiosInstance
+}

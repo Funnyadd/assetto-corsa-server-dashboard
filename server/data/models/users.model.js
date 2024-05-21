@@ -14,7 +14,7 @@ module.exports = (db, DataTypes) => {
         },
         steamId: {
             field: 'steam_id',
-            type: DataTypes.INTEGER
+            type: DataTypes.BIGINT
         },
         roleId: {
             field: 'role_id',

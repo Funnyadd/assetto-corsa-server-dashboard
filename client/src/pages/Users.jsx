@@ -2,7 +2,7 @@ import NavBar from '../components/navigation/Nav';
 import { Table, Button, Toggle } from 'react-daisyui';
 import { Pencil, Trash } from 'react-bootstrap-icons';
 import { useEffect, useRef, useState } from 'react';
-import Axios from '../utils/AxiosConfig';
+import { getAxios } from '../utils/AxiosConfig';
 import ConfirmationModal from '../components/modals/ConfirmationModal';
 import { sendErrorNotification } from '../utils/NotificationUtils';
 
@@ -13,7 +13,7 @@ const Users = () => {
     const [userToBeDeleted, setUserToBeDeleted] = useState({})
     
     const handleUserRetrieval = async () => {
-        await Axios().get(`/user`)
+        await getAxios().get(`/user`)
         .then(response => {
             setUsers(response.data) 
             localStorage.setItem('allUsers', JSON.stringify(response.data))
@@ -32,7 +32,7 @@ const Users = () => {
 
     const handleDeleteUser = async () => {
         if (userToBeDeleted.id) {
-            await Axios().delete(`/user/${userToBeDeleted.id}`)
+            await getAxios().delete(`/user/${userToBeDeleted.id}`)
             .then(() => {
                 handleUserRetrieval()
             })

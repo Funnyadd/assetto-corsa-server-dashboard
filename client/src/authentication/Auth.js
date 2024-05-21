@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app';
-import Axios from '../utils/AxiosConfig';
+import { getAxiosNoAuth } from '../utils/AxiosConfig';
 import {
     getAuth,
     signInWithEmailAndPassword,
@@ -35,14 +35,14 @@ export const logout = async () => {
     })
 }
 
-export const signup = async (email, password, steamUsername) => {
+export const signup = async (email, password, steamId) => {
     const data = {
         email: email,
         password: password,
-        steamUsername: steamUsername
+        steamId: steamId
     }
 
-    Axios().post(`/user`, data)
+    return await getAxiosNoAuth().post(`/user`, data)
     .catch(error => {
         throw error
     })

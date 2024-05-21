@@ -72,31 +72,37 @@ const RegisterForm = ({ registrationHandler }) => {
     }
 
     const handleSubmit = async (event) => {
+        event.preventDefault()
+
         if (checkFormValidity() === false) {
-            event.preventDefault()
             event.stopPropagation()
         }
         else {
-            event.preventDefault()
-            clearRegisterForm()
-
             await signup(email, password, steamId)
             .then(() => {
                 registrationHandler()
+                clearRegisterForm()
             })
             .catch((error) => {
-                switch(error.code) {
-                    case emailAlreadyInUseErrorCode:
-                        sendErrorNotification(emailAlreadyInUseErrorMessage)
-                        break
-                    case internalErrorCode:
-                        sendErrorNotification(internalErrorMessage)
-                        break
-                    case tooManyRequestsErrorCode:
-                        sendErrorNotification(tooManyRequestsErrorMessage)
-                        break
-                    default:
-                        sendErrorNotification(unexpectedErrorMessage)
+                event.stopPropagation()
+                
+                if (error.response.data.error.status === 404) {
+                    sendErrorNotification(error.response.data.error.message)
+                }
+                else {
+                    switch(error.code) {
+                        case emailAlreadyInUseErrorCode:
+                            sendErrorNotification(emailAlreadyInUseErrorMessage)
+                            break
+                        case internalErrorCode:
+                            sendErrorNotification(internalErrorMessage)
+                            break
+                        case tooManyRequestsErrorCode:
+                            sendErrorNotification(tooManyRequestsErrorMessage)
+                            break
+                        default:
+                            sendErrorNotification(unexpectedErrorMessage)
+                    }
                 }
             })
         }
