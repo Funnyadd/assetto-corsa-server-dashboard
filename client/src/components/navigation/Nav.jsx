@@ -34,7 +34,7 @@ const Nav = () => {
 					</Menu>
 				</div>
 			</Navbar>
-      	</Drawer>
+		</Drawer>
     )
 }
 

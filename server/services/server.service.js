@@ -10,7 +10,6 @@ const {
 
 exports.getServerById = async (id) => {
     return await serversDao.getServerById(id)
-    // getting occupied slots might need to be implemented or maybe it's not usefull info here
 }
 
 exports.getAllServers = async () => {

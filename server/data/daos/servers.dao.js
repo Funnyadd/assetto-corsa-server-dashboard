@@ -42,7 +42,6 @@ exports.getAllServers = async (serverModel = ServerModel) => {
         .catch(err => {
             reject({
                 status: 500,
-                data: {},
                 message: err.message || "some error occured"
             })
         })
@@ -67,7 +66,6 @@ exports.createServer = async (server, serverModel = ServerModel) => {
         }).catch(err => {
             reject({
                 status: 500,
-                data: {},
                 message: err.message || "some error occured"
             })
         })
@@ -97,7 +95,6 @@ exports.updateServer = async (server, serverModel = ServerModel) => {
         .catch(err => {
             reject({
                 status: 500,
-                data: {},
                 message: err.message || "some error occured"
             })
         })

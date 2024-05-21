@@ -12,10 +12,10 @@ const Users = () => {
     Axios.defaults.withCredentials = true
     
     const [users, setUsers] = useState([])
-
+    
     const [confirmationModalActivated, setConfirmationModalActivated] = useState(false)
-    const [userToBeDeleted, setUserToBeDeleted] = useState({});
-
+    const [userToBeDeleted, setUserToBeDeleted] = useState({})
+    
     const handleUserRetrieval = async () => {
         await Axios.get(`${process.env.REACT_APP_BACKEND_API_URL}/user`, header)
         .then(response => {
@@ -23,14 +23,12 @@ const Users = () => {
             localStorage.setItem('allUsers', JSON.stringify(response.data))
         })
         .catch(error => {
-            // Maybe add notification or other type of feedback
-            // for the user to know what error happenned.
             const errorMessage = "Couldn't retrieve users"
             console.error(errorMessage, error)
             sendErrorNotification(errorMessage)
         })
     }
-
+    
     const handleDeleteButtonClicked = (user) => {
         setUserToBeDeleted(user)
         setConfirmationModalActivated(true)
@@ -43,28 +41,26 @@ const Users = () => {
                 handleUserRetrieval()
             })
             .catch(error => {
-                // Maybe add notification or other type of feedback
-                // for the user to know what error happenned.
                 const errorMessage = `Couldn't delete user with id ${userToBeDeleted.id}`
                 console.error(errorMessage, error)
                 sendErrorNotification(errorMessage)
             })
         }
     }
-
+    
     const pageStateRef = useRef(null)
     useEffect(() => {
         if (pageStateRef.isFirstPageLoad === undefined) {
             let storedData = JSON.parse(localStorage.getItem('allUsers'))
-			if (storedData) {
-				setUsers(storedData)
-			}
+            if (storedData) {
+                setUsers(storedData)
+            }
             handleUserRetrieval()
-
+            
             pageStateRef.isFirstPageLoad = false
         }
     }, [])
-
+    
     return (
         <>
             <NavBar/>
@@ -73,7 +69,6 @@ const Users = () => {
                 <div className="overflow-x-auto">
                     <Table zebra size="lg" className='static'>
                         <Table.Head>
-                            {/* Revisit the fields here to reflect the API */}
                             <span>Id</span>
                             <span>Steam Username</span>
                             <span>Email</span>
@@ -85,12 +80,10 @@ const Users = () => {
                             {users.map((user, index) => {
                                 return (
                                     <Table.Row key={index}>
-                                        {/* Maybe have less info here and have a "details" button or wtv */}
                                         <span>{user.id}</span>
                                         <span>{user.steamUsername}</span>
                                         <span>{user.email}</span>
                                         <span>{user.role}</span>
-                                        {/* Change the whitelist thing for a toggle */}
                                         <span><Toggle checked={user.isWhitelisted} color="success" /></span>
                                         <div className="text-end min-w-20">
                                             <Button

@@ -22,15 +22,15 @@ const ServerTile = ({ server, sync }) => {
 
     const startServer = async () => {
         await Axios.post(`${process.env.REACT_APP_BACKEND_API_URL}/server/start/${server.id}`, {}, header)
-		.then(response => {
+        .then(response => {
             server.isStarted = response.data.isStarted
             sync()
-		})
-		.catch(error => {
+        })
+        .catch(error => {
             const errorMessage = `An error occured while starting the server ${server.name}`
             console.error(errorMessage, error)
-			sendErrorNotification(errorMessage)
-		})
+            sendErrorNotification(errorMessage)
+        })
     }
 
     const stopServer = async () => {
@@ -42,7 +42,7 @@ const ServerTile = ({ server, sync }) => {
         .catch(error => {
             const errorMessage = `An error occured while stopping the server ${server.name}`
             console.error(errorMessage, error)
-			sendErrorNotification(errorMessage)
+            sendErrorNotification(errorMessage)
         })
     }
 

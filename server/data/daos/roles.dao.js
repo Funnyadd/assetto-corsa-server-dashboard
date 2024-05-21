@@ -38,7 +38,6 @@ exports.getAllRoles = async (roleModel = RoleModel) => {
         .catch(err => {
             reject({
                 status: 500,
-                data: {},
                 message: err.message || "some error occured"
             })
         })

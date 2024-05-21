@@ -1,6 +1,5 @@
 const { spawn } = require('node:child_process')
 
-const absoluteBasePath = "/Users/adam/assetto-server-test-files"
 const executableFileName = process.env.RUNNING_OS === "mac" ? "./test.sh" : "acServer"
 const screenInstancePrefix = "acs-"
 
@@ -116,7 +115,7 @@ const executeServerShellCommand = (command, folderName) => {
     try {
         const execution = spawn(command,
         {
-            cwd: `${absoluteBasePath}/${folderName}`,
+            cwd: `${process.env.SERVER_FOLDER_BASE_PATH}/${folderName}`,
             detached: true,
             shell: true
         })

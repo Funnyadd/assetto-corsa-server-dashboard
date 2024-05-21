@@ -48,7 +48,6 @@ exports.getAllUsers = async (userModel = UserModel) => {
         .catch(err => {
             reject({
                 status: 500,
-                data: {},
                 message: err.message || "some error occured"
             })
         })
@@ -74,7 +73,6 @@ exports.createUser = async (user, userModel = UserModel) => {
         }).catch(err => {
             reject({
                 status: 500,
-                data: {},
                 message: err.message || "some error occured"
             })
         })
@@ -108,7 +106,6 @@ exports.updateUser = async (user, userModel = UserModel) => {
         .catch(err => {
             reject({
                 status: 500,
-                data: {},
                 message: err.message || "some error occured"
             })
         })

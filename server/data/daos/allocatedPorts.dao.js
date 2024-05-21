@@ -46,7 +46,6 @@ exports.updateAllocatedPort = async (allocatedPort, allocatedPortModel = Allocat
         .catch(err => {
             reject({
                 status: 500,
-                data: {},
                 message: err.message || "some error occured"
             })
         })
@@ -67,7 +66,6 @@ exports.createAllocatedPort = async (allocatedPort, allocatedPortModel = Allocat
         }).catch(err => {
             reject({
                 status: 500,
-                data: {},
                 message: err.message || "some error occured"
             })
         })

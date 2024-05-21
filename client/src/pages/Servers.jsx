@@ -10,13 +10,13 @@ import { sendErrorNotification } from '../utils/NotificationUtils';
 
 function Servers() {
 	const defaultCountDownTimerValue = 60
-
+	
 	const header = { headers: { refreshtoken: getAuth().currentUser.refreshToken }}
 	Axios.defaults.withCredentials = true
 	
 	const [serversList, setServersList] = useState([])
 	const [countDown, setCountDown] = useState(0)
-
+	
 	const updateServersInfo = async () => {
 		setCountDown(defaultCountDownTimerValue)
 
@@ -31,36 +31,35 @@ function Servers() {
 			sendErrorNotification(errorMessage)
 		})
 	}
-
+	
 	const stopAllServers = async () => {
-        await Axios.post(`${process.env.REACT_APP_BACKEND_API_URL}/server/stopAll`, {}, header)
-        .then(updateServersInfo)
-        .catch(error => {
+		await Axios.post(`${process.env.REACT_APP_BACKEND_API_URL}/server/stopAll`, {}, header)
+		.then(updateServersInfo)
+		.catch(error => {
 			const errorMessage = `An error occured while stopping the servers.`
-            console.error(errorMessage, error)
+			console.error(errorMessage, error)
 			sendErrorNotification(errorMessage)
-        })
-    }
+		})
+	}
 
 	const sortAndSetServerList = (list = serversList) => {
 		setServersList(list
 			.sort((a, b) => a.lastPort - b.lastPort)
 			.sort((a, b) => ((a.isStarted === b.isStarted) ? 0 : a.isStarted ? -1 : 1)))
 	}
-
+	
 	const pageStateRef = useRef(null)
 	useEffect(() => {
 		if (pageStateRef.isFirstPageLoad === undefined) {
-            let storedData = JSON.parse(localStorage.getItem('allServers'))
+			let storedData = JSON.parse(localStorage.getItem('allServers'))
 			if (storedData) {
 				setServersList(storedData)
 			}
-            pageStateRef.isFirstPageLoad = false
+			pageStateRef.isFirstPageLoad = false
         }
-		
 	}, [])
-
-  	useEffect(() => {
+	
+	useEffect(() => {
 		if (countDown < 0) {
 			updateServersInfo()
 		}
@@ -72,14 +71,13 @@ function Servers() {
 			return () => clearInterval(interval)
 		}   
   	}, [countDown])
-
+	
 	return (
 		<>
 			<NavBar/>
 			<div className='flex flex-col items-center mt-6 mb-12'>
 				<Container>
 					<div className='ps-3 pe-2 grid grid-cols-serversGridHeader items-center gap-x-3'>
-						{/* Revisit the fields here to match with what the API returns */}
 						<span>Port</span>
 						<span>Name</span>
 						<span>Slots</span>

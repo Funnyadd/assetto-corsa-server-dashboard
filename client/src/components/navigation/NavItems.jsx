@@ -7,12 +7,12 @@ import { sendSuccessNotification } from '../../utils/NotificationUtils';
 
 const NavItems = () => {
 	const loggedOutConfirmationMessage = "You have successfully logged out!"
-
-    const navigate = useNavigate()
-  
-    const [theme, setTheme] = useState();
-
-    const handleLoggingOut = async () => {
+	
+	const navigate = useNavigate()
+	
+	const [theme, setTheme] = useState()
+	
+	const handleLoggingOut = async () => {
 		await logout()
 		.then(() => {
 			sendSuccessNotification(loggedOutConfirmationMessage)
@@ -21,19 +21,18 @@ const NavItems = () => {
 		.catch((error) => {
 			console.error(error)
 		})
-    }
-  
-    const toggleTheme = (t) => {
+	}
+	
+	const toggleTheme = (t) => {
 		document.getElementsByTagName('html')[0].setAttribute('data-theme', t)
 		window.localStorage.setItem('sb-react-daisyui-preview-theme', t)
 		setTheme(t)
-    }
-  
-    useEffect(() => {
+	}
+	useEffect(() => {
 		const t = window.localStorage.getItem('sb-react-daisyui-preview-theme')
 		document.getElementsByTagName('html')[0].setAttribute('data-theme', t)
 		setTheme(t)
-    }, [])
+	}, [])
   
     return (
 		<>

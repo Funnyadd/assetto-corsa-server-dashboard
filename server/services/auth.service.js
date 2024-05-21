@@ -18,9 +18,6 @@ exports.authenticate = async (req, res, next) => {
         .then(async response => {
             let body = await response.json()
 
-            // Needs more things like a way to signout the user if token expired from the interface
-            // *******
-
             if (!response.ok) {
                 throw {
                     status: body.error.status,
