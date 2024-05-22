@@ -79,7 +79,7 @@ const Users = () => {
                                         <span>{user.id}</span>
                                         <span>{user.steamUsername}</span>
                                         <span>{user.email}</span>
-                                        <span>{user.role}</span>
+                                        <span>{user.role.name}</span>
                                         <span>
                                             <Toggle
                                                 checked={user.isWhitelisted}

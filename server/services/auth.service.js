@@ -74,6 +74,6 @@ exports.authenticate = async (req, res, next) => {
 
 const getUserRoleAndContinue = async (res, next, uid) => {
     const user = await getUserByUID(uid)
-    res.locals.roleId = user.roleId
+    res.locals.roleId = user.role.id
     next()
 }

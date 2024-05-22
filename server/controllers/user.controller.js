@@ -85,7 +85,7 @@ exports.modifyUser = async (req, res) => {
         || !req.body.firebaseUID
         || !req.body.email
         || !req.body.steamId
-        || !req.body.roleId
+        || !req.body.role
         || !req.body.isWhitelisted
     ) {
         return res.status(400).send({
@@ -98,7 +98,7 @@ exports.modifyUser = async (req, res) => {
         firebaseUID: req.body.firebaseUID,
         email: req.body.email,
         steamId: req.body.steamId,
-        roleId: req.body.roleId,
+        role: req.body.role,
         isWhitelisted: req.body.isWhitelisted
     }
 

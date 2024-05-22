@@ -1,5 +1,6 @@
 const database = require("../database");
 const UserModel = database.users;
+const RoleModel = database.roles;
 
 exports.getUserByUniqueIdentidier = async (id, isUID, userModel = UserModel) => {
     let whereObject = { id: id }
@@ -9,6 +10,7 @@ exports.getUserByUniqueIdentidier = async (id, isUID, userModel = UserModel) => 
 
     return new Promise((resolve, reject) => {
         userModel.findOne({
+            include: RoleModel,
             where: whereObject
         })
         .then(async data => {
@@ -26,7 +28,7 @@ exports.getUserByUniqueIdentidier = async (id, isUID, userModel = UserModel) => 
 
 exports.getAllUsers = async (userModel = UserModel) => {
     return new Promise((resolve, reject) => {
-        userModel.findAll()
+        userModel.findAll({ include: RoleModel })
         .then(async data => {
             if (data) {
                 let returnData = []
@@ -37,8 +39,8 @@ exports.getAllUsers = async (userModel = UserModel) => {
                         email: data[u].dataValues.email,
                         steamUsername: data[u].dataValues.steamUsername,
                         steamId: data[u].dataValues.steamId,
-                        roleId: data[u].dataValues.roleId,
-                        isWhitelisted: data[u].dataValues.isWhitelisted
+                        isWhitelisted: data[u].dataValues.isWhitelisted,
+                        role: data[u].dataValues.role
                     })
                 }
                 resolve(returnData)
@@ -46,6 +48,7 @@ exports.getAllUsers = async (userModel = UserModel) => {
             resolve(false)
         })
         .catch(err => {
+            console.log(err)
             reject({
                 status: 500,
                 message: err.message || "some error occured"
@@ -83,6 +86,7 @@ exports.updateUser = async (user, userModel = UserModel) => {
     return new Promise((resolve, reject) => {
         userModel.update(user,
         {
+            include: RoleModel,
             where: { id: user.id },
             individualHooks: true
         })
@@ -93,7 +97,7 @@ exports.updateUser = async (user, userModel = UserModel) => {
                     firebaseUID: data[1][0].dataValues.firebaseUID,
                     steamUsername: data[1][0].dataValues.steamUsername,
                     steamId: data[1][0].dataValues.steamId,
-                    roleId: data[1][0].dataValues.roleId,
+                    role: data[1][0].dataValues.role,
                     email: data[1][0].dataValues.email,
                     isWhitelisted: data[1][0].dataValues.isWhitelisted,
                 })
