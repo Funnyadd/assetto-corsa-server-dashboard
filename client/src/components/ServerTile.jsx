@@ -46,16 +46,16 @@ const ServerTile = ({ server, sync }) => {
             <span>{server.isStarted ? server.lastPort : "N/A"}</span>
             <span>{server.name}</span>
             <span>{server.occupiedSlots}/{server.totalSlots}</span>
-            <Button shape="square" color="ghost" size="sm" tag="a" href={serverUrl} target="_blank" rel="noreferrer" disabled={!server.isStarted}>
-                <BoxArrowInRight size={20}/>
+            <Button className="hover:text-primary" shape="square" color="ghost" size="sm" tag="a" href={serverUrl} target="_blank" rel="noreferrer" disabled={!server.isStarted}>
+                <BoxArrowInRight size={24}/>
             </Button>
             <Button shape="square" color="ghost" size="sm" onClick={toggleStartStop} className={server.isStarted ? "hover:text-error" : "hover:text-success"}>
-                {server.isStarted ? <Stop size={32}/> : <Play size={32}/>}
+                {server.isStarted ? <Stop size={32} className='pb-[2px]'/> : <Play size={32} className='pb-[2px]'/>}
             </Button>
-            <Button shape="square" color="ghost" size="sm" className="hover:text-warning" disabled>
+            <Button shape="square" color="ghost" size="sm" className="hover:text-warning">
                 <Pencil size={20}/>
             </Button>
-            <Button shape="square" color="ghost" size="sm" className="hover:text-error" disabled>
+            <Button shape="square" color="ghost" size="sm" className="hover:text-error">
                 <Trash size={20}/>
             </Button>
         </div>
