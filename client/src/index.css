@@ -56,3 +56,7 @@ body {
 .Toastify__close-button {
   align-self: auto !important;
 }
+
+.btn-ghost.btn-disabled {
+  background-color: unset !important;
+}
