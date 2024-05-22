@@ -57,6 +57,7 @@ body {
   align-self: auto !important;
 }
 
+/* Fix for disabled Ghost buttons  */
 .btn-ghost.btn-disabled {
   background-color: unset !important;
 }

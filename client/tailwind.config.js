@@ -20,14 +20,14 @@ module.exports = {
           "primary": "#2f27ce",
           "secondary": "#dddbff",
           "accent": "#443dff",
-          "neutral": "#040316",
+          "neutral": "#bebec0",
           "base-100": "#fbfbfe",
         },
         dark: {
           "primary": "#3a31d8",
           "secondary": "#020024",
           "accent": "#0600c2",
-          "neutral": "#eae9fc",
+          "neutral": "#1c1c1c",
           "base-100": "#131315",
         },
         daisyLight: {
