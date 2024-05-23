@@ -66,12 +66,12 @@ exports.find = async (req, res) => {
 
     try {
         let response
-        if (req.query.uid) {
+
+        if (req.query.uid)
             response = await userService.getUserByUID(req.params.id)
-        }
-        else {
+        else
             response = await userService.getUserById(req.params.id)
-        }
+
         return res.send(response)
     } catch (error) {
         return res.status(error.status || 500).send({
@@ -81,7 +81,6 @@ exports.find = async (req, res) => {
     }
 }
 
-// TODO: To be tested and finished (if email or password modification, call firebase)
 exports.modifyUser = async (req, res) => {
     hasPermission(res, 1)
 
@@ -119,7 +118,6 @@ exports.modifyUser = async (req, res) => {
     })
 }
 
-// Finish errors like 404 (verify return messages from firebase and show them to user)
 exports.deleteUser = async (req, res) => {
     hasPermission(res, 1)
 
