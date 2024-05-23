@@ -58,6 +58,6 @@ body {
 }
 
 /* Fix for disabled Ghost buttons  */
-.btn-ghost {
+.btn-ghost.icon-btn {
   background-color: unset !important;
 }

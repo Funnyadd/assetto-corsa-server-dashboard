@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { Button, Dropdown } from 'react-daisyui';
 import themes from './themes.json';
 import { sendSuccessNotification } from '../../utils/NotificationUtils';
+import FunctionProtected from '../FunctionProtected';
 
 const NavItems = () => {
 	const loggedOutConfirmationMessage = "You have successfully logged out!"
@@ -28,6 +29,7 @@ const NavItems = () => {
 		window.localStorage.setItem('sb-react-daisyui-preview-theme', t)
 		setTheme(t)
 	}
+
 	useEffect(() => {
 		const t = window.localStorage.getItem('sb-react-daisyui-preview-theme')
 		document.getElementsByTagName('html')[0].setAttribute('data-theme', t)
@@ -37,7 +39,9 @@ const NavItems = () => {
     return (
 		<>
 			<Button tag="a" href="/" color="ghost" className='text-lg'>Servers</Button>
-			<Button tag="a" href="/users" color="ghost" className='text-lg'>Users</Button>
+			<FunctionProtected manager>
+				<Button tag="a" href="/users" color="ghost" className='text-lg'>Users</Button>
+			</FunctionProtected>
 			<Dropdown end>
 				<Dropdown.Toggle className="btn btn-ghost rounded-btn text-lg w-full" button={false}>
 					Theme
@@ -75,19 +79,9 @@ const NavItems = () => {
 					</div>
 				</Dropdown.Menu>
 			</Dropdown>
-			<Button color="ghost" className='text-lg text-error' onClick={handleLoggingOut}>Logout</Button>
-			{/* <Dropdown end>
-			<Button shape="square" color="ghost">
-				<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="inline-block w-5 h-5 stroke-current">
-				<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z" />
-				</svg>
+			<Button color="ghost" className='text-lg text-error' onClick={handleLoggingOut}>
+				Logout
 			</Button>
-			<Dropdown.Menu className="bg-neutral text-neutral-content w-52 menu-sm mt-3 z-[1] p-2">
-				<Dropdown.Item>Profile</Dropdown.Item>
-				<Dropdown.Item>Settings</Dropdown.Item>
-				<Dropdown.Item className='' onClick={handleLoggingOut}>Logout</Dropdown.Item>
-			</Dropdown.Menu>
-			</Dropdown> */}
 		</>
 	)
 }

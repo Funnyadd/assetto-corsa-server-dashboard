@@ -5,9 +5,7 @@ import NavItems from './NavItems';
 const Nav = () => {
     const [visible, setVisible] = useState(false)
 
-    const toggleVisible = () => {
-		setVisible(!visible)
-    }
+    const toggleVisible = () => setVisible(!visible)
 
     return (
 		<Drawer open={visible} onClickOverlay={toggleVisible} side={

@@ -64,16 +64,21 @@ exports.find = async (req, res) => {
         })
     }
 
-    await userService.getUserById(req.params.id)
-    .then(async response => {
+    try {
+        let response
+        if (req.query.uid) {
+            response = await userService.getUserByUID(req.params.id)
+        }
+        else {
+            response = await userService.getUserById(req.params.id)
+        }
         return res.send(response)
-    })
-    .catch(error => {
+    } catch (error) {
         return res.status(error.status || 500).send({
             error: error,
             message: "An error occured when trying to get the user."
         })
-    })
+    }
 }
 
 // TODO: To be tested and finished (if email or password modification, call firebase)

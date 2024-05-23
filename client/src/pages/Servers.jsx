@@ -6,6 +6,7 @@ import { useState, useEffect, useRef } from "react";
 import { ArrowClockwise } from 'react-bootstrap-icons';
 import { getAxios } from '../utils/AxiosConfig';
 import { sendErrorNotification } from '../utils/NotificationUtils';
+import FunctionProtected from '../components/FunctionProtected';
 
 function Servers() {
 	const defaultCountDownTimerValue = 60
@@ -78,15 +79,27 @@ function Servers() {
 						<span>Port</span>
 						<span>Name</span>
 						<span>Slots</span>
-						<Button className="hover:bg-transparent" shape="square" color="ghost" size="sm" onClick={updateServersInfo}>
-							<ArrowClockwise className="hover:rotate-45 transition transition-500" size={32}/>
+						{/* <Button className="hover:bg-transparent group" shape="square" color="ghost" size="sm" onClick={updateServersInfo}>
+							<RadialProgress className='bg-base-300 -z-10 group-hover:hidden' value={(60 - countDown) / 60 * 100} thickness="2px" size="32px">
+								{countDown}
+							</RadialProgress>
+							<div className='group-hover:block hidden'>
+								<ArrowClockwise className="group-hover:rotate-45 transition transition-500" size={40}/>
+								<span className='relative top-[-30px]'>{countDown}</span>
+							</div>
+							
+						</Button> */}
+						<Button className="hover:bg-transparent group" shape="square" color="ghost" size="sm" onClick={updateServersInfo}>
+							<ArrowClockwise className="group-hover:rotate-45 transition transition-500" size={32}/>
 						</Button>
 						<RadialProgress className='bg-base-300 -z-10' value={(60 - countDown) / 60 * 100} thickness="2px" size="32px">
 							{countDown}
 						</RadialProgress>
-						<Button onClick={stopAllServers} className="justify-self-end" size="sm" color="error">
-							Stop All
-						</Button>
+						<FunctionProtected manager>
+							<Button onClick={stopAllServers} className="justify-self-end" size="sm" color="error">
+								Stop All
+							</Button>
+						</FunctionProtected>
 					</div>
 					{serversList.map((server, index) => 
 						<ServerTile key={index} server={server} sync={sortAndSetServerList}/>

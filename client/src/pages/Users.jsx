@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from 'react';
 import { getAxios } from '../utils/AxiosConfig';
 import ConfirmationModal from '../components/modals/ConfirmationModal';
 import { sendErrorNotification } from '../utils/NotificationUtils';
+import FunctionProtected from '../components/FunctionProtected';
 
 const Users = () => {
     const [users, setUsers] = useState([])
@@ -91,18 +92,20 @@ const Users = () => {
                                                 shape="square"
                                                 color="ghost"
                                                 size="sm"
-                                                className="me-2 hover:text-warning"
+                                                className="me-2 hover:text-warning icon-btn"
                                                 disabled>
                                                     <Pencil size={20}/>
                                             </Button>
-                                            <Button
-                                                shape="square"
-                                                color="ghost"
-                                                size="sm"
-                                                className="hover:text-error"
-                                                onClick={() => handleDeleteButtonClicked(user)}>
-                                                    <Trash size={20} className=""/>
-                                            </Button>
+                                            <FunctionProtected admin>
+                                                <Button
+                                                    shape="square"
+                                                    color="ghost"
+                                                    size="sm"
+                                                    className="hover:text-error icon-btn"
+                                                    onClick={() => handleDeleteButtonClicked(user)}>
+                                                        <Trash size={20} className=""/>
+                                                </Button>
+                                            </FunctionProtected>
                                         </div>
                                     </Table.Row>
                                 )

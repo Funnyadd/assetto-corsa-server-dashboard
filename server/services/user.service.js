@@ -11,7 +11,9 @@ exports.getUserByUID = async (uid) => {
 }
 
 exports.getAllUsers = async () => {
-    return await usersDao.getAllUsers()
+    let users = await usersDao.getAllUsers()
+    users.sort((a, b) => a.id - b.id)
+    return users
 }
 
 exports.createUser = async (user) => {

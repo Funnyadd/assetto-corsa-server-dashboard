@@ -2,23 +2,23 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Footer from './components/Footer';
 import Login from './pages/Login';
 import { AuthContext } from './authentication/AuthContext';
-import Protected from './components/Protected';
+import PageProtected from './components/PageProtected';
 import Servers from './pages/Servers';
 import NotFound from './pages/NotFound';
 import ForgotPassword from './pages/ForgotPassword';
 import Users from './pages/Users';
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { Slide, ToastContainer } from "react-toastify";
 
 const App = () => {
 	const router = createBrowserRouter([
 		{
 			path: "/",
-			element: <Protected><Servers /></Protected>
+			element: <PageProtected><Servers /></PageProtected>
 		},
 		{
 			path: "/users",
-			element: <Protected><Users /></Protected>
+			element: <PageProtected manager><Users /></PageProtected>
 		},
 		{
 			path: "/login",
@@ -34,9 +34,17 @@ const App = () => {
 		}
 	])
 
+	const pageStateRef = useRef(null)
 	useEffect(() => {
-		const theme = window.localStorage.getItem('sb-react-daisyui-preview-theme')
-		document.getElementsByTagName('html')[0].setAttribute('data-theme', theme)
+		if (pageStateRef.isFirstPageLoad === undefined) {
+			let theme = window.localStorage.getItem('sb-react-daisyui-preview-theme')
+			if (!theme) {
+				theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"
+				window.localStorage.setItem('sb-react-daisyui-preview-theme', theme)
+			}
+			document.getElementsByTagName('html')[0].setAttribute('data-theme', theme)
+			pageStateRef.isFirstPageLoad = false
+        }
 	}, [])
 
 	return (
