@@ -3,8 +3,12 @@ import { BoxArrowInRight, Play, Stop, Pencil, Trash } from "react-bootstrap-icon
 import { getAxios } from '../utils/AxiosConfig';
 import { sendErrorNotification } from '../utils/NotificationUtils';
 import FunctionProtected from './FunctionProtected';
+import { useContext } from 'react';
+import { Context } from '../authentication/AuthContext';
 
 const ServerTile = ({ server, sync }) => {
+    const { user } = useContext(Context)
+
     const serverUrl = `https://acstuff.ru/s/q:race/online/join?ip=${process.env.REACT_APP_ASSETTO_SERVER_IP}&httpPort=${server.port}`
     
     const toggleStartStop = () => {
@@ -41,9 +45,15 @@ const ServerTile = ({ server, sync }) => {
             sendErrorNotification(errorMessage)
         })
     }
+
+    const isManagerUser = () => {
+        return user.roleId <= 2
+    }
     
     return (
-        <div className={'p-2 my-2 grid grid-cols-serversGridContent gap-x-3 items-center bg-base-300 rounded-box border-s-4 ' + (server.isStarted ? 'border-success' : 'border-error')}>
+        <div className={'p-2 my-2 grid gap-x-3 items-center bg-base-300 rounded-box border-s-4 ' 
+            + (server.isStarted ? 'border-success ' : 'border-error ')
+            + (isManagerUser() ? 'grid-cols-serversGridContentAdmin' : 'grid-cols-serversGridContent')}>
             <span>{server.isStarted ? server.lastPort : "N/A"}</span>
             <span>{server.name}</span>
             <span>{server.occupiedSlots}/{server.totalSlots}</span>

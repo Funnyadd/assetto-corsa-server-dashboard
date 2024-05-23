@@ -8,8 +8,10 @@ module.exports = {
   theme: {
     extend: {
       gridTemplateColumns: {
-        'serversGridContent': '40px 1fr 50px repeat(4, 32px)',
-        'serversGridHeader': '40px 1fr 50px 32px 32px 76px',
+        'serversGridContent': '40px 1fr 50px 76px',
+        'serversGridHeader': '40px 1fr 50px repeat(2, 32px)',
+        'serversGridContentAdmin': '40px 1fr 50px repeat(4, 32px)',
+        'serversGridHeaderAdmin': '40px 1fr 50px repeat(2, 32px) 76px',
       },
     }
   },

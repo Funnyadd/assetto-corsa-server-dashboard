@@ -9,25 +9,24 @@ export const AuthContext = ({ children }) => {
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
-        const unsubscribe = onAuthStateChanged(getAuth(), currentUser => {
+        const unsubscribe = onAuthStateChanged(getAuth(), async currentUser => {
             if (currentUser) {
+                setUser(currentUser)
                 if (!currentUser.roleId) {
-                    getAxios().get(`/user/${currentUser.uid}?uid=true`)
+                    await getAxios().get(`/user/${currentUser.uid}?uid=true`)
                     .then(user => {
                         currentUser.roleId = user.data.role.id
                         setUser(currentUser)
-                        setLoading(false)
                     })
                     .catch(() => {
                         setUser(null)
                     })
                 }
-                else {
-                    setUser(currentUser)
-                    setLoading(false)
-                }
             }
-            else setUser(null)
+            else {
+                setUser(null)
+            }
+            setLoading(false)
         })
 
         return () => {

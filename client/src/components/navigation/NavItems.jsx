@@ -48,7 +48,7 @@ const NavItems = () => {
 				</Dropdown.Toggle>
 				<Dropdown.Menu className="dropdown-content bg-base-200 rounded-box top-px h-[28.6rem] max-h-[calc(100vh-10rem)] w-56 overflow-y-auto border border-white/5 shadow-2xl outline outline-1 outline-black/5 mt-16">
 					<div className='class="grid grid-cols-1 gap-3 p-3"'>
-					<p className='text-center text-lg font-bold my-2'>Actif: {theme}</p>
+					<p className='text-center text-lg font-bold my-2'><strong>Current :</strong> {theme}</p>
 					{themes.map((t, i) => 
 						<button
 							key={i}

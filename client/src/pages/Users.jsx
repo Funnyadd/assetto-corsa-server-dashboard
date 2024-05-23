@@ -49,9 +49,7 @@ const Users = () => {
     useEffect(() => {
         if (pageStateRef.isFirstPageLoad === undefined) {
             let storedData = JSON.parse(localStorage.getItem('allUsers'))
-            if (storedData) {
-                setUsers(storedData)
-            }
+            if (storedData) setUsers(storedData)
             handleUserRetrieval()
             
             pageStateRef.isFirstPageLoad = false
@@ -103,7 +101,7 @@ const Users = () => {
                                                     size="sm"
                                                     className="hover:text-error icon-btn"
                                                     onClick={() => handleDeleteButtonClicked(user)}>
-                                                        <Trash size={20} className=""/>
+                                                        <Trash size={20}/>
                                                 </Button>
                                             </FunctionProtected>
                                         </div>
@@ -118,6 +116,7 @@ const Users = () => {
                 open={confirmationModalActivated}
                 setOpen={setConfirmationModalActivated}
                 message={`Are you sure you want to delete user ${userToBeDeleted.steamUsername}?`}
+                confirmBtnColor="error"
                 action={handleDeleteUser}
                 confirmationMessage={`User ${userToBeDeleted.steamUsername} deleted successfully!`} />
         </>

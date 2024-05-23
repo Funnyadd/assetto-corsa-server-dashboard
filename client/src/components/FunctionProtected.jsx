@@ -8,7 +8,7 @@ const FunctionProtected = ({ children, admin = false, manager = false }) => {
     if (manager) roleNeeded = 2
     else if (admin) roleNeeded = 1
     
-    if (user?.roleId > roleNeeded) return <></>
+    if (!user.roleId || user.roleId > roleNeeded) return <></>
     else return children
 }
 

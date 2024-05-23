@@ -1,7 +1,7 @@
 import { Modal, Button } from 'react-daisyui';
 import { sendSuccessNotification } from '../../utils/NotificationUtils';
 
-const ConfirmationModal = ({ open, setOpen, message, action, confirmationMessage }) => {
+const ConfirmationModal = ({ open, setOpen, message, action, confirmationMessage, confirmBtnColor = "success" }) => {
 
     const toggleOpen = () => setOpen(!open)
 
@@ -27,7 +27,7 @@ const ConfirmationModal = ({ open, setOpen, message, action, confirmationMessage
                 <p>{message}</p>
             </Modal.Body>
             <Modal.Actions>
-                <Button onClick={handleConfirmation}>Yes</Button>
+                <Button color={confirmBtnColor} onClick={handleConfirmation}>Yes</Button>
                 <Button onClick={toggleOpen}>Cancel</Button>
             </Modal.Actions>
         </Modal>
