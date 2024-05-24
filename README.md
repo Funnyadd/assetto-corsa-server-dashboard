@@ -12,16 +12,47 @@ At the moment, it can start and stop them as well as add and remove people from 
 The frontend of this application is done in React with tailwindCSS and daisy UI for styling.
 The backend of this application is in ExpressJS with sequalize for database requests and firebase for its authentication services.
 
+## Requirements
+
+- 64bit Linux
+- Postgres database
+
 ## Getting started 
 
-It is important to note that this application needs to be connected to a firebase authentication service (it's free) that can be created [here](https://console.firebase.google.com/).\
+1. It is important to note that this application needs to be connected to a firebase authentication service (it's free) that can be created [here](https://console.firebase.google.com/).\
 Once this is done, you may add the environment variables to the `.env` files in the frontend (`./client`) and backend (project root folder).
 
-After that, initialize your own postgres database by adding the right variables in the `.env` file in the backend (project root folder).\
+2. After that, initialize your own postgres database by adding the right variables in the `.env` file in the backend (project root folder).\
 <strong>!!! COMMAND TO BE ADDED !!!</strong> You can then run the `npm run createTables` command and make sure that 4 tables were created: `allocated_ports, servers, users and roles`.
 
-Lastly, run the `npm install` in both the `./client` and `root` directories.\
+3. Lastly, run the `npm install` in both the `./client` and `root` directories.\
 Then, start both applications.
+
+## RoadMap
+
+- [ ] v1.0
+  - [ ] Update README [#11](/../../issues/11)
+  - [ ] Make app PWA ready and responsive [#22](/../../issues/22)
+  - [ ] Add exception handling for refreshToken API call to firebase admin [#15](/../../issues/15)
+  - [ ] Rework exception handling system in the backend [#12](/../../issues/12)
+  - [ ] Add MODIFY functionnality for users [#19](/../../issues/19)
+- [ ] v1.1
+  - [ ] Add ADD button on users page [#18](/../../issues/18)
+  - [ ] Add ADD server functionnality [#20](/../../issues/20)
+  - [ ] Add possibility to add cars and tracks with pictures and useful data for a better ADD and MODIFY server experience.
+  - [ ] Add MODIFY server functionnality [#20](/../../issues/20)
+  - [ ] Add DELETE server functionnality [#17](/../../issues/17)
+
+IDEAS :
+- [ ] Add possibility to add traffic to a server
+- [ ] Read more stats from server info and logs
+- [ ] Automatic coordinates and timeZone fetching for new maps
+- [ ] Weather change in server without having to stop it
+- [ ] Add description to servers https://assettoserver.org/docs/faq#server-description
+- [ ] Add more server details? https://assettoserver.org/docs/misc/server-details
+- [ ] Have download links for cars and tracks per server
+
+If you have any ideas for a cool new feature, please let me know by [creating a new issue](https://github.com/Funnyadd/assetto-corsa-server-dashboard/issues/new) with the tag `idea`.
 
 ## Available Scripts
 
