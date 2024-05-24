@@ -1,63 +1,45 @@
-# Assetto Corsa Server Dashboard
+<p align="center">
+  <a href="https://www.assetto.adammihajlovic.ca">
+    <img alt="logo" src="./client/public/logo512.png" width="80" />
+  </a>
+</p>
+<h1 align="center">
+  Assetto Corsa Server Dashboard
+</h1>
+
+Dashboard application made to manage assetto corsa dedicated servers.
+At the moment, it can start and stop them as well as add and remove people from the servers whitelists.
+The frontend of this application is done in React with tailwindCSS and daisy UI for styling.
+The backend of this application is in ExpressJS with sequalize for database requests and firebase for its authentication services.
+
+## Getting started 
+
+It is important to note that this application needs to be connected to a firebase authentication service (it's free) that can be created [here](https://console.firebase.google.com/).\
+Once this is done, you may add the environment variables to the `.env` files in the frontend (`./client`) and backend (project root folder).
+
+After that, initialize your own postgres database by adding the right variables in the `.env` file in the backend (project root folder).\
+<strong>!!! COMMAND TO BE ADDED !!!</strong> You can then run the `npm run createTables` command and make sure that 4 tables were created: `allocated_ports, servers, users and roles`.
+
+Lastly, run the `npm install` in both the `./client` and `root` directories.\
+Then, start both applications.
 
 ## Available Scripts
 
-In the project directory, you can run:
-
 ### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- <ins>In the project directory:</ins> Runs the backend application.\
+By default, it will run on [http://localhost:3001](http://localhost:3001) but, you can change the port in the server's environment variables by changing the `PORT` variable.
 
+- <ins>In the client directory:</ins> Runs the frontend application.\
+Open [http://localhost:3000](http://localhost:3000) to view it in your browser.\
+\
 The page will reload when you make changes.\
 You may also see any lint errors in the console.
 
 ### `npm run build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
+- <ins>In the client directory:</ins> Builds the application for production to the `build` folder.\
+It correctly bundles React in production mode and optimizes the build for the best performance.\
+\
 The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+The application is ready to be deployed!
