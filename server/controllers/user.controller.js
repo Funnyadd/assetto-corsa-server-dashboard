@@ -41,7 +41,7 @@ exports.create = async (req, res) => {
 }
 
 exports.findAll = async (req, res) => {
-    hasPermission(res, 3)
+    hasPermission(res, 2)
 
     await userService.getAllUsers()
     .then(response => {
@@ -56,7 +56,7 @@ exports.findAll = async (req, res) => {
 }
 
 exports.find = async (req, res) => {
-    hasPermission(res, 3)
+    hasPermission(res, 2)
 
     if (!req.params.id) {
         return res.status(400).send({

@@ -51,6 +51,7 @@ Then, start both applications.
 - [ ] Add description to servers https://assettoserver.org/docs/faq#server-description
 - [ ] Add more server details? https://assettoserver.org/docs/misc/server-details
 - [ ] Have download links for cars and tracks per server
+- [ ] Add a page to see stats with potentially graphs and some sort of history
 
 If you have any ideas for a cool new feature, please let me know by [creating a new issue](https://github.com/Funnyadd/assetto-corsa-server-dashboard/issues/new) with the tag `idea`.
 

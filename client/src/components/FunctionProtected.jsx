@@ -1,14 +1,11 @@
 import { useContext } from 'react';
 import { Context } from '../authentication/AuthContext';
+import { getRoleNeeded } from '../utils/roleUtils';
 
 const FunctionProtected = ({ children, admin = false, manager = false }) => {
     const { user } = useContext(Context)
-
-    let roleNeeded = 3
-    if (manager) roleNeeded = 2
-    else if (admin) roleNeeded = 1
     
-    if (!user.roleId || user.roleId > roleNeeded) return <></>
+    if (!user.roleId || user.roleId > getRoleNeeded(manager, admin)) return <></>
     else return children
 }
 

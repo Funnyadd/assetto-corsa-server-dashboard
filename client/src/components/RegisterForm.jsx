@@ -179,7 +179,7 @@ const RegisterForm = ({ registrationHandler }) => {
             </Form.Group>
 
             <Form.Group className="mb-3">
-            <Form.Label htmlFor="registerPasswordConfirmationInput">Password Confirmation</Form.Label>
+                <Form.Label htmlFor="registerPasswordConfirmationInput">Password Confirmation</Form.Label>
                 <Form.Control
                     id="registerPasswordConfirmationInput"
                     bsPrefix='w-full text-lg'
