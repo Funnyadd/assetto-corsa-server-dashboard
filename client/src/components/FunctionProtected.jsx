@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import { Context } from '../authentication/AuthContext';
-import { getRoleNeeded } from '../utils/roleUtils';
+import { getRoleNeeded } from '../utils/RoleUtils';
 
 const FunctionProtected = ({ children, admin = false, manager = false }) => {
     const { user } = useContext(Context)

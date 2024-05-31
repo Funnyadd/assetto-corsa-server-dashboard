@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react';
 import { Eye, EyeSlashFill } from "react-bootstrap-icons";
-import Feedback from 'react-bootstrap/Feedback';
 import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
 import { useNavigate } from 'react-router-dom';
 import { login } from '../authentication/Auth';
 import RegisterModal from '../components/modals/RegisterModal';
 import { useSearchParams } from 'react-router-dom';
-import { Button, Input, Link, Divider } from 'react-daisyui';
+import { Button, Link, Divider } from 'react-daisyui';
 import { sendErrorNotification } from '../utils/NotificationUtils';
+import FormInput from '../components/FormInput';
 
 const LoginForm = () => {
     const eyeIconSize = 22
@@ -50,7 +50,7 @@ const LoginForm = () => {
     const handleSubmit = async (event) => {
         const form = event.currentTarget
 
-        if (form.checkValidity() === false) {
+        if (!form.checkValidity()) {
             event.preventDefault()
             event.stopPropagation()
             setValidated(true)
@@ -94,32 +94,26 @@ const LoginForm = () => {
                 <Card className="p-4 my-[3rem] shadow w-full bg-base-300 max-w-[27rem]">
                     <Form className='text-center' noValidate validated={validated} onSubmit={handleSubmit}>
                         <Form.Group className="mb-4" controlId="loginFormEmail">
-                            <Form.Control 
-                                bsPrefix='w-full text-lg'
-                                as={Input}
-                                borderOffset={false}
-                                bordered
+                            <FormInput
+                                id="loginFormEmailInput"
                                 type="email"
                                 placeholder="Email"
                                 value={email}
-                                onChange={(e) => setEmail(e.target.value)}
+                                setValue={setEmail}
+                                feedbackMessage="Please enter a valid email address" 
                                 required />
-                            <Feedback type='invalid' className='text-error'>
-                                Please enter a valid email address
-                            </Feedback>
                         </Form.Group>
 
                         <Form.Group className="mb-4 inputWithShowHide" controlId="loginFormPassword">
-                            <Form.Control
-                                bsPrefix='w-full text-lg pe-[2.75rem]'
-                                as={Input}
-                                borderOffset={false}
-                                bordered
+                            <FormInput
+                                id="loginFormPasswordInput"
+                                bsPrefix='pe-[2.75rem]'
                                 type={showPass ? "text" : "password"}
                                 placeholder="Password"
                                 value={password}
-                                onChange={(e) => setPassword(e.target.value)}
+                                setValue={setPassword}
                                 onKeyDown={handleSubmitOnEnterKeyPressed}
+                                feedbackMessage="Please enter a valid password" 
                                 required />
                             <button 
                                 aria-label="showHidePasswordButton" 
@@ -131,9 +125,6 @@ const LoginForm = () => {
                                         : <Eye size={eyeIconSize} />
                                     }
                             </button>
-                            <Feedback type='invalid' className='text-error'>
-                                Please enter a valid password
-                            </Feedback>
                         </Form.Group>
 
                         <Button

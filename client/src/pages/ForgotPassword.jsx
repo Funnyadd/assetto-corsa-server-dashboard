@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
 import Card from 'react-bootstrap/Card';
-import { Input, Button } from 'react-daisyui';
+import { Button } from 'react-daisyui';
 import Form from 'react-bootstrap/Form';
 import { useNavigate } from 'react-router-dom';
 import { forgotPassword } from '../authentication/Auth';
 import { useSearchParams } from 'react-router-dom';
 import { sendErrorNotification, sendNotification } from '../utils/NotificationUtils';
+import FormInput from '../components/FormInput';
 
 const ForgotPassword = () => {
     const enterKeyCode = 13
@@ -73,21 +74,16 @@ const ForgotPassword = () => {
                     </Card.Header>
                     <Card.Body>
                         <p className="mb-4">Please enter your email to received a password reset link.</p>
-                        <Form.Group className="mb-3" controlId="loginFormEmail">
-                            <Form.Control
-                                bsPrefix='w-full text-lg'
-                                as={Input}
-                                borderOffset={false}
-                                bordered
+                        <Form.Group className="mb-3" controlId="forgotPasswordEmail">
+                            <FormInput
+                                id="forgotPasswordEmailInput"
                                 type="email"
                                 placeholder="Email"
                                 value={email}
-                                onChange={(e) => setEmail(e.target.value)}
+                                setValue={setEmail}
                                 onKeyDown={handleSubmitOnEnterKeyPressed}
+                                feedbackMessage="Please enter a valid email address" 
                                 required />
-                            <Form.Control.Feedback type="invalid">
-                                Please enter a valid email address
-                            </Form.Control.Feedback>
                         </Form.Group>
                     </Card.Body>
                     <Card.Footer className="p-4 pe-8 flex justify-end">

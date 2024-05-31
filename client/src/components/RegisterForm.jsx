@@ -1,9 +1,9 @@
 import Form from 'react-bootstrap/Form';
-import Feedback from 'react-bootstrap/Feedback'
 import { useState } from 'react';
-import { Button, Input, Collapse } from 'react-daisyui';
+import { Button, Collapse } from 'react-daisyui';
 import { signup } from '../authentication/Auth';
 import { sendErrorNotification } from '../utils/NotificationUtils';
+import FormInput from './FormInput';
 
 const RegisterForm = ({ registrationHandler }) => {
     const enterKeyCode = 13
@@ -74,7 +74,7 @@ const RegisterForm = ({ registrationHandler }) => {
     const handleSubmit = async (event) => {
         event.preventDefault()
 
-        if (checkFormValidity() === false) {
+        if (!checkFormValidity()) {
             event.stopPropagation()
         }
         else {
@@ -112,38 +112,26 @@ const RegisterForm = ({ registrationHandler }) => {
         <Form noValidate onSubmit={handleSubmit}>
             <Form.Group className="mb-3">
                 <Form.Label bsPrefix="mb-2" htmlFor="registerEmailInput">Email</Form.Label>
-                <Form.Control
+                <FormInput
                     id="registerEmailInput"
-                    bsPrefix='w-full text-lg'
-                    as={Input}
-                    borderOffset={false}
-                    bordered
                     type="email"
                     value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    setValue={setEmail}
                     isInvalid={emailInvalid && validated}
+                    feedbackMessage="Please enter a valid email address" 
                     required />
-                <Feedback type="invalid" className='text-error'>
-                    Please enter a valid email address
-                </Feedback>
             </Form.Group>
 
             <Form.Group className="mb-3">
                 <Form.Label htmlFor="registerSteamIdInput">Steam ID</Form.Label>
-                <Form.Control
+                <FormInput
                     id="registerSteamIdInput"
-                    bsPrefix='w-full text-lg'
-                    as={Input}
-                    borderOffset={false}
-                    bordered
                     type="text"
                     value={steamId}
-                    onChange={(e) => setSteamId(e.target.value)}
+                    setValue={setSteamId}
                     isInvalid={steamIdInvalid && validated}
+                    feedbackMessage="Please enter a valid steam ID" 
                     required />
-                <Feedback type="invalid" className='text-error'>
-                    Please enter a valid steam ID
-                </Feedback>
                 <Collapse className=' mt-2 text-xs bg-base-200'>
                     <Collapse.Title className="p-2 min-h-1 text-sm font-medium w-auto">
                         Having trouble finding your Steam ID?
@@ -160,41 +148,31 @@ const RegisterForm = ({ registrationHandler }) => {
 
             <Form.Group className="mb-3">
                 <Form.Label htmlFor="registerPasswordInput">Password</Form.Label>
-                <Form.Control
+                <FormInput
                     id="registerPasswordInput"
-                    bsPrefix='w-full text-lg'
-                    as={Input}
-                    borderOffset={false}
-                    bordered
                     type="password"
                     value={password}
-                    onChange={(e) => setPassword(e.target.value)}
+                    setValue={setPassword}
                     isInvalid={passwordInvalid && validated}
+                    feedbackMessage="Please enter a valid password containing at least&nbsp;:
+                                    <br/>8&nbsp;characters, 
+                                    1&nbsp;numeric&nbsp;value, 
+                                    1&nbsp;lower&nbsp;case&nbsp;letter 
+                                    and&nbsp;1&nbsp;upper&nbsp;case&nbsp;letter" 
                     required />
-                <Feedback type="invalid" className='text-error'>
-                    Please enter a valid password containing at least :
-                    <br/>8 characters, 1 numeric value, 
-                    <br/>1 lower case letter and 1 upper case letter
-                </Feedback>
             </Form.Group>
 
             <Form.Group className="mb-3">
                 <Form.Label htmlFor="registerPasswordConfirmationInput">Password Confirmation</Form.Label>
-                <Form.Control
+                <FormInput
                     id="registerPasswordConfirmationInput"
-                    bsPrefix='w-full text-lg'
-                    as={Input}
-                    borderOffset={false}
-                    bordered
                     type="password"
                     value={passwordConfirmation}
-                    onChange={(e) => setPasswordConfirmation(e.target.value)}
-                    onKeyDown={handleSubmitOnEnterKeyPressed}
+                    setValue={setPasswordConfirmation}
+                    onKeyDownFunction={handleSubmitOnEnterKeyPressed}
                     isInvalid={confirmationPasswordInvalid && validated}
+                    feedbackMessage="Passwords do not match" 
                     required />
-                <Feedback type="invalid" className='text-error'>
-                    Passwords do not match
-                </Feedback>
             </Form.Group>
 
             <div className='text-center'>
