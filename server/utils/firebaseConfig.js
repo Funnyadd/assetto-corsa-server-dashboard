@@ -3,8 +3,6 @@ const admin = require("firebase-admin");
 const { getAuth } = require('firebase-admin/auth');
 const serviceAccount = require("../assetto-corsa-server-dashboard-firebase-adminsdk.json");
 
-const baseUrl = "https://identitytoolkit.googleapis.com/v1/accounts:"
-
 const firebaseAdmin = admin.initializeApp({
     credential: admin.credential.cert(serviceAccount)
 })
@@ -14,7 +12,7 @@ module.exports = {
     /**
      * https://firebase.google.com/docs/reference/rest/auth#section-sign-in-email-password
      */
-    signInWithEmailPasswordUrl: `${baseUrl}signInWithPassword?key=${process.env.FIREBASE_API_KEY}`,
+    signInWithEmailPasswordUrl: `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${process.env.FIREBASE_API_KEY}`,
     /**
      * https://firebase.google.com/docs/reference/rest/auth#section-refresh-token
      */
@@ -34,7 +32,6 @@ module.exports = {
         USER_DISABLED: "The user account has been disabled by an administrator.",
         USER_NOT_FOUND: "The user corresponding to the refresh token was not found. It is likely the user was deleted.",
         INVALID_REFRESH_TOKEN: "An invalid refresh token is provided.",
-        INVALID_EMAIL: "The email address is badly formatted.",
         INVALID_GRANT_TYPE: "The grant type specified is invalid.",
         MISSING_REFRESH_TOKEN: "No refresh token provided.",
         PROJECT_NUMBER_MISMATCH: "The project number of the refresh token does not match that of the API key provided.",

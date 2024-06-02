@@ -93,7 +93,7 @@ const LoginForm = () => {
                 <h1 className='mt-[3rem] text-4xl text-center'>Assetto Corsa Server Dashboard</h1>
                 <Card className="p-4 my-[3rem] shadow w-full bg-base-300 max-w-[27rem]">
                     <Form className='text-center' noValidate validated={validated} onSubmit={handleSubmit}>
-                        <Form.Group className="mb-4" controlId="loginFormEmail">
+                        <Form.Group className="mb-4">
                             <FormInput
                                 id="loginFormEmailInput"
                                 type="email"
@@ -104,7 +104,7 @@ const LoginForm = () => {
                                 required />
                         </Form.Group>
 
-                        <Form.Group className="mb-4 inputWithShowHide" controlId="loginFormPassword">
+                        <Form.Group className="mb-4 inputWithShowHide">
                             <FormInput
                                 id="loginFormPasswordInput"
                                 bsPrefix='pe-[2.75rem]'
