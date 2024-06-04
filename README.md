@@ -33,9 +33,9 @@ Then, start both applications.
 ## RoadMap
 
 ### v1.0
-  - [ ] Update README [#11](/../../issues/11)
+  - [x] Update README [#11](/../../issues/11)
   - [ ] Make app PWA ready and responsive [#22](/../../issues/22)
-  - [ ] Add exception handling for refreshToken API call to firebase admin [#15](/../../issues/15)
+  - [x] Add exception handling for refreshToken API call to firebase admin [#15](/../../issues/15)
   - [ ] Rework exception handling system in the backend [#12](/../../issues/12)
   - [ ] Add MODIFY functionnality for users [#19](/../../issues/19)
 ### v1.1
