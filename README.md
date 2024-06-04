@@ -38,6 +38,7 @@ Then, start both applications.
   - [x] Add exception handling for refreshToken API call to firebase admin [#15](/../../issues/15)
   - [ ] Rework exception handling system in the backend [#12](/../../issues/12)
   - [ ] Add MODIFY functionnality for users [#19](/../../issues/19)
+  - [ ] Add loading bars / spinners [#25](/../../issues/25)
 ### v1.1
   - [ ] Add ADD button on users page [#18](/../../issues/18)
   - [ ] Add MODIFY/ADD allocated port range [#23](/../../issues/23)
