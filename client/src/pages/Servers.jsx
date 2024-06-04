@@ -4,7 +4,7 @@ import NavBar from '../components/navigation/Nav';
 import { Button, RadialProgress } from 'react-daisyui';
 import { useState, useEffect, useRef, useContext } from "react";
 import { ArrowClockwise } from 'react-bootstrap-icons';
-import { getAxios } from '../utils/AxiosConfig';
+import { getAxios, validateUnauthorization } from '../utils/AxiosConfig';
 import { sendErrorNotification } from '../utils/NotificationUtils';
 import FunctionProtected from '../components/FunctionProtected';
 import { Context } from '../authentication/AuthContext';
@@ -26,9 +26,11 @@ function Servers() {
 			localStorage.setItem('allServers', JSON.stringify(serversList))
 		})
 		.catch(error => {
-			const errorMessage = "An error occured while getting the servers informations"
-			console.error(errorMessage, error)
-			sendErrorNotification(errorMessage)
+			if (!validateUnauthorization(error)) {
+				const errorMessage = "An error occured while getting the servers informations"
+				console.error(errorMessage, error)
+				sendErrorNotification(errorMessage)
+			}
 		})
 	}
 	
@@ -36,9 +38,11 @@ function Servers() {
 		await getAxios().post(`/server/stopAll`)
 		.then(updateServersInfo)
 		.catch(error => {
-			const errorMessage = `An error occured while stopping the servers.`
-			console.error(errorMessage, error)
-			sendErrorNotification(errorMessage)
+			if (!validateUnauthorization(error)) {
+				const errorMessage = `An error occured while stopping the servers.`
+				console.error(errorMessage, error)
+				sendErrorNotification(errorMessage)
+			}
 		})
 	}
 

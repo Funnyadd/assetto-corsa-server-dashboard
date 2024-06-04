@@ -1,10 +1,11 @@
 import { Button } from 'react-daisyui';
 import { BoxArrowInRight, Play, Stop, Pencil, Trash } from "react-bootstrap-icons";
-import { getAxios } from '../utils/AxiosConfig';
+import { getAxios, validateUnauthorization } from '../utils/AxiosConfig';
 import { sendErrorNotification } from '../utils/NotificationUtils';
 import FunctionProtected from './FunctionProtected';
 import { useContext } from 'react';
 import { Context } from '../authentication/AuthContext';
+import { getRoleNeeded } from '../utils/RoleUtils';
 
 const ServerTile = ({ server, sync }) => {
     const { user } = useContext(Context)
@@ -12,12 +13,8 @@ const ServerTile = ({ server, sync }) => {
     const serverUrl = `https://acstuff.ru/s/q:race/online/join?ip=${process.env.REACT_APP_ASSETTO_SERVER_IP}&httpPort=${server.port}`
     
     const toggleStartStop = () => {
-        if (server.isStarted) {
-            stopServer()
-        }
-        else {
-            startServer()
-        }
+        if (server.isStarted) stopServer()
+        else startServer()
     }
     
     const startServer = async () => {
@@ -27,9 +24,11 @@ const ServerTile = ({ server, sync }) => {
             sync()
         })
         .catch(error => {
-            const errorMessage = `An error occured while starting the server ${server.name}`
-            console.error(errorMessage, error)
-            sendErrorNotification(errorMessage)
+            if (!validateUnauthorization(error)) {
+                const errorMessage = `An error occured while starting the server ${server.name}`
+                console.error(errorMessage, error)
+                sendErrorNotification(errorMessage)
+            }
         })
     }
     
@@ -40,14 +39,16 @@ const ServerTile = ({ server, sync }) => {
             sync()
         })
         .catch(error => {
-            const errorMessage = `An error occured while stopping the server ${server.name}`
-            console.error(errorMessage, error)
-            sendErrorNotification(errorMessage)
+            if (!validateUnauthorization(error)) {
+                const errorMessage = `An error occured while stopping the server ${server.name}`
+                console.error(errorMessage, error)
+                sendErrorNotification(errorMessage)
+            }
         })
     }
 
     const isManagerUser = () => {
-        return user.roleId <= 2
+        return user.roleId <= getRoleNeeded(true)
     }
     
     return (

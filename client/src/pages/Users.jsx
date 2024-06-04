@@ -2,7 +2,7 @@ import NavBar from '../components/navigation/Nav';
 import { Table, Button, Toggle } from 'react-daisyui';
 import { Pencil, Trash } from 'react-bootstrap-icons';
 import { useEffect, useRef, useState } from 'react';
-import { getAxios } from '../utils/AxiosConfig';
+import { getAxios, validateUnauthorization } from '../utils/AxiosConfig';
 import ConfirmationModal from '../components/modals/ConfirmationModal';
 import { sendErrorNotification } from '../utils/NotificationUtils';
 import FunctionProtected from '../components/FunctionProtected';
@@ -20,9 +20,11 @@ const Users = () => {
             localStorage.setItem('allUsers', JSON.stringify(response.data))
         })
         .catch(error => {
-            const errorMessage = "Couldn't retrieve users"
-            console.error(errorMessage, error)
-            sendErrorNotification(errorMessage)
+            if (!validateUnauthorization(error)) {
+                const errorMessage = "Couldn't retrieve users"
+                console.error(errorMessage, error)
+                sendErrorNotification(errorMessage)
+            }
         })
     }
     
@@ -38,9 +40,11 @@ const Users = () => {
                 handleUserRetrieval()
             })
             .catch(error => {
-                const errorMessage = `Couldn't delete user with id ${userToBeDeleted.id}`
-                console.error(errorMessage, error)
-                sendErrorNotification(errorMessage)
+                if (!validateUnauthorization(error)) {
+                    const errorMessage = `Couldn't delete user with id ${userToBeDeleted.id}`
+                    console.error(errorMessage, error)
+                    sendErrorNotification(errorMessage)
+                }
             })
         }
     }

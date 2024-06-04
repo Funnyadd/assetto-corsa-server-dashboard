@@ -16,22 +16,11 @@ exports.authenticate = async (req, res, next) => {
             body: JSON.stringify(data)
         })
         .then(async response => {
-            let body = await response.json()
-
-            if (!response.ok) {
-                throw {
-                    status: body.error.status,
-                    code: body.error.message,
-                    message: firebase.errors[body.error.message]
-                }
-            }
+            const body = await getBodyAndHandleError(response, res)
             await getUserRoleAndContinue(res, next, body.user_id)
         })
         .catch(error => {
-            if (typeof error.status == "string") {
-                error.status = 400
-            }
-            res.status(error.status).send(error)
+            return res.status(401).send("Unauthorized")
         })
     }
     else if (req.headers.authorization) {
@@ -52,23 +41,15 @@ exports.authenticate = async (req, res, next) => {
             body: JSON.stringify(data),
         })
         .then(async response => {
-            let body = await response.json()
-    
-            if (!response.ok) {
-                throw {
-                    status: 401,
-                    code: body.error.message,
-                    message: firebase.errors[body.error.message]
-                }
-            }
+            const body = await getBodyAndHandleError(response, res)
             await getUserRoleAndContinue(res, next, body.localId)
         })
         .catch(error => {
-            res.status(error.status).send(error)
+            return res.status(401).send("Unauthorized")
         })
     }
     else {
-        res.status(401).send("Unauthorized")
+        return res.status(401).send("Unauthorized")
     }
 }
 
@@ -76,4 +57,19 @@ const getUserRoleAndContinue = async (res, next, uid) => {
     const user = await getUserByUID(uid)
     res.locals.roleId = user.role.id
     next()
+}
+
+const getBodyAndHandleError = async (response, res) => {
+    let body = await response.json()
+
+    if (!response.ok) {
+        console.error({
+            status: body.error.status,
+            code: body.error.message,
+            message: firebase.errors[body.error.message]
+        })
+        throw body.error
+    }
+
+    return body
 }

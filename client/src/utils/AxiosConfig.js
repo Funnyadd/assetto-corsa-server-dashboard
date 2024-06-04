@@ -1,5 +1,6 @@
 import Axios from 'axios'
 import { getAuth } from 'firebase/auth'
+import { logout } from '../authentication/Auth'
 
 export const getAxios = () => {
     const axiosInstance = getAxiosNoAuth()
@@ -17,4 +18,13 @@ export const getAxiosNoAuth = () => {
     axiosInstance.defaults.withCredentials = true
 
     return axiosInstance
+}
+
+export const validateUnauthorization = (error) => {
+    if (error.response.status === 401) {
+        logout()
+        window.location.replace('/login?session=expired')
+        return true
+    }
+    return false
 }

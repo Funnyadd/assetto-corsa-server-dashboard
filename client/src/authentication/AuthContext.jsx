@@ -1,6 +1,6 @@
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { createContext, useEffect, useState } from "react";
-import { getAxios } from '../utils/AxiosConfig';
+import { getAxios, validateUnauthorization } from '../utils/AxiosConfig';
 
 export const Context = createContext()
 
@@ -18,7 +18,8 @@ export const AuthContext = ({ children }) => {
                         currentUser.roleId = user.data.role.id
                         setUser(currentUser)
                     })
-                    .catch(() => {
+                    .catch((error) => {
+                        validateUnauthorization(error)
                         setUser(null)
                     })
                 }

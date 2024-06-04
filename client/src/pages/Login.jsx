@@ -7,7 +7,7 @@ import { login } from '../authentication/Auth';
 import RegisterModal from '../components/modals/RegisterModal';
 import { useSearchParams } from 'react-router-dom';
 import { Button, Link, Divider } from 'react-daisyui';
-import { sendErrorNotification } from '../utils/NotificationUtils';
+import { sendErrorNotification, sendWarningNotification } from '../utils/NotificationUtils';
 import FormInput from '../components/FormInput';
 
 const LoginForm = () => {
@@ -20,6 +20,8 @@ const LoginForm = () => {
     const invalidCredentialsErrorCode = "auth/invalid-credential"
     const internalErrorCode = "auth/internal-error"
     const tooManyRequestsErrorCode = "auth/too-many-requests"
+    const userNotFoundErrorCode = "auth/user-not-found"
+    const wrongPasswordErrorCode = "auth/wrong-password"
 
     const invalidCredentialsErrorMessage = "Invalid email or password"
     const internalErrorMessage = "Error while trying to call the server. Please try again later"
@@ -65,6 +67,8 @@ const LoginForm = () => {
             .catch((error) => {
                 switch(error.code) {
                     case invalidCredentialsErrorCode:
+                    case userNotFoundErrorCode:
+                    case wrongPasswordErrorCode:
                         sendErrorNotification(invalidCredentialsErrorMessage)
                         break
                     case internalErrorCode:
@@ -85,7 +89,14 @@ const LoginForm = () => {
             setEmail(queryParameters.get("forgotPasswordConfirmation"))
             setQueryParameters("")
         }
+
+        if (queryParameters.has("session") && queryParameters.get("session") === "expired") {
+            sendWarningNotification("Session expired")
+            setQueryParameters("")
+        }
     }, [queryParameters, setQueryParameters])
+
+
 
     return (
         <>
@@ -112,7 +123,7 @@ const LoginForm = () => {
                                 placeholder="Password"
                                 value={password}
                                 setValue={setPassword}
-                                onKeyDown={handleSubmitOnEnterKeyPressed}
+                                onKeyDownFunction={handleSubmitOnEnterKeyPressed}
                                 feedbackMessage="Please enter a valid password" 
                                 required />
                             <button 

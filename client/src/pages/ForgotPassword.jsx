@@ -81,7 +81,7 @@ const ForgotPassword = () => {
                                 placeholder="Email"
                                 value={email}
                                 setValue={setEmail}
-                                onKeyDown={handleSubmitOnEnterKeyPressed}
+                                onKeyDownFunction={handleSubmitOnEnterKeyPressed}
                                 feedbackMessage="Please enter a valid email address" 
                                 required />
                         </Form.Group>

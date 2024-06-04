@@ -1,25 +1,26 @@
 {
   "name": "assetto-corsa-server-dashboard",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "dependencies": {
-    "axios": "^1.6.8",
+    "axios": "^1.7.2",
     "bootstrap": "^5.3.3",
-    "daisyui": "^4.10.1",
-    "firebase": "^10.10.0",
-    "react": "^18.2.0",
+    "daisyui": "^4.11.1",
+    "firebase": "^10.12.2",
+    "react": "^18.3.1",
     "react-bootstrap": "^2.10.2",
-    "react-bootstrap-icons": "^1.11.3",
+    "react-bootstrap-icons": "^1.11.4",
     "react-daisyui": "^5.0.0",
-    "react-dom": "^18.2.0",
-    "react-router-dom": "^6.22.3",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.23.1",
     "react-toastify": "^10.0.5",
-    "sass": "^1.74.1",
+    "sass": "^1.77.4",
     "tailwindcss": "^3.4.3",
-    "web-vitals": "^3.5.2"
+    "web-vitals": "^4.0.1"
   },
   "devDependencies": {
-    "react-scripts": "5.0.1"
+    "react-scripts": "5.0.1",
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
   },
   "scripts": {
     "start": "react-scripts start",
