@@ -28,6 +28,8 @@ Once this is done, you may add the environment variables to the `.env` files in 
 3. Lastly, run the `npm install` in both the `./client` and `root` directories.\
 Then, start both applications.
 
+ > To add the right environment variables, copy the `.env.example` file contents to a `.env` file and fill in the variables.
+
 ## RoadMap
 
 ### v1.0
@@ -38,6 +40,7 @@ Then, start both applications.
   - [ ] Add MODIFY functionnality for users [#19](/../../issues/19)
 ### v1.1
   - [ ] Add ADD button on users page [#18](/../../issues/18)
+  - [ ] Add MODIFY/ADD allocated port range [#23](/../../issues/23)
   - [ ] Add ADD server functionnality [#20](/../../issues/20)
   - [ ] Add possibility to add cars and tracks with pictures and useful data for a better ADD and MODIFY server experience.
   - [ ] Add MODIFY server functionnality [#20](/../../issues/20)
