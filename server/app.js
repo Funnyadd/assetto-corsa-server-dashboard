@@ -25,36 +25,10 @@ module.exports = () => {
   app.use('/server', serverRoutes)
   app.use('/user', userRoutes)
 
-  // TEMPORARY ADD to support old version while tests are made
-  app.use('/', async (req, res) => {
-    const port = req.query.port
-    console.log(`Request received for port ${port}`)
-
-    const url = `http://localhost:${port}/JSON%7C`;
-  
-    const jsonResponse = await fetch(url)
-    .then(res => res.json())
-    .catch(err => {
-      console.error(err)
-      return { status: 404, error: "No server running at this address" }
-    })
-
-    res.json(jsonResponse)
-    console.log("Response sent!")
-  })
-
-  // // Needs to be un commented when migration is done
-  // // Handles requests on base url
-  // app.use('/', async (req, res) => 
-  //   res.json({ message: "Hello from the Assetto Corssa Server Dashboard!" })
-  // )
-
-  // ****** To be added later on (This is just a template/idea) *******
-  // Handles page refresh on the client side
-  // (view index.hmtl and 404.html located in the client/public folder)
-  // app.use((req, res) =>
-    // res.sendFile(path.resolve(__dirname, '../client/public/404.html'))
-  // )
+  // Handles requests on base url
+  app.use('/', async (req, res) => 
+    res.json({ message: "Hello from the Assetto Corssa Server Dashboard API!" })
+  )
 
   return app
 }
