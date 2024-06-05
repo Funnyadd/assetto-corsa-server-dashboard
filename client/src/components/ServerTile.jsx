@@ -1,11 +1,12 @@
 import { Button } from 'react-daisyui';
 import { BoxArrowInRight, Play, Stop, Pencil, Trash } from "react-bootstrap-icons";
 import { getAxios, validateUnauthorization } from '../utils/AxiosConfig';
-import { sendErrorNotification } from '../utils/NotificationUtils';
+import { sendErrorNotification, sendSuccessNotification } from '../utils/NotificationUtils';
 import FunctionProtected from './FunctionProtected';
 import { useContext } from 'react';
 import { Context } from '../authentication/AuthContext';
 import { getRoleNeeded } from '../utils/RoleUtils';
+import { closeLoadingNotification, sendLoadingNotification } from '../utils/LoadingUtils';
 
 const ServerTile = ({ server, sync }) => {
     const { user } = useContext(Context)
@@ -18,12 +19,16 @@ const ServerTile = ({ server, sync }) => {
     }
     
     const startServer = async () => {
+        const notificationId = sendLoadingNotification("Starting server...")
         await getAxios().post(`/server/start/${server.id}`)
         .then(response => {
             server.isStarted = response.data.isStarted
             sync()
+            closeLoadingNotification(notificationId)
+            sendSuccessNotification("Server started!")
         })
         .catch(error => {
+            closeLoadingNotification(notificationId)
             if (!validateUnauthorization(error)) {
                 const errorMessage = `An error occured while starting the server ${server.name}`
                 console.error(errorMessage, error)
@@ -33,12 +38,16 @@ const ServerTile = ({ server, sync }) => {
     }
     
     const stopServer = async () => {
+        const notificationId = sendLoadingNotification("Stopping server...")
         await getAxios().post(`/server/stop/${server.id}`)
         .then(response => {
             server.isStarted = response.data.isStarted
             sync()
+            closeLoadingNotification(notificationId)
+            sendSuccessNotification("Server stopped!")
         })
         .catch(error => {
+            closeLoadingNotification(notificationId)
             if (!validateUnauthorization(error)) {
                 const errorMessage = `An error occured while stopping the server ${server.name}`
                 console.error(errorMessage, error)
