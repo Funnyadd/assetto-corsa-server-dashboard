@@ -47,7 +47,7 @@ function Servers() {
 			setAllServersStopped(true)
 			serversList.forEach(s => s.isStarted = false)
 			sortAndSetServerList()
-			sendSuccessNotification("Servers are stopped!")
+			sendSuccessNotification("Servers have been stopped!")
 		})
 		.catch(error => {
 			if (!validateUnauthorization(error)) {

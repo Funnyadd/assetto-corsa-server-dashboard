@@ -19,8 +19,9 @@ const ConfirmationModal = ({ open, setOpen, message, action, confirmationMessage
                     size="sm"
                     color="ghost"
                     shape="circle"
-                    onClick={toggleOpen}>
-                        ✕
+                    onClick={toggleOpen}
+                >
+                    ✕
                 </Button>
             </Modal.Header>
             <Modal.Body>

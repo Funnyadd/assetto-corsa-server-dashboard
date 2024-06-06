@@ -26,7 +26,7 @@ const ServerTile = ({ server, sync, checkIfAllServersStopped }) => {
         .then(response => {
             server.isStarted = response.data.isStarted
             sync()
-            sendSuccessNotification("Server started!")
+            sendSuccessNotification(`Server started on port ${server.lastPort}`)
         })
         .catch(error => {
             if (!validateUnauthorization(error)) {
@@ -47,7 +47,7 @@ const ServerTile = ({ server, sync, checkIfAllServersStopped }) => {
         .then(response => {
             server.isStarted = response.data.isStarted
             sync()
-            sendSuccessNotification("Server stopped!")
+            sendSuccessNotification(`Server on port ${server.lastPort} stopped`)
         })
         .catch(error => {
             if (!validateUnauthorization(error)) {

@@ -59,8 +59,9 @@ const App = () => {
 					<ToastContainer
 						position="bottom-right"
 						transition={Slide}
+						draggable
 						autoClose={5000}
-						limit={3} />
+						stacked />
 					<RouterProvider router={router} />
 					<Footer />
 				</div>
