@@ -21,7 +21,7 @@ export const getAxiosNoAuth = () => {
 }
 
 export const validateUnauthorization = (error) => {
-    if (error.response.status === 401) {
+    if (error?.response?.status === 401) {
         logout()
         window.location.replace('/login?session=expired')
         return true

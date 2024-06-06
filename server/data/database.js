@@ -7,7 +7,8 @@ const db = new Sequelize(process.env.DATABASE_NAME, process.env.DATABASE_USERNAM
     dialect: 'postgres',
     define: {
         timestamps: false,
-        underscored: true
+        underscored: true,
+        logging: false
     }
 })
 db.Sequelize = Sequelize

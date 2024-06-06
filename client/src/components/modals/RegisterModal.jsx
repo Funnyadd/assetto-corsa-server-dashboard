@@ -20,8 +20,9 @@ const RegisterModal = ({ open, setOpen }) => {
                     size="sm"
                     color="ghost"
                     shape="circle"
-                    onClick={toggleOpen}>
-                        ✕
+                    onClick={toggleOpen}
+                >
+                    ✕
                 </Button>
             </Modal.Header>
             <Modal.Body>

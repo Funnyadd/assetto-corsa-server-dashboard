@@ -4,16 +4,20 @@ import { Pencil, Trash } from 'react-bootstrap-icons';
 import { useEffect, useRef, useState } from 'react';
 import { getAxios, validateUnauthorization } from '../utils/AxiosConfig';
 import ConfirmationModal from '../components/modals/ConfirmationModal';
-import { sendErrorNotification } from '../utils/NotificationUtils';
+import { sendErrorNotification, sendSuccessNotification } from '../utils/NotificationUtils';
 import FunctionProtected from '../components/FunctionProtected';
+import { useOverlay } from '../components/loading/OverlayContext';
 
 const Users = () => {
+    const { setOverlayVisible } = useOverlay()
+
     const [users, setUsers] = useState([])
     
     const [confirmationModalActivated, setConfirmationModalActivated] = useState(false)
     const [userToBeDeleted, setUserToBeDeleted] = useState({})
     
     const handleUserRetrieval = async () => {
+        setOverlayVisible(true)
         await getAxios().get(`/user`)
         .then(response => {
             setUsers(response.data) 
@@ -26,6 +30,7 @@ const Users = () => {
                 sendErrorNotification(errorMessage)
             }
         })
+        .finally(() => setOverlayVisible(false))
     }
     
     const handleDeleteButtonClicked = (user) => {
@@ -35,6 +40,7 @@ const Users = () => {
 
     const handleDeleteUser = async () => {
         if (userToBeDeleted.id) {
+            setOverlayVisible(true)
             await getAxios().delete(`/user/${userToBeDeleted.id}`)
             .then(() => {
                 handleUserRetrieval()
@@ -46,6 +52,7 @@ const Users = () => {
                     sendErrorNotification(errorMessage)
                 }
             })
+            .finally(() => setOverlayVisible(false))
         }
     }
     
@@ -95,8 +102,9 @@ const Users = () => {
                                                 color="ghost"
                                                 size="sm"
                                                 className="me-2 hover:text-warning icon-btn"
-                                                disabled>
-                                                    <Pencil size={20}/>
+                                                disabled
+                                            >
+                                                <Pencil size={20}/>
                                             </Button>
                                             <FunctionProtected admin>
                                                 <Button
@@ -104,8 +112,9 @@ const Users = () => {
                                                     color="ghost"
                                                     size="sm"
                                                     className="hover:text-error icon-btn"
-                                                    onClick={() => handleDeleteButtonClicked(user)}>
-                                                        <Trash size={20}/>
+                                                    onClick={() => handleDeleteButtonClicked(user)}
+                                                >
+                                                    <Trash size={20}/>
                                                 </Button>
                                             </FunctionProtected>
                                         </div>

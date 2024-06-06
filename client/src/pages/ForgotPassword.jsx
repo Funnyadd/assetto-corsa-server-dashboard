@@ -91,14 +91,16 @@ const ForgotPassword = () => {
                             className="font-bold me-2"
                             color="neutral"
                             variant="outline"
-                            onClick={handleCancelButton}>
-                                Cancel
-                        </Button>
+                            onClick={handleCancelButton}
+                        >
+                            Cancel
+                    </Button>
                         <Button
                             className="font-bold"
                             color="primary"
-                            type="submit">
-                                Send reset link
+                            type="submit"
+                        >
+                            Send reset link
                         </Button>
                     </Card.Footer>
                 </Form>

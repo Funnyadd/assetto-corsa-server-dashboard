@@ -96,8 +96,6 @@ const LoginForm = () => {
         }
     }, [queryParameters, setQueryParameters])
 
-
-
     return (
         <>
             <div className="flex flex-col items-center my-[3rem]" >
@@ -129,12 +127,13 @@ const LoginForm = () => {
                             <button 
                                 aria-label="showHidePasswordButton" 
                                 className="showHideButton" 
-                                onClick={showHide}>
-                                    {
-                                        showPass 
-                                        ? <EyeSlashFill size={eyeIconSize} /> 
-                                        : <Eye size={eyeIconSize} />
-                                    }
+                                onClick={showHide}
+                            >
+                                {
+                                    showPass 
+                                    ? <EyeSlashFill size={eyeIconSize} /> 
+                                    : <Eye size={eyeIconSize} />
+                                }
                             </button>
                         </Form.Group>
 
@@ -142,8 +141,9 @@ const LoginForm = () => {
                             className="mt-3 text-lg font-bold"
                             color="primary"
                             fullWidth
-                            type="submit">
-                                Sign In
+                            type="submit"
+                        >
+                            Sign In
                         </Button>
 
                         <div className='mt-5'>
@@ -158,8 +158,9 @@ const LoginForm = () => {
                             className="mb-4 text-lg font-bold align-center"
                             color="secondary"
                             type="button"
-                            onClick={() => { setCreateModalActivated(true) }} >
-                                Create new account
+                            onClick={() => { setCreateModalActivated(true) }}
+                        >
+                            Create new account
                         </Button>
                     </Form>
                 </Card>

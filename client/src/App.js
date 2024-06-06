@@ -9,8 +9,12 @@ import ForgotPassword from './pages/ForgotPassword';
 import Users from './pages/Users';
 import { useEffect, useRef } from "react";
 import { Slide, ToastContainer } from "react-toastify";
+import { OverlayProvider, useOverlay } from './components/loading/OverlayContext';
+import Overlay from "./components/loading/Overlay";
 
 const App = () => {
+	const { isOverlayVisible } = useOverlay()
+
 	const router = createBrowserRouter([
 		{
 			path: "/",
@@ -48,18 +52,21 @@ const App = () => {
 	}, [])
 
 	return (
-		<AuthContext>
-			<div className="h-screen flex flex-col">
-				<ToastContainer
-					position="bottom-right"
-					transition={Slide}
-					autoClose={5000}
-					limit={3} />
-				<RouterProvider router={router} />
-				<Footer />
-			</div>
-		</AuthContext>
+		<OverlayProvider>
+			<AuthContext>
+				<div className="h-screen flex flex-col">
+					<Overlay isVisible={isOverlayVisible} />
+					<ToastContainer
+						position="bottom-right"
+						transition={Slide}
+						autoClose={5000}
+						limit={3} />
+					<RouterProvider router={router} />
+					<Footer />
+				</div>
+			</AuthContext>
+		</OverlayProvider>
 	)
 }
 
-export default App;
+export default App

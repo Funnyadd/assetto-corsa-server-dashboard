@@ -1,10 +1,13 @@
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { createContext, useEffect, useState } from "react";
 import { getAxios, validateUnauthorization } from '../utils/AxiosConfig';
+import { useOverlay } from '../components/loading/OverlayContext';
 
 export const Context = createContext()
 
 export const AuthContext = ({ children }) => {
+    const { setOverlayVisible } = useOverlay()
+
     const [user, setUser] = useState()
     const [loading, setLoading] = useState(true)
 
@@ -13,6 +16,7 @@ export const AuthContext = ({ children }) => {
             if (currentUser) {
                 setUser(currentUser)
                 if (!currentUser.roleId) {
+                    setOverlayVisible(true)
                     await getAxios().get(`/user/${currentUser.uid}?uid=true`)
                     .then(user => {
                         currentUser.roleId = user.data.role.id
@@ -22,6 +26,7 @@ export const AuthContext = ({ children }) => {
                         validateUnauthorization(error)
                         setUser(null)
                     })
+                    .finally(() => setOverlayVisible(false))
                 }
             }
             else {
@@ -33,7 +38,7 @@ export const AuthContext = ({ children }) => {
         return () => {
             if (unsubscribe) unsubscribe()
         }
-    }, [])
+    }, [setOverlayVisible])
 
     const values = {
         user: user,

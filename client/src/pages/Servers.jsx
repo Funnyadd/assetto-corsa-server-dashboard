@@ -5,16 +5,20 @@ import { Button, RadialProgress } from 'react-daisyui';
 import { useState, useEffect, useRef, useContext } from "react";
 import { ArrowClockwise } from 'react-bootstrap-icons';
 import { getAxios, validateUnauthorization } from '../utils/AxiosConfig';
-import { sendErrorNotification } from '../utils/NotificationUtils';
+import { sendErrorNotification, sendSuccessNotification } from '../utils/NotificationUtils';
 import FunctionProtected from '../components/FunctionProtected';
 import { Context } from '../authentication/AuthContext';
+import { useOverlay } from '../components/loading/OverlayContext';
+import { getRoleNeeded } from '../utils/RoleUtils';
 
 function Servers() {
 	const defaultCountDownTimerValue = 60
 	
 	const { user } = useContext(Context)
+	const { setOverlayVisible } = useOverlay()
 
 	const [serversList, setServersList] = useState([])
+	const [allServersStopped, setAllServersStopped] = useState(true)
 	const [countDown, setCountDown] = useState(0)
 	
 	const updateServersInfo = async () => {
@@ -24,6 +28,8 @@ function Servers() {
 		.then(response => {
 			sortAndSetServerList(response.data)
 			localStorage.setItem('allServers', JSON.stringify(serversList))
+			checkIfAllServersStopped()
+			
 		})
 		.catch(error => {
 			if (!validateUnauthorization(error)) {
@@ -33,10 +39,16 @@ function Servers() {
 			}
 		})
 	}
-	
+
 	const stopAllServers = async () => {
+		setOverlayVisible(true)
 		await getAxios().post(`/server/stopAll`)
-		.then(updateServersInfo)
+		.then(() => {
+			setAllServersStopped(true)
+			serversList.forEach(s => s.isStarted = false)
+			sortAndSetServerList()
+			sendSuccessNotification("Servers are stopped!")
+		})
 		.catch(error => {
 			if (!validateUnauthorization(error)) {
 				const errorMessage = `An error occured while stopping the servers.`
@@ -44,6 +56,11 @@ function Servers() {
 				sendErrorNotification(errorMessage)
 			}
 		})
+		.finally(() => setOverlayVisible(false))
+	}
+
+	const checkIfAllServersStopped = () => {
+		setAllServersStopped(serversList.filter(s => s.isStarted === true).length === 0)
 	}
 
 	const sortAndSetServerList = (list = serversList) => {
@@ -53,7 +70,7 @@ function Servers() {
 	}
 
 	const isManagerUser = () => {
-		return user.roleId <= 2
+		return user.roleId <= getRoleNeeded(true)
 	}
 	
 	const pageStateRef = useRef(null)
@@ -76,7 +93,7 @@ function Servers() {
 	
 			return () => clearInterval(interval)
 		}   
-		// eslint-disable-next-line 
+		// eslint-disable-next-line
   	}, [countDown])
 	
 	return (
@@ -95,13 +112,13 @@ function Servers() {
 							{countDown}
 						</RadialProgress>
 						<FunctionProtected manager>
-							<Button onClick={stopAllServers} className="justify-self-end" size="sm" color="error">
+							<Button onClick={stopAllServers} className="justify-self-end" size="sm" color="error" disabled={allServersStopped}>
 								Stop All
 							</Button>
 						</FunctionProtected>
 					</div>
 					{serversList.map((server, index) => 
-						<ServerTile key={index} server={server} sync={sortAndSetServerList}/>
+						<ServerTile key={index} server={server} sync={sortAndSetServerList} checkIfAllServersStopped={checkIfAllServersStopped} />
 					)}
 				</Container>
 			</div>

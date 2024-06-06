@@ -181,8 +181,9 @@ const RegisterForm = ({ registrationHandler }) => {
                     className="my-3 font-bold text-lg"
                     color="success"
                     wide
-                    type="submit">
-                        Sign Up
+                    type="submit"
+                >
+                    Sign Up
                 </Button>
             </div>
             

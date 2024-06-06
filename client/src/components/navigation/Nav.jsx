@@ -13,7 +13,9 @@ const Nav = () => {
 				<NavItems/>
 			</Menu>
 		}>
-			<Navbar className="w-full bg-base-100 text-base-content z-30 h-16 justify-center bg-opacity-90 backdrop-blur transition-shadow duration-100 [transform:translate3d(0,0,0)] shadow-sm">
+			<Navbar className={"w-full bg-base-100 text-base-content z-30 h-16 justify-center bg-opacity-90 backdrop-blur "
+				+ "transition-shadow duration-100 [transform:translate3d(0,0,0)] shadow-sm"}
+			>
 				<div className="flex-none lg:hidden">
 					<Button shape="square" color="ghost" onClick={toggleVisible}>
 						<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="inline-block w-6 h-6 stroke-current">
