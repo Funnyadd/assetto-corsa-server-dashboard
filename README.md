@@ -36,16 +36,21 @@ Then, start both applications.
   - [x] Update README [#11](/../../issues/11)
   - [ ] Make app PWA ready and responsive [#22](/../../issues/22)
   - [x] Add exception handling for refreshToken API call to firebase admin [#15](/../../issues/15)
-  - [ ] Rework exception handling system in the backend [#12](/../../issues/12)
+  - [ ] ~~Rework exception handling system in the backend~~ [#12](/../../issues/12)(Explained in issue)
   - [ ] Add MODIFY functionnality for users [#19](/../../issues/19)
-  - [ ] Add loading bars / spinners [#25](/../../issues/25)
+  - [x] Add loading bars / spinners [#25](/../../issues/25)
 ### v1.1
   - [ ] Add ADD button on users page [#18](/../../issues/18)
   - [ ] Add MODIFY/ADD allocated port range [#23](/../../issues/23)
+  - [ ] Add DELETE server functionnality [#17](/../../issues/17)
+  - [ ] Rework exception handling system in the backend [#12](/../../issues/12)
+  - [ ] Create testing database config [#13](/../../issues/13)
+  - [ ] Add tests for the backend API [#14](/../../issues/14)
+
+### v1.2
   - [ ] Add ADD server functionnality [#20](/../../issues/20)
   - [ ] Add possibility to add cars and tracks with pictures and useful data for a better ADD and MODIFY server experience.
   - [ ] Add MODIFY server functionnality [#20](/../../issues/20)
-  - [ ] Add DELETE server functionnality [#17](/../../issues/17)
 
 ### IDEAS
 - [ ] Add possibility to add traffic to a server
