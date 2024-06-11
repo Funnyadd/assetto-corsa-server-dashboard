@@ -48,7 +48,6 @@ Then, start both applications.
   - [x] Add loading bars / spinners [#25](/../../issues/25)
   - [ ] Add Whitelist feature on server-side [#26](../../26)
 ### v0.3
-  - [ ] Add ADD button on users page [#18](/../../issues/18)
   - [ ] Add MODIFY/ADD allocated port range [#23](/../../issues/23)
   - [ ] Add DELETE server functionnality [#17](/../../issues/17)
   - [ ] Rework exception handling system in the backend [#12](/../../issues/12)
@@ -56,9 +55,10 @@ Then, start both applications.
   - [ ] Add tests for the backend API [#14](/../../issues/14)
 
 ### v0.4
-  - [ ] Add ADD server functionnality [#20](/../../issues/20)
+  - [ ] Add ADD server functionnality [#16](/../../issues/16)
   - [ ] Add possibility to add cars and tracks with pictures and useful data for a better ADD and MODIFY server experience.
   - [ ] Add MODIFY server functionnality [#20](/../../issues/20)
+  - [ ] Add account settings (Delete and modify account) [#27](/../../issues/27)
 
 ### IDEAS
 - [ ] Add possibility to add traffic to a server
