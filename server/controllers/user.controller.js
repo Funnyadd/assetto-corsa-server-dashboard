@@ -82,19 +82,24 @@ exports.find = async (req, res) => {
 }
 
 exports.modifyUser = async (req, res) => {
-    hasPermission(res, 1)
+    hasPermission(res, 2)
 
     if (!req.body 
         || !req.body.id
         || !req.body.firebaseUID
         || !req.body.email
         || !req.body.steamId
-        || !req.body.role
-        || !req.body.isWhitelisted
+        || !req.body.roleId
+        || req.body.isWhitelisted === undefined
+        || req.body.isWhitelisted === null
     ) {
         return res.status(400).send({
             message: "Content cannot be empty."
         })
+    }
+
+    if (req.body.roleId === 1) {
+        hasPermission(res, 1)
     }
 
     const user = {
@@ -102,7 +107,7 @@ exports.modifyUser = async (req, res) => {
         firebaseUID: req.body.firebaseUID,
         email: req.body.email,
         steamId: req.body.steamId,
-        role: req.body.role,
+        roleId: req.body.roleId,
         isWhitelisted: req.body.isWhitelisted
     }
 

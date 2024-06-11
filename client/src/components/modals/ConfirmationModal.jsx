@@ -1,7 +1,7 @@
 import { Modal, Button } from 'react-daisyui';
 import { sendSuccessNotification } from '../../utils/NotificationUtils';
 
-const ConfirmationModal = ({ open, setOpen, message, action, confirmationMessage, confirmBtnColor = "success" }) => {
+const ConfirmationModal = ({ open, setOpen, message, action, confirmationMessage, title = "", confirmBtnColor = "success" }) => {
 
     const toggleOpen = () => setOpen(!open)
 
@@ -14,7 +14,7 @@ const ConfirmationModal = ({ open, setOpen, message, action, confirmationMessage
     return (
         <Modal open={open}>
             <Modal.Header className="font-bold text-2xl flex justify-between">
-                Register
+                {title}
                 <Button
                     size="sm"
                     color="ghost"

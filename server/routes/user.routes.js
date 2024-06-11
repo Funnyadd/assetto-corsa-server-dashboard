@@ -12,7 +12,7 @@ router.get("/", authService.authenticate, userController.findAll)
 router.get("/:id", authService.authenticate, userController.find)
 
 // Sends users modification 
-router.put(`/`, authService.authenticate, userController.modifyUser)
+router.put("/", authService.authenticate, userController.modifyUser)
 
 // Delete a user
 router.delete("/:uid", authService.authenticate, userController.deleteUser)

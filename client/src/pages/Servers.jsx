@@ -1,5 +1,4 @@
 import Container from 'react-bootstrap/Container';
-import ServerTile from '../components/ServerTile';
 import NavBar from '../components/navigation/Nav';
 import { Button, RadialProgress } from 'react-daisyui';
 import { useState, useEffect, useRef, useContext } from "react";
@@ -10,6 +9,7 @@ import FunctionProtected from '../components/FunctionProtected';
 import { Context } from '../authentication/AuthContext';
 import { useOverlay } from '../components/loading/OverlayContext';
 import { getRoleNeeded } from '../utils/RoleUtils';
+import ServerTile from '../components/ServerTile';
 
 function Servers() {
 	const defaultCountDownTimerValue = 60

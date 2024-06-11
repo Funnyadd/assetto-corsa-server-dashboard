@@ -3,7 +3,7 @@ import Form from 'react-bootstrap/Form';
 import Feedback from 'react-bootstrap/Feedback';
 
 const FormInput = ({ 
-    id, type, value, setValue, feedbackMessage = "", isInvalid = false,
+    id, type, value, setValue, feedbackMessage = "", isInvalid = false, customSetValue = false,
     onKeyDownFunction = () => {}, placeholder = "", required = false, bsPrefix = ""
 } ) => {
     return (
@@ -17,7 +17,7 @@ const FormInput = ({
                 type={type}
                 placeholder={placeholder}
                 value={value}
-                onChange={(e) => setValue(e.target.value)}
+                onChange={customSetValue ? (e) => customSetValue(e) : (e) => setValue(e.target.value)}
                 onKeyDown={onKeyDownFunction}
                 isInvalid={isInvalid}
                 required={required} />

@@ -48,7 +48,6 @@ exports.getAllUsers = async (userModel = UserModel) => {
             resolve(false)
         })
         .catch(err => {
-            console.log(err)
             reject({
                 status: 500,
                 message: err.message || "some error occured"
@@ -86,7 +85,6 @@ exports.updateUser = async (user, userModel = UserModel) => {
     return new Promise((resolve, reject) => {
         userModel.update(user,
         {
-            include: RoleModel,
             where: { id: user.id },
             individualHooks: true
         })
@@ -97,7 +95,7 @@ exports.updateUser = async (user, userModel = UserModel) => {
                     firebaseUID: data[1][0].dataValues.firebaseUID,
                     steamUsername: data[1][0].dataValues.steamUsername,
                     steamId: data[1][0].dataValues.steamId,
-                    role: data[1][0].dataValues.role,
+                    roleId: data[1][0].dataValues.roleId,
                     email: data[1][0].dataValues.email,
                     isWhitelisted: data[1][0].dataValues.isWhitelisted,
                 })

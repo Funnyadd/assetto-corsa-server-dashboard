@@ -7,7 +7,8 @@ module.exports = (db, DataTypes) => {
         },
         name: {
             field: 'name',
-            type: DataTypes.TEXT
+            type: DataTypes.TEXT,
+            allowNull: false
         },
         lastPort: {
             field: 'last_port',
@@ -15,15 +16,18 @@ module.exports = (db, DataTypes) => {
         },
         isStarted: {
             field: 'is_started',
-            type: DataTypes.BOOLEAN
+            type: DataTypes.BOOLEAN,
+            allowNull: false
         },
         totalSlots: {
             field: 'total_slots',
-            type: DataTypes.INTEGER
+            type: DataTypes.INTEGER,
+            allowNull: false
         },
         hasTraffic: {
             field: 'has_traffic',
-            type: DataTypes.BOOLEAN
+            type: DataTypes.BOOLEAN,
+            allowNull: false
         }
     },
     { underscore: true })

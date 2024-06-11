@@ -3,12 +3,10 @@ import RegisterForm from '../RegisterForm';
 import { Modal, Button } from 'react-daisyui';
 
 const RegisterModal = ({ open, setOpen }) => {
-    const confirmationMessage = "New account successfully created!"
-
     const toggleOpen = () => setOpen(!open)
 
     const handleRegistration = () => {
-        sendSuccessNotification(confirmationMessage)
+        sendSuccessNotification("New account successfully created!")
         toggleOpen()
     }
 

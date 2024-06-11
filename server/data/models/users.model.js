@@ -7,11 +7,13 @@ module.exports = (db, DataTypes) => {
         },
         firebaseUID: {
             field: 'firebase_uid',
-            type: DataTypes.TEXT
+            type: DataTypes.TEXT,
+            allowNull: false
         },
         email: {
             field: 'email',
-            type: DataTypes.TEXT
+            type: DataTypes.TEXT,
+            allowNull: false
         },
         steamUsername: {
             field: 'steam_username',
@@ -19,7 +21,9 @@ module.exports = (db, DataTypes) => {
         },
         steamId: {
             field: 'steam_id',
-            type: DataTypes.BIGINT
+            type: DataTypes.BIGINT,
+            allowNull: false,
+            unique: true
         },
         roleId: {
             field: 'role_id',

@@ -7,7 +7,8 @@ module.exports = (db, DataTypes) => {
         },
         name: {
             field: 'name',
-            type: DataTypes.TEXT
+            type: DataTypes.TEXT,
+            allowNull: false
         },
     },
     { underscore: true })

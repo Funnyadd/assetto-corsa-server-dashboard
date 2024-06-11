@@ -1,5 +1,6 @@
 const firebase = require('../utils/firebaseConfig');
 const usersDao = require('../data/daos/users.dao');
+const rolesDao = require('../data/daos/roles.dao');
 const steamService = require('./steam.service');
 
 exports.getUserById = async (id) => {
@@ -38,8 +39,11 @@ exports.updateUser = async (user) => {
     return await firebase.adminAuth.updateUser(user.firebaseUID, {
         email: user.email
     })
-    .then(() => {
-        return usersDao.updateUser(user)
+    .then(async () => {
+        let modifiedUser = await usersDao.updateUser(user)
+        modifiedUser.role = await rolesDao.getRoleById(modifiedUser.roleId)
+        delete modifiedUser.roleId
+        return modifiedUser
     })
     .catch(error => {
         throw error.errorInfo || error

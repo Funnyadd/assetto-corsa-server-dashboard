@@ -7,6 +7,7 @@ import ConfirmationModal from '../components/modals/ConfirmationModal';
 import { sendErrorNotification, sendSuccessNotification } from '../utils/NotificationUtils';
 import FunctionProtected from '../components/FunctionProtected';
 import { useOverlay } from '../components/loading/OverlayContext';
+import UpdateUserModal from '../components/modals/UpdateUserModal';
 
 const Users = () => {
     const { setOverlayVisible } = useOverlay()
@@ -14,7 +15,10 @@ const Users = () => {
     const [users, setUsers] = useState([])
     
     const [confirmationModalActivated, setConfirmationModalActivated] = useState(false)
+    const [updateUserModalActivated, setUpdateUserModalActivated] = useState(false)
+    
     const [userToBeDeleted, setUserToBeDeleted] = useState({})
+    const [userToBeModified, setUserToBeModified] = useState({})
     
     const handleUserRetrieval = async () => {
         setOverlayVisible(true)
@@ -44,6 +48,7 @@ const Users = () => {
             await getAxios().delete(`/user/${userToBeDeleted.id}`)
             .then(() => {
                 handleUserRetrieval()
+                sendSuccessNotification(`User with id ${userToBeDeleted.id} deleted successfully!`)
             })
             .catch(error => {
                 if (!validateUnauthorization(error)) {
@@ -55,7 +60,12 @@ const Users = () => {
             .finally(() => setOverlayVisible(false))
         }
     }
-    
+
+    const handleUpdateUserButtonClicked = (user) => {
+        setUserToBeModified(user)
+        setUpdateUserModalActivated(true)
+    }
+
     const pageStateRef = useRef(null)
     useEffect(() => {
         if (pageStateRef.isFirstPageLoad === undefined) {
@@ -65,6 +75,7 @@ const Users = () => {
             
             pageStateRef.isFirstPageLoad = false
         }
+        // eslint-disable-next-line
     }, [])
     
     return (
@@ -92,32 +103,33 @@ const Users = () => {
                                         <span>{user.role.name}</span>
                                         <span>
                                             <Toggle
+                                                className={"cursor-default " + (user.isWhitelisted ? "" : "toggleOffError")}
                                                 checked={user.isWhitelisted}
                                                 color="success"
-                                                onChange={(e) => user.isWhitelisted = e.target.value} />
+                                                onChange={() => {}} />
                                         </span>
-                                        <div className="text-end min-w-20">
-                                            <Button
-                                                shape="square"
-                                                color="ghost"
-                                                size="sm"
-                                                className="me-2 hover:text-warning icon-btn"
-                                                disabled
-                                            >
-                                                <Pencil size={20}/>
-                                            </Button>
-                                            <FunctionProtected admin>
+                                            <div className="text-end min-w-20">
                                                 <Button
                                                     shape="square"
                                                     color="ghost"
                                                     size="sm"
-                                                    className="hover:text-error icon-btn"
-                                                    onClick={() => handleDeleteButtonClicked(user)}
+                                                    className="me-2 hover:text-warning icon-btn"
+                                                    onClick={() => handleUpdateUserButtonClicked(user)}
                                                 >
-                                                    <Trash size={20}/>
+                                                    <Pencil size={20} />
                                                 </Button>
-                                            </FunctionProtected>
-                                        </div>
+                                                <FunctionProtected admin>
+                                                    <Button
+                                                        shape="square"
+                                                        color="ghost"
+                                                        size="sm"
+                                                        className="hover:text-error icon-btn"
+                                                        onClick={() => handleDeleteButtonClicked(user)}
+                                                    >
+                                                        <Trash size={20} />
+                                                    </Button>
+                                                </FunctionProtected>
+                                            </div>
                                     </Table.Row>
                                 )
                             })}
@@ -125,9 +137,17 @@ const Users = () => {
                     </Table>
                 </div>
             </div>
+            <UpdateUserModal 
+                open={updateUserModalActivated}
+                setOpen={setUpdateUserModalActivated} 
+                user={userToBeModified}
+                setUser={setUserToBeModified}
+                userList={users}
+                setUserList={setUsers} />
             <ConfirmationModal
                 open={confirmationModalActivated}
                 setOpen={setConfirmationModalActivated}
+                title="Delete User"
                 message={`Are you sure you want to delete user ${userToBeDeleted.steamUsername}?`}
                 confirmBtnColor="error"
                 action={handleDeleteUser}

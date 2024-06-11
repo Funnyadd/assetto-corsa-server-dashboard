@@ -72,3 +72,9 @@ body {
   z-index: 9999; /* Ensure it is on top of other elements */
   cursor: wait;
 }
+
+/* Toggle deactivation in red in modify user */
+.toggleOffError {
+  border-color: #dc3545 !important;
+  background-color: #dc3545 !important;
+}
