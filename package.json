@@ -1,11 +1,10 @@
 {
   "name": "assetto-corsa-server-server",
-  "version": "1.0.0",
+  "version": "0.2.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "cd server && nodemon server.js",
-    "build": "npm install && cd client && npm install && npm run build"
+    "start": "nodemon server/src/server.js",
   },
   "author": "",
   "license": "ISC",

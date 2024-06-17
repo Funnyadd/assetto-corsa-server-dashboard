@@ -1,4 +1,4 @@
-require("../config.js")
+require("../../config.js")
 const express = require('express')
 const bodyParser = require("body-parser");
 const serverRoutes = require('./routes/server.routes')

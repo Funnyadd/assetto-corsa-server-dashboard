@@ -1,4 +1,4 @@
-require("../../config.js");
+require("../../../config.js");
 const admin = require("firebase-admin");
 const { getAuth } = require('firebase-admin/auth');
 const serviceAccount = require("../assetto-corsa-server-dashboard-firebase-adminsdk.json");
