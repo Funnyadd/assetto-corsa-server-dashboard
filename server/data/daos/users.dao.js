@@ -56,6 +56,28 @@ exports.getAllUsers = async (userModel = UserModel) => {
     })
 }
 
+exports.getAllWhitelistedUsernames = async (userModel = UserModel) => {
+    return new Promise((resolve, reject) => {
+        userModel.findAll({ where: { isWhitelisted: true } })
+        .then(async data => {
+            if (data) {
+                let returnData = []
+                for (let u = 0; u < data.length; u++) {
+                    returnData.push(data[u].dataValues.steamUsername)
+                }
+                resolve(returnData)
+            }
+            resolve(false)
+        })
+        .catch(err => {
+            reject({
+                status: 500,
+                message: err.message || "some error occured"
+            })
+        })
+    })
+}
+
 exports.createUser = async (user, userModel = UserModel) => {
     return new Promise((resolve, reject) => {
         userModel.create(user)

@@ -2,6 +2,7 @@ const firebase = require('../utils/firebaseConfig');
 const usersDao = require('../data/daos/users.dao');
 const rolesDao = require('../data/daos/roles.dao');
 const steamService = require('./steam.service');
+const serverService = require('./server.service');
 
 exports.getUserById = async (id) => {
     return await usersDao.getUserByUniqueIdentidier(id, false)
@@ -43,6 +44,9 @@ exports.updateUser = async (user) => {
         let modifiedUser = await usersDao.updateUser(user)
         modifiedUser.role = await rolesDao.getRoleById(modifiedUser.roleId)
         delete modifiedUser.roleId
+
+        await serverService.syncWhitelist()
+
         return modifiedUser
     })
     .catch(error => {

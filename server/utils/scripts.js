@@ -14,7 +14,7 @@ exports.startServerScript = (server) => {
 
     try {
         const command = `screen -dmS ${screenInstancePrefix}${screenName} ${executableFileName}`
-        executeServerShellCommand(command, getServerFolderName(server))
+        executeServerShellCommand(command, this.getServerFolderName(server))
 
         console.log(`[${screenName}] : server started on port: ${server.lastPort}`)
         server.isStarted = true
@@ -34,7 +34,7 @@ exports.stopServerScript = (server) => {
 
     try {
         const command = `screen -X -S ${screenInstancePrefix}${screenName} quit`
-        executeServerShellCommand(command, getServerFolderName(server))
+        executeServerShellCommand(command, this.getServerFolderName(server))
 
         console.log(`[${screenName}] : Server stopped`)
         server.isStarted = false
@@ -95,7 +95,7 @@ exports.updateServerPortScript = (server) => {
                     + ` -e "s/TCP_PORT=.*[0-9]/TCP_PORT=${tcpUdpPort}/gI"`
                     + ` -e "s/UDP_PORT=.*[0-9]/UDP_PORT=${tcpUdpPort}/gI"`
                     + ` server_cfg.ini`
-        executeServerShellCommand(command, `${getServerFolderName(server)}/cfg`)
+        executeServerShellCommand(command, `${this.getServerFolderName(server)}/cfg`)
     } catch (error) {
         throw error
     }
@@ -107,6 +107,10 @@ exports.getShortServerName = (str) => {
         str = str.replace(word, "")
     })
     return str.trim().replaceAll(" ", "-")
+}
+
+exports.getServerFolderName = (server) => {
+    return server.name.trim().toLowerCase().replaceAll(" ", "_")
 }
 
 const executeServerShellCommand = (command, folderName) => {
@@ -127,8 +131,4 @@ const executeServerShellCommand = (command, folderName) => {
     catch (error) {
         throw error
     }
-}
-
-const getServerFolderName = (server) => {
-    return server.name.trim().toLowerCase().replaceAll(" ", "_")
 }

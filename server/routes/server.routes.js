@@ -23,4 +23,7 @@ router.post("/stop/:id", authService.authenticate, serverController.stop)
 // Stop all the server instances
 router.post("/stopAll", authService.authenticate, serverController.stopAll)
 
+// Sync the whitelists with the users that are whitelisted
+router.post("/whitelistSync", authService.authenticate, serverController.syncWhitelist)
+
 module.exports = router

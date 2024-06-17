@@ -1,12 +1,15 @@
 const serversDao = require('../data/daos/servers.dao');
+const usersDao = require('../data/daos/users.dao');
 const allocatedPortsService = require('./allocatedPorts.service');
 const { 
     getActiveScreenList,
     startServerScript,
     stopServerScript,
     getShortServerName,
-    updateServerPortScript
+    updateServerPortScript,
+    getServerFolderName
 } = require('../utils/scripts');
+const fs = require('fs')
 
 exports.getServerById = async (id) => {
     return await serversDao.getServerById(id)
@@ -97,6 +100,22 @@ exports.stopAllServers = async () => {
     catch (error) {
         throw error
     }
+}
+
+exports.syncWhitelist = async () => {
+    let serverList = await serversDao.getAllServers()
+    let usernameList = await usersDao.getAllWhitelistedUsernames()
+
+    let usernames = ""
+    usernameList.forEach(username => usernames += `${username}\n`)
+
+    serverList.forEach(server => {
+        const filePath = `${process.env.SERVER_FOLDER_BASE_PATH}/${getServerFolderName(server)}/whitelist.txt`
+        
+        fs.writeFile(filePath, usernames, (err) => {
+            if (err) throw err
+        })
+    })
 }
 
 exports.deleteServer = async (id) => {

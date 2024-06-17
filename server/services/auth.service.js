@@ -63,7 +63,7 @@ const getBodyAndHandleError = async (response, res) => {
     let body = await response.json()
 
     if (!response.ok) {
-        console.error({
+        console.log({
             status: body.error.status,
             code: body.error.message,
             message: firebase.errors[body.error.message]
