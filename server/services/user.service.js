@@ -56,8 +56,10 @@ exports.updateUser = async (user) => {
 
 exports.deleteUser = async (uid) => {
     return await firebase.adminAuth.deleteUser(uid)
-    .then(() => {
-        return usersDao.deleteUser(uid)
+    .then(async () => {
+        let deletedUser = await usersDao.deleteUser(uid)
+        await serverService.syncWhitelist()
+        return deletedUser
     })
     .catch(error => {
         throw error.errorInfo || error
