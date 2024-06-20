@@ -83,24 +83,6 @@ exports.find = async (req, res) => {
 
 exports.modifyUser = async (req, res) => {
     if (hasPermission(res, 2)) {
-        if (!req.body 
-            || !req.body.id
-            || !req.body.firebaseUID
-            || !req.body.email
-            || !req.body.steamId
-            || !req.body.roleId
-            || req.body.isWhitelisted === undefined
-            || req.body.isWhitelisted === null
-        ) {
-            return res.status(400).send({
-                message: "Content cannot be empty."
-            })
-        }
-    
-        if (req.body.roleId === 1) {
-            hasPermission(res, 1)
-        }
-    
         const user = {
             id: req.body.id,
             firebaseUID: req.body.firebaseUID,
@@ -109,11 +91,44 @@ exports.modifyUser = async (req, res) => {
             roleId: req.body.roleId,
             isWhitelisted: req.body.isWhitelisted
         }
-    
-        await userService.updateUser(user)
-        .then(response => {
-            return res.send(response)
-        }) 
+
+        if (!req.body 
+            || !user.id
+            || !user.firebaseUID
+            || !user.email
+            || !user.steamId
+            || !user.roleId
+            || user.isWhitelisted === undefined
+            || user.isWhitelisted === null
+        ) {
+            return res.status(400).send({
+                message: "Content cannot be empty."
+            })
+        }
+
+        userService.getUserById(user.id)
+        .then(async originalUser => {
+            if (originalUser.firebaseUID != user.firebaseUID) {
+                return res.status(400).send({
+                    message: "Cannot modify user's firebaseUID"
+                })
+            }
+            
+            if (originalUser.email !== user.email
+                || originalUser.steamId !== user.steamId
+                || user.roleId === 1
+            ) {
+                hasPermission(res, 1)
+            }
+
+            await userService.updateUser(user)
+            .then(response => {
+                return res.send(response)
+            }) 
+            .catch(error => {
+                throw error
+            })
+        })
         .catch(error => {
             return res.status(error.status || 500).send({
                 error: error,

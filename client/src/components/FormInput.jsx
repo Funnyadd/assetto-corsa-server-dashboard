@@ -4,7 +4,7 @@ import Feedback from 'react-bootstrap/Feedback';
 
 const FormInput = ({ 
     id, type, value, setValue, feedbackMessage = "", isInvalid = false, customSetValue = false,
-    onKeyDownFunction = () => {}, placeholder = "", required = false, bsPrefix = ""
+    onKeyDownFunction = () => {}, placeholder = "", required = false, bsPrefix = "", disabled = false
 } ) => {
     return (
         <>
@@ -20,6 +20,7 @@ const FormInput = ({
                 onChange={customSetValue ? (e) => customSetValue(e) : (e) => setValue(e.target.value)}
                 onKeyDown={onKeyDownFunction}
                 isInvalid={isInvalid}
+                disabled={disabled}
                 required={required} />
             <Feedback
                 type='invalid'

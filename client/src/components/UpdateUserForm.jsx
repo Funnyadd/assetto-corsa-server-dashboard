@@ -1,13 +1,17 @@
 import Form from 'react-bootstrap/Form';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { Button, Collapse, Select, Toggle } from 'react-daisyui';
 import { sendErrorNotification, sendWarningNotification } from '../utils/NotificationUtils';
 import FormInput from './FormInput';
 import { getAxios } from '../utils/AxiosConfig';
 import FunctionProtected from './FunctionProtected';
+import { Context } from '../authentication/AuthContext';
+import { getRoleNeeded } from '../utils/RoleUtils';
 
 const UpdateUserForm = ({ updateHandler, originalUser, IsModalOpened, toggleOpenModal }) => {
     const errorMessage = "Couldn't modify the user"
+
+    const { user } = useContext(Context)
 
     const [email, setEmail] = useState("")
     const [steamId, setSteamId] = useState("")
@@ -99,6 +103,10 @@ const UpdateUserForm = ({ updateHandler, originalUser, IsModalOpened, toggleOpen
         }
     }
 
+    const isAdminUser = () => {
+        return user.roleId <= getRoleNeeded(false, true)
+    }
+
     useEffect(() => {
         clearModificationForm()
         if (IsModalOpened) {
@@ -121,6 +129,7 @@ const UpdateUserForm = ({ updateHandler, originalUser, IsModalOpened, toggleOpen
                     setValue={setEmail}
                     isInvalid={emailInvalid && validated}
                     feedbackMessage="Please enter a valid email address" 
+                    disabled={!isAdminUser()}
                     required />
             </Form.Group>
 
@@ -132,7 +141,8 @@ const UpdateUserForm = ({ updateHandler, originalUser, IsModalOpened, toggleOpen
                     value={steamId}
                     setValue={setSteamId}
                     isInvalid={steamIdInvalid && validated}
-                    feedbackMessage="Please enter a valid steam ID" 
+                    feedbackMessage="Please enter a valid steam ID"
+                    disabled={!isAdminUser()}
                     required />
                 <Collapse className=' mt-2 text-xs bg-base-200'>
                     <Collapse.Title className="p-2 min-h-1 text-sm font-medium w-auto">
