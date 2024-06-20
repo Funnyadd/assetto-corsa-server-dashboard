@@ -46,7 +46,7 @@ Then, start both applications.
   - [x] Add exception handling for refreshToken API call to firebase admin [#15](/../../issues/15)
   - [x] Add MODIFY functionnality for users [#19](/../../issues/19)
   - [x] Add loading bars / spinners [#25](/../../issues/25)
-  - [ ] Add Whitelist feature on server-side [#26](../../26)
+  - [x] Add Whitelist feature on server-side [#26](../../26)
 ### v0.3
   - [ ] Add MODIFY/ADD allocated port range [#23](/../../issues/23)
   - [ ] Add DELETE server functionnality [#17](/../../issues/17)
