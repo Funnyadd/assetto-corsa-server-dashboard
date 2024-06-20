@@ -1,0 +1,16 @@
+// Base Bootstrap Configuration
+@import "../node_modules/bootstrap/scss/functions";
+@import "../node_modules/bootstrap/scss/variables";
+@import "../node_modules/bootstrap/scss/maps";
+@import "../node_modules/bootstrap/scss/mixins";
+
+// Bootstrap Components
+@import "../node_modules/bootstrap/scss/forms";
+
+// Toastify css
+@import 'react-toastify/dist/ReactToastify.css';
+
+// TailwindCSS Base Configuration
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
