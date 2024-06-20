@@ -96,7 +96,7 @@ const Users = () => {
                         <Table.Body>
                             {users.map((user, index) => {
                                 return (
-                                    <Table.Row key={index}>
+                                    <Table.Row key={index} className='foregroundContrast'>
                                         <span>{user.id}</span>
                                         <span>{user.steamUsername}</span>
                                         <span>{user.email}</span>

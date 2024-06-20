@@ -78,3 +78,8 @@ body {
   border-color: #dc3545 !important;
   background-color: #dc3545 !important;
 }
+
+/* Fix contrast for default dark theme */
+[data-theme="dark"] .foregroundContrast {
+  background-color: #202020;
+}

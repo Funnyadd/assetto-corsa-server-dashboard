@@ -67,7 +67,7 @@ const ServerTile = ({ server, sync, checkIfAllServersStopped }) => {
     }
     
     return (
-        <div className={'p-2 my-2 grid gap-x-3 items-center bg-base-300 rounded-box border-s-4 ' 
+        <div className={'p-2 my-2 grid gap-x-3 items-center bg-base-300 foregroundContrast rounded-box border-s-4 ' 
             + (server.isStarted ? 'border-success ' : 'border-error ')
             + (isManagerUser() ? 'grid-cols-serversGridContentAdmin' : 'grid-cols-serversGridContent')}
         >
